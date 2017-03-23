@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.TranMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Tran" >
+    <id column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="BANK_PRO_CODE" property="bankProCode" jdbcType="VARCHAR" />
+    <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    <result column="TRAN_BANK_NO" property="tranBankNo" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="CHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="CHAR" />
+    <result column="REGISTER_STATUS" property="registerStatus" jdbcType="DECIMAL" />
+    <result column="TRAN_STATUS" property="tranStatus" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRAN_NO, BANK_PRO_CODE, BANK_NO, TRAN_BANK_NO, CURRENCY, REGISTER_DATE, REGISTER_STATUS, 
+    TRAN_STATUS, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRAN
+    where TRAN_NO = #{tranNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TRAN
+    where TRAN_NO = #{tranNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.model.Tran" >
+    insert into TRAN (TRAN_NO, BANK_PRO_CODE, BANK_NO, 
+      TRAN_BANK_NO, CURRENCY, REGISTER_DATE, 
+      REGISTER_STATUS, TRAN_STATUS, STATUS
+      )
+    values (#{tranNo,jdbcType=VARCHAR}, #{bankProCode,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, 
+      #{tranBankNo,jdbcType=VARCHAR}, #{currency,jdbcType=CHAR}, #{registerDate,jdbcType=CHAR}, 
+      #{registerStatus,jdbcType=DECIMAL}, #{tranStatus,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Tran" >
+    insert into TRAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE,
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO,
+      </if>
+      <if test="tranBankNo != null" >
+        TRAN_BANK_NO,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="registerDate != null" >
+        REGISTER_DATE,
+      </if>
+      <if test="registerStatus != null" >
+        REGISTER_STATUS,
+      </if>
+      <if test="tranStatus != null" >
+        TRAN_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranBankNo != null" >
+        #{tranBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=CHAR},
+      </if>
+      <if test="registerDate != null" >
+        #{registerDate,jdbcType=CHAR},
+      </if>
+      <if test="registerStatus != null" >
+        #{registerStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="tranStatus != null" >
+        #{tranStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Tran" >
+    update TRAN
+    <set >
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranBankNo != null" >
+        TRAN_BANK_NO = #{tranBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=CHAR},
+      </if>
+      <if test="registerDate != null" >
+        REGISTER_DATE = #{registerDate,jdbcType=CHAR},
+      </if>
+      <if test="registerStatus != null" >
+        REGISTER_STATUS = #{registerStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="tranStatus != null" >
+        TRAN_STATUS = #{tranStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where TRAN_NO = #{tranNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Tran" >
+    update TRAN
+    set BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      TRAN_BANK_NO = #{tranBankNo,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=CHAR},
+      REGISTER_DATE = #{registerDate,jdbcType=CHAR},
+      REGISTER_STATUS = #{registerStatus,jdbcType=DECIMAL},
+      TRAN_STATUS = #{tranStatus,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where TRAN_NO = #{tranNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.MemberFundMapper" >
+  <resultMap id="BaseResultMap" type="com.model.MemberFund" >
+    <id column="MEMBER_FUND_ID" property="memberFundId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="MEM_CODE" property="memCode" jdbcType="VARCHAR" />
+    <result column="FUND_ACCOUNT" property="fundAccount" jdbcType="VARCHAR" />
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="VARCHAR" />
+    <result column="OCCUR_AMOUNT" property="occurAmount" jdbcType="VARCHAR" />
+    <result column="CURRENT_BALANCE" property="currentBalance" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MEMBER_FUND_ID, INIT_DATE, EXCHANGE_ID, MEM_CODE, FUND_ACCOUNT, MONEY_TYPE, OCCUR_AMOUNT, 
+    CURRENT_BALANCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBER_FUND
+    where MEMBER_FUND_ID = #{memberFundId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from MEMBER_FUND
+    where MEMBER_FUND_ID = #{memberFundId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.MemberFund" >
+    insert into MEMBER_FUND (MEMBER_FUND_ID, INIT_DATE, EXCHANGE_ID, 
+      MEM_CODE, FUND_ACCOUNT, MONEY_TYPE, 
+      OCCUR_AMOUNT, CURRENT_BALANCE)
+    values (#{memberFundId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{memCode,jdbcType=VARCHAR}, #{fundAccount,jdbcType=VARCHAR}, #{moneyType,jdbcType=VARCHAR}, 
+      #{occurAmount,jdbcType=VARCHAR}, #{currentBalance,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.MemberFund" >
+    insert into MEMBER_FUND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberFundId != null" >
+        MEMBER_FUND_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE,
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="occurAmount != null" >
+        OCCUR_AMOUNT,
+      </if>
+      <if test="currentBalance != null" >
+        CURRENT_BALANCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberFundId != null" >
+        #{memberFundId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="occurAmount != null" >
+        #{occurAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="currentBalance != null" >
+        #{currentBalance,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.MemberFund" >
+    update MEMBER_FUND
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="occurAmount != null" >
+        OCCUR_AMOUNT = #{occurAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="currentBalance != null" >
+        CURRENT_BALANCE = #{currentBalance,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_FUND_ID = #{memberFundId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.MemberFund" >
+    update MEMBER_FUND
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      OCCUR_AMOUNT = #{occurAmount,jdbcType=VARCHAR},
+      CURRENT_BALANCE = #{currentBalance,jdbcType=VARCHAR}
+    where MEMBER_FUND_ID = #{memberFundId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service
+END
+MakeClearPriceFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeClearPriceFileService.java
+END
+MakeMemberPositionFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeMemberPositionFile.java
+END
+MakeMemberFundFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeMemberFundFileService.java
+END
+FunCodeService.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/FunCodeService.java
+END
+BankAmtInService.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/BankAmtInService.java
+END
+MakeClientMsgFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeClientMsgFile.java
+END
+SendMsgExchService.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/SendMsgExchService.java
+END
+ExchRegisterOutService.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchRegisterOutService.java
+END
+MakeDeliverFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeDeliverFileService.java
+END
+BankSignOutService.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/BankSignOutService.java
+END
+ExchAmtInService.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchAmtInService.java
+END
+ExchFileNoService.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchFileNoService.java
+END
+ExchSignService.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchSignService.java
+END
+ClientMsgService.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ClientMsgService.java
+END
+DestroyTheAccountService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/DestroyTheAccountService.java
+END
+BankSignService.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/BankSignService.java
+END
+ExchSignOutService.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchSignOutService.java
+END
+OpenAndCloseTradeService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tas/!svn/ver/60680/mtp_java/mtp_hs/src/com/service/OpenAndCloseTradeService.java
+END
+SendMsgService.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/SendMsgService.java
+END
+MakeMemberFeeFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeMemberFeeFileService.java
+END
+MakeQuotationFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeQuotationFileService.java
+END
+ExchRegisterService.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchRegisterService.java
+END
+MakeClearFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeClearFileService.java
+END
+GetHSFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/GetHSFileService.java
+END
+MakeEntrustFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeEntrustFileService.java
+END
+ExchAmtOutService.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/ExchAmtOutService.java
+END
+GetExchRspService.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/GetExchRspService.java
+END
+BankAmtOutService.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/BankAmtOutService.java
+END
+MakeDealInfoFileService.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/service/MakeDealInfoFileService.java
+END

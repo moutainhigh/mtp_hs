@@ -1,0 +1,202 @@
+package com.service.impl;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ccps.exchgate.api.t2.service.client.ExchCallClearT2Service;
+import com.common.constants.FinalConstants;
+import com.common.constants.FunCodeConstants;
+import com.common.util.CenterToExchUtil;
+import com.common.util.DateHelp;
+import com.common.util.TASProtoHelper;
+import com.core.exception.ServiceException;
+import com.dao.ClientMapper;
+import com.dao.Impl.AmtRecDao;
+import com.dao.Impl.SendMsgDao;
+import com.model.AmtRec;
+import com.model.Client;
+import com.model.SendMsg;
+import com.proto.CenterBank.Msg10102;
+import com.proto.CenterBank.Msg10103;
+import com.proto.ExchangeCenter;
+import com.service.ExchAmtInService;
+import com.service.SendMsgService;
+
+import net.sf.json.JSONObject;
+
+/**
+ *  
+ * ClassName: ExchAmtInServiceImpl.java
+ * date: 2016年12月13日上午11:28:34
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class ExchAmtInServiceImpl implements ExchAmtInService {
+	private static final Logger LOGGER = Logger.getLogger(ExchAmtInServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: ExchAmtInServiceImpl.java
+	 * date: 2016年12月13日上午11:28:34
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private AmtRecDao amtRecDao;
+	@Autowired
+	private SendMsgDao sendMsgDao;
+	@Autowired
+	private ClientMapper clientMapper;
+	@Autowired
+	private ExchCallClearT2Service exchCallClearT2Service;
+	@Autowired
+	private SendMsgService sendMsgService;
+	@Override
+	public void doAmtInReq(Msg10102 msg10102, Long recMsgID) throws Exception {
+		try{
+			LOGGER.info("*客户端入金*");
+			LOGGER.info("*插入出入金记录*");
+			
+			AmtRec amtRec = new AmtRec();
+			Long amtRecID = amtRecDao.generateId();
+			amtRec.setAmtRecId(amtRecID);
+			amtRec.setExchNo(msg10102.getExchNo());                        //交易所编号	exch_no
+			amtRec.setTradeAcct(msg10102.getAcct());                   //交易账号	trade_acct
+			amtRec.setTranNo(msg10102.getTranNo());                       //银行业务编号	tran_no
+			amtRec.setTranDate(msg10102.getBankDate());            //业务日期	tran_date
+			amtRec.setAcct(msg10102.getAcct());                             //银行账号	acct
+			amtRec.setAcctName(msg10102.getAcctName()==null?"":msg10102.getAcctName());                     //银行账户名	acct_name
+			amtRec.setAmt(BigDecimal.valueOf(msg10102.getAmt())); 						//金额	amt
+			amtRec.setCurrency(CenterToExchUtil.HS_CURRENCY.get(msg10102.getCurrency()));                       //币种	currency
+			amtRec.setRemark(msg10102.getRemark()==null?"":msg10102.getRemark());                               //备注	remark
+			amtRec.setCardBankNo(msg10102.getCardBankNo());                    //银行卡行号
+			amtRec.setCardAcct(msg10102.getCardAcct());                //银行卡号
+			amtRec.setCardName(msg10102.getCardName());                 //银行卡户名
+			amtRec.setOutInFlag(FinalConstants.OutInFlag.IN);                     //出入金标志	out_in_flag
+			amtRec.setSenderType(FinalConstants.SenderType.EXCH);               //发起方类型	sender_type
+			amtRec.setDealStatus(FinalConstants.DealStatus.UNKNOW);                      //处理状态	deal_status
+			amtRec.setRecvMsgId(recMsgID);                                        //来包ID	recv_msg_id
+			amtRec.setCenterSeq(msg10102.getCenterSeq());
+			Long sendMsgId = sendMsgDao.generateId();
+			amtRec.setSendMsgId(sendMsgId);                                          //往包ID	send_msg_id
+			amtRec.setSysTime(new Date());  
+			amtRecDao.getAmtRecMapper().insert(amtRec);
+			
+			//取客户信息
+			Client client = clientMapper.selectByTradeAcct(msg10102.getTradeAcct());
+			if(client == null)
+				throw new ServiceException("*客户信息不存在*");
+			LOGGER.info("*发送请求至广情所*");
+			JSONObject json = new JSONObject();
+			json.put("requestId", msg10102.getCenterSeq());
+			json.put("initDate",msg10102.getBankDate());
+			json.put("exchangeId", msg10102.getExchNo());
+			json.put("exchangeFundAccount", msg10102.getTradeAcct());
+			json.put("bankPassword", "");
+			json.put("moneyType", CenterToExchUtil.HS_CURRENCY.get(msg10102.getCurrency()));
+			json.put("bisinType", "1");       //银行业务类型（1：普通；2：冲正；3：重发；4：调账）
+			json.put("bankProCode", "");        //银行产品代码Y
+			json.put("accountName", msg10102.getCardName());
+			json.put("bankAccount", msg10102.getCardAcct());
+			json.put("occurAmount", msg10102.getAmt());
+			json.put("remark", msg10102.getRemark());
+			json.put("busiDatetime", msg10102.getBankDate());
+			json.put("memberMainType", client.getClientType());
+			json.put("fullName", client.getClientName());
+			json.put("idKind", CenterToExchUtil.HS_CERT_TYPE.get(client.getCertType()));
+			json.put("idNo", client.getCertCode());
+//			ukey证书	uKeyStr
+			
+			String result = exchCallClearT2Service.dealMSG315001(json.toString());
+
+			JSONObject jsonObject = JSONObject.fromObject(result);
+			String serialNo = jsonObject.getString("serialNo");  //	银行流水号	serialNo
+			int errorNo = jsonObject.getInt("errorNo"); //错误代码	errorNo
+			String errorInfo = jsonObject.getString("errorInfo");//错误信息	errorInfo
+			
+			LOGGER.info("*组发送至中心的入金应答报文Msg10103报文*");
+			ExchangeCenter.MessageHead.Builder value = ExchangeCenter.MessageHead.newBuilder();
+			value.setFunCode(10103); // 功能号
+			Msg10103.Builder msg10103 = Msg10103.newBuilder();
+			msg10103.setTranNo(msg10102.getTranNo());
+			msg10103.setBankDate(msg10102.getBankDate());
+			msg10103.setBankSeq(serialNo);
+			msg10103.setCenterSeq(msg10102.getCenterSeq());
+			msg10103.setCheckDate(DateHelp.getCurrentDateOfString());
+			if (errorNo == 0)
+				msg10103.setRetCode(FinalConstants.RetCode.SUCCESS);
+			else if (errorNo == 99) {
+				msg10103.setRetCode(FinalConstants.RetCode.UNKNOWN);
+				msg10103.setRetDesc("正在审核中，等待后续审核通知");
+			} else {
+				msg10103.setRetCode(FinalConstants.RetCode.FAIL);
+				msg10103.setRetDesc(errorInfo);
+			}
+			LOGGER.info("*记录往包*");
+			SendMsg sendMsg = new SendMsg();
+			Long sendMsgID = sendMsgDao.generateId();
+			sendMsg.setSendMsgId(sendMsgID); // 往包ID
+			sendMsg.setRecvMsgId(recMsgID); // 来包id
+			sendMsg.setRecverType(FinalConstants.SenderType.CENTER); // 接收方类型
+			sendMsg.setRecver("000000"); // 业务接收方
+			sendMsg.setMsgCode("10103"); // 报文类型编号
+			sendMsg.setSendDate(DateHelp.getCurrentDateOfString());
+			sendMsg.setTranSeq(amtRecID); // 业务流水号
+			sendMsg.setSendMsg(msg10103.build().toString()); // 报文内容
+			sendMsg.setSysTime(new Date()); // 系统时间
+			sendMsgDao.getSendMsgMapper().insert(sendMsg);
+
+			byte[] bytes = TASProtoHelper.getNTAS(msg10103.build().toByteArray(), FunCodeConstants.MSG10103, 0);
+			sendMsgService.send(sendMsg, bytes);
+			LOGGER.info("*成功发送入金应答报文*");
+
+			LOGGER.info("*更新往包表状态*");
+			sendMsg.setRetCode(Integer.parseInt(FinalConstants.RetCode.SUCCESS));
+			sendMsg.setRetDesc("发送成功");
+			sendMsgDao.getSendMsgMapper().updateByPrimaryKeySelective(sendMsg);
+		}catch(ServiceException e){
+			LOGGER.info("*组发送至中心的入金应答报文Msg10103报文*");
+			ExchangeCenter.MessageHead.Builder value = ExchangeCenter.MessageHead.newBuilder();
+			value.setFunCode(10103); // 功能号
+			Msg10103.Builder msg10103 = Msg10103.newBuilder();
+			msg10103.setTranNo(msg10102.getTranNo());
+			msg10103.setBankDate(msg10102.getBankDate());
+//			msg10103.setBankSeq(serialNo+"");
+			msg10103.setCenterSeq(msg10102.getCenterSeq());
+			msg10103.setCheckDate(DateHelp.getCurrentDateOfString());
+			msg10103.setRetCode(FinalConstants.RetCode.FAIL);
+			msg10103.setRetDesc(e.getMessage());
+			LOGGER.info("*记录往包*");
+			SendMsg sendMsg = new SendMsg();
+			Long sendMsgID = sendMsgDao.generateId();
+			sendMsg.setSendMsgId(sendMsgID); // 往包ID
+			sendMsg.setRecvMsgId(recMsgID); // 来包id
+			sendMsg.setRecverType(FinalConstants.SenderType.CENTER); // 接收方类型
+			sendMsg.setRecver("000000"); // 业务接收方
+			sendMsg.setMsgCode("10103"); // 报文类型编号
+			sendMsg.setSendDate(DateHelp.getCurrentDateOfString());
+			sendMsg.setTranSeq(0L); // 业务流水号
+			sendMsg.setSendMsg(msg10103.build().toString()); // 报文内容
+			sendMsg.setSysTime(new Date()); // 系统时间
+			sendMsgDao.getSendMsgMapper().insert(sendMsg);
+
+			byte[] bytes = TASProtoHelper.getNTAS(msg10103.build().toByteArray(), FunCodeConstants.MSG10103, 0);
+			sendMsgService.send(sendMsg, bytes);
+			LOGGER.info("*成功发送入金应答报文*");
+
+			LOGGER.info("*更新往包表状态*");
+			sendMsg.setRetCode(Integer.parseInt(FinalConstants.RetCode.SUCCESS));
+			sendMsg.setRetDesc("发送成功");
+			sendMsgDao.getSendMsgMapper().updateByPrimaryKeySelective(sendMsg);
+		}
+		catch(Exception e){
+			throw e;
+		}
+	}
+
+}

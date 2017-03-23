@@ -1,0 +1,9 @@
+###########系统参数配置###############
+#本机socket配置
+localhost.socket.ip=192.168.31.94
+localhost.socket.port=5800
+#请求的服务器端socket配置
+server.socket.ip=192.168.31.94
+server.socket.port=8989
+#密码是否加密(解密) 0不加   1加
+is.encrypt=1

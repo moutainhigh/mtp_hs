@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo
+END
+BaseReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/BaseReq.java
+END
+ProductCategory.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ProductCategory.java
+END
+MainSecCard.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/MainSecCard.java
+END
+CusBankTermination.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/CusBankTermination.java
+END
+InOutFundNotifyReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/InOutFundNotifyReq.java
+END
+PayWay.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/PayWay.java
+END
+BankInfoChangeReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/BankInfoChangeReq.java
+END
+BaseResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/BaseResp.java
+END
+ExchFileNotifyReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ExchFileNotifyReq.java
+END
+ConBank.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ConBank.java
+END
+ProductInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ProductInfo.java
+END
+RunReqParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/RunReqParam.java
+END
+ExchBaseResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ExchBaseResp.java
+END
+ExchTAAgreeReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ExchTAAgreeReq.java
+END
+BankCardInfoChangeReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/BankCardInfoChangeReq.java
+END
+ContractNoticeReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/ContractNoticeReq.java
+END
+SignAndOut.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/pojo/SignAndOut.java
+END

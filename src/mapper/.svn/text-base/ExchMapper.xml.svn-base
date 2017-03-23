@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ExchMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Exch" >
+    <id column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="EXCH_NAME" property="exchName" jdbcType="VARCHAR" />
+    <result column="QUE_CODE" property="queCode" jdbcType="VARCHAR" />
+    <result column="ENCRYPT_KEY" property="encryptKey" jdbcType="VARCHAR" />
+    <result column="PLAT_TYPE" property="platType" jdbcType="DECIMAL" />
+    <result column="TRAN_STATUS" property="tranStatus" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CHECK_FILE_STYLE" property="checkFileStyle" jdbcType="DECIMAL" />
+    <result column="SET_DATE" property="setDate" jdbcType="CHAR" />
+    <result column="SET_TIME" property="setTime" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EXCH_NO, EXCH_NAME, QUE_CODE, ENCRYPT_KEY, PLAT_TYPE, TRAN_STATUS, STATUS, CHECK_FILE_STYLE, 
+    SET_DATE, SET_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from EXCH
+    where EXCH_NO = #{exchNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EXCH
+    where EXCH_NO = #{exchNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.model.Exch" >
+    insert into EXCH (EXCH_NO, EXCH_NAME, QUE_CODE, 
+      ENCRYPT_KEY, PLAT_TYPE, TRAN_STATUS, 
+      STATUS, CHECK_FILE_STYLE, SET_DATE, 
+      SET_TIME)
+    values (#{exchNo,jdbcType=VARCHAR}, #{exchName,jdbcType=VARCHAR}, #{queCode,jdbcType=VARCHAR}, 
+      #{encryptKey,jdbcType=VARCHAR}, #{platType,jdbcType=DECIMAL}, #{tranStatus,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{checkFileStyle,jdbcType=DECIMAL}, #{setDate,jdbcType=CHAR}, 
+      #{setTime,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Exch" >
+    insert into EXCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="exchName != null" >
+        EXCH_NAME,
+      </if>
+      <if test="queCode != null" >
+        QUE_CODE,
+      </if>
+      <if test="encryptKey != null" >
+        ENCRYPT_KEY,
+      </if>
+      <if test="platType != null" >
+        PLAT_TYPE,
+      </if>
+      <if test="tranStatus != null" >
+        TRAN_STATUS,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="checkFileStyle != null" >
+        CHECK_FILE_STYLE,
+      </if>
+      <if test="setDate != null" >
+        SET_DATE,
+      </if>
+      <if test="setTime != null" >
+        SET_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchName != null" >
+        #{exchName,jdbcType=VARCHAR},
+      </if>
+      <if test="queCode != null" >
+        #{queCode,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptKey != null" >
+        #{encryptKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platType != null" >
+        #{platType,jdbcType=DECIMAL},
+      </if>
+      <if test="tranStatus != null" >
+        #{tranStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="checkFileStyle != null" >
+        #{checkFileStyle,jdbcType=DECIMAL},
+      </if>
+      <if test="setDate != null" >
+        #{setDate,jdbcType=CHAR},
+      </if>
+      <if test="setTime != null" >
+        #{setTime,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Exch" >
+    update EXCH
+    <set >
+      <if test="exchName != null" >
+        EXCH_NAME = #{exchName,jdbcType=VARCHAR},
+      </if>
+      <if test="queCode != null" >
+        QUE_CODE = #{queCode,jdbcType=VARCHAR},
+      </if>
+      <if test="encryptKey != null" >
+        ENCRYPT_KEY = #{encryptKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platType != null" >
+        PLAT_TYPE = #{platType,jdbcType=DECIMAL},
+      </if>
+      <if test="tranStatus != null" >
+        TRAN_STATUS = #{tranStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="checkFileStyle != null" >
+        CHECK_FILE_STYLE = #{checkFileStyle,jdbcType=DECIMAL},
+      </if>
+      <if test="setDate != null" >
+        SET_DATE = #{setDate,jdbcType=CHAR},
+      </if>
+      <if test="setTime != null" >
+        SET_TIME = #{setTime,jdbcType=CHAR},
+      </if>
+    </set>
+    where EXCH_NO = #{exchNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Exch" >
+    update EXCH
+    set EXCH_NAME = #{exchName,jdbcType=VARCHAR},
+      QUE_CODE = #{queCode,jdbcType=VARCHAR},
+      ENCRYPT_KEY = #{encryptKey,jdbcType=VARCHAR},
+      PLAT_TYPE = #{platType,jdbcType=DECIMAL},
+      TRAN_STATUS = #{tranStatus,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CHECK_FILE_STYLE = #{checkFileStyle,jdbcType=DECIMAL},
+      SET_DATE = #{setDate,jdbcType=CHAR},
+      SET_TIME = #{setTime,jdbcType=CHAR}
+    where EXCH_NO = #{exchNo,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="int">
+		select
+		<include refid="Base_Column_List" />
+		from EXCH
+		where STATUS = #{status,jdbcType=INTEGER}
+	</select>
+</mapper>

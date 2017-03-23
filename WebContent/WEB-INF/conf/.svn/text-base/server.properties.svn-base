@@ -1,0 +1,16 @@
+system.dev.mode=true
+app.server.host=ccps.gq.com
+app.server.port=9003
+app.server.protocol=error
+
+file.encoding=GBK
+web.encoding=UTF-8
+web.contentType=text/html;charset=UTF-8
+web.stamp=13
+
+jres.action.scan=com.ccps.exchgate
+remoting.auto.exporter=true
+remoting.auto.proxy=true
+remoting.annotation.scanpackage=com.ccps.exchgate.api.t2.service.server,com.ccps.exchgate.api.t2.service.client
+remoting.auto.exporter.scanpackage=com.ccps.exchgate.api.t2.service.server
+remoting.auto.proxy.scanpackage=com.ccps.exchgate.api.t2.service.client

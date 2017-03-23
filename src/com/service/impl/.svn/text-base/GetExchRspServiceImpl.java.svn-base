@@ -1,0 +1,49 @@
+package com.service.impl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.hundsun.jres.common.util.StringUtils;
+import com.service.GetExchRspService;
+/**
+ *  
+ * ClassName: GetExchRspServiceImpl.java
+ * date: 2016年12月14日下午5:01:56
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class GetExchRspServiceImpl implements GetExchRspService{
+
+	/**
+	 *  
+	 * ClassName: GetExchRspServiceImpl.java
+	 * date: 2016年12月14日下午5:02:54
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private CacheServiceImpl cacheServiceImpl;
+	@Override
+	public String getRspMsg(String serialNo) throws Exception {
+		String msg = "";
+		int i=30;
+		while(StringUtils.isEmpty(msg)&&i>0){
+			try {
+				Thread.sleep(100);
+				msg = cacheServiceImpl.getCenter_Msg(serialNo);
+				i--;
+			} catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+		}
+		if(StringUtils.isEmpty(msg)){
+			throw new Exception("*请求超时*");
+		}
+		return msg;
+	}
+
+}

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.RegisterRecMapper" >
+  <resultMap id="BaseResultMap" type="com.model.RegisterRec" >
+    <id column="REGISTER_REC_ID" property="registerRecId" jdbcType="DECIMAL" />
+    <result column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="TRAN_DATE" property="tranDate" jdbcType="CHAR" />
+    <result column="EXCH_SYS_SEQ" property="exchSysSeq" jdbcType="VARCHAR" />
+    <result column="CENTER_SEQ" property="centerSeq" jdbcType="VARCHAR" />
+    <result column="REGISTER_FLAG" property="registerFlag" jdbcType="DECIMAL" />
+    <result column="IS_FORCE" property="isForce" jdbcType="DECIMAL" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="DECIMAL" />
+    <result column="DEAL_DESC" property="dealDesc" jdbcType="VARCHAR" />
+    <result column="SEND_MSG_ID" property="sendMsgId" jdbcType="DECIMAL" />
+    <result column="SYS_TIME" property="sysTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    REGISTER_REC_ID, TRAN_NO, TRAN_DATE, EXCH_SYS_SEQ, CENTER_SEQ, REGISTER_FLAG, IS_FORCE, 
+    DEAL_STATUS, DEAL_DESC, SEND_MSG_ID, SYS_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from REGISTER_REC
+    where REGISTER_REC_ID = #{registerRecId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from REGISTER_REC
+    where REGISTER_REC_ID = #{registerRecId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.RegisterRec" >
+    insert into REGISTER_REC (REGISTER_REC_ID, TRAN_NO, TRAN_DATE, 
+      EXCH_SYS_SEQ, CENTER_SEQ, REGISTER_FLAG, 
+      IS_FORCE, DEAL_STATUS, DEAL_DESC, 
+      SEND_MSG_ID, SYS_TIME)
+    values (#{registerRecId,jdbcType=DECIMAL}, #{tranNo,jdbcType=VARCHAR}, #{tranDate,jdbcType=CHAR}, 
+      #{exchSysSeq,jdbcType=VARCHAR}, #{centerSeq,jdbcType=VARCHAR}, #{registerFlag,jdbcType=DECIMAL}, 
+      #{isForce,jdbcType=DECIMAL}, #{dealStatus,jdbcType=DECIMAL}, #{dealDesc,jdbcType=VARCHAR}, 
+      #{sendMsgId,jdbcType=DECIMAL}, #{sysTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.RegisterRec" >
+    insert into REGISTER_REC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="registerRecId != null" >
+        REGISTER_REC_ID,
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE,
+      </if>
+      <if test="exchSysSeq != null" >
+        EXCH_SYS_SEQ,
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ,
+      </if>
+      <if test="registerFlag != null" >
+        REGISTER_FLAG,
+      </if>
+      <if test="isForce != null" >
+        IS_FORCE,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC,
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID,
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="registerRecId != null" >
+        #{registerRecId,jdbcType=DECIMAL},
+      </if>
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="exchSysSeq != null" >
+        #{exchSysSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="registerFlag != null" >
+        #{registerFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="isForce != null" >
+        #{isForce,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsgId != null" >
+        #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.RegisterRec" >
+    update REGISTER_REC
+    <set >
+      <if test="tranNo != null" >
+        TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="exchSysSeq != null" >
+        EXCH_SYS_SEQ = #{exchSysSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="registerFlag != null" >
+        REGISTER_FLAG = #{registerFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="isForce != null" >
+        IS_FORCE = #{isForce,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME = #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where REGISTER_REC_ID = #{registerRecId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.RegisterRec" >
+    update REGISTER_REC
+    set TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      EXCH_SYS_SEQ = #{exchSysSeq,jdbcType=VARCHAR},
+      CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      REGISTER_FLAG = #{registerFlag,jdbcType=DECIMAL},
+      IS_FORCE = #{isForce,jdbcType=DECIMAL},
+      DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      SYS_TIME = #{sysTime,jdbcType=TIMESTAMP}
+    where REGISTER_REC_ID = #{registerRecId,jdbcType=DECIMAL}
+  </update>
+</mapper>

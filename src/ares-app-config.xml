@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 样例 -->
+<ares>
+	<!-- JRES Server的公用配置，必须配置项，目前为了兼容前一版本，如果不配置或者配置错误，name将被设置为"jres_server" 
+		name - 当前JRES Server的名字，如果在网络拓扑中有名字相同的，则认为此两者成组 -->
+	<pub nodeName="exch0008-service" nodeNo="1" />
+	<!-- 插件配置信息 -->
+	<plugins>
+	   <!-- load-level：加载等级,1是Kernel级，2是System级，3是Common级，数值越小，优先级越高 plugin-configuration是插件本身关心的配置信息，插件被初始化之前将被注入 -->
+		<plugin service-id="jres.logFactory" load-level="1"></plugin>
+		<plugin service-id="jres.configurationHelper" load-level="1"></plugin>
+		<plugin service-id="jres.cepcore" load-level="3">
+			<plugin-configuration>
+			<!-- threadCount : 分发线程池的大小，可不填，默认为3，如果填写非整数，则采用默认值 queueSize : 分发线程池中队列的长度，可不填，默认值为30，如果填写非整数，则采用默认值 
+					debug : cepcore是否开启调试开关，true表示开启，其他表示不开启，非必填项，默认为不开启 -->
+				<args threadCount="3" queueSize="30" debug="false">
+					<monitor port="8118" key="123456" enable="false" />
+				</args>
+				<!-- 本地业务处理插件在CEP中配置处理线程池和服务、优先级等的关系 。 bizservice : 本地业务处理插件 id : 本地业务处理插件的名字，必须与插件的名字一致，必填 
+					debug : 该插件的线程和队列是否开启调试开关，true表示开启，其他不开启，默认为不开启 -->
+				<bizservices>
+					<bizservice id="jres.mproxy" debug="true" />
+					<bizservice id="jres.xmlServiceModule" debug="true">
+						<item serviceId="*" functionId="*" threadCount="3" queueSize="30" />
+					</bizservice>
+				</bizservices>
+				<routetables>
+					<routetable serviceId="com.hundsun.jres.manage"
+						functionId="8" pluginId="jres.mproxy" />
+					<routetable functionId="28*;" pluginId="jres.xmlServiceModule" />
+					<routetable functionId="*" nodeName="ar"/>
+				</routetables>
+				<eventchains>
+					<chain>jres.mproxy;jres.cepcore</chain>
+					<chain>jres.localService;jres.cepcore</chain>
+					<chain>jres.t2channel;jres.cepcore</chain>
+					<chain>jres.xmlServiceModule;jres.cepcore</chain>
+				</eventchains>
+			</plugin-configuration>
+		</plugin>
+		<!-- 本地通道插件 -->
+		<plugin service-id="jres.localService" load-level="3">
+			<plugin-configuration>
+				<args debug="false" />
+				<time timeout="1000000000" />
+			</plugin-configuration>
+		</plugin>
+			<!-- t2通道插件 -->
+		<plugin service-id="jres.t2channel" load-level="3">
+			<plugin-configuration>
+				<!-- 模拟服务开启配置 -->
+				<server port="7778" enable="true"/>
+				<!-- 客户端配置 enable : 开启T2通道客户端的开关，true表示开启，false表示不开启，默认为不开启 parentName 
+					: 本节点主动去连接的T2节点名，必须 poolSize : 与parentName组内每个成员建立的通信连接池的大小，可不填，默认为2，取值范围1~ 
+					64，小于1取1，大于64取64 licenseFile : 客户端证书所在路径 encrypt : 许可证书加密算法，只有强制指定为jcc（忽略大小写），才采用jcc的加密算法，否则采用HSBlowfish 
+					算法 safeLevel : 安全级别，值为"none"表示通信无加密，值为“ssl”表示采用SSL协议进行通信，默认为"none" - ssl 
+					: 只在safeLevel为"ssl"的情况下，此项配置才有效。 - keyCertFile : 服务端证书路径，可以是绝对路径，也可以以CLASSPATH的相对路径 
+					- keyCertPwd : 服务端证书密码 - trustCertFile : 所信任证书路径，可以是绝对路径，也可以以CLASSPATH的相对路径 
+					- trustCertPwd : 信任证书密码 members : 组内成员列表 - no : 成员编号 - address : 成员所在IP - 
+					port : 监听端口 -->	
+				<client enable="true">
+					<parents>
+						<parent parentName="ar" poolSize="2">
+							<limit licenseFile="classpath:client_license.dat" encrypt="HSBlowfish" />
+							<members>
+								<!-- 真实环境配置 -->
+								<!-- <member no="1" address="10.200.200.104" port="7777" /> -->
+								<!-- 模拟服务配置 -->
+								<member no="1" address="127.0.0.1" port="7777" />
+							</members>
+						</parent>
+					</parents>
+				</client>
+			</plugin-configuration>
+		</plugin>
+		<plugin service-id="jres.xmlServiceModule" load-level="3" />
+	</plugins>
+</ares>

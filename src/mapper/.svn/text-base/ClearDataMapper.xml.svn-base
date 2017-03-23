@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ClearDataMapper" >
+  <resultMap id="BaseResultMap" type="com.model.ClearData" >
+    <id column="CLEAR_DATA_ID" property="clearDataId" jdbcType="DECIMAL" />
+    <result column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="TRAN_DATE" property="tranDate" jdbcType="CHAR" />
+    <result column="AMT_CLEAR_DATE" property="amtClearDate" jdbcType="CHAR" />
+    <result column="TRADE_ACCT" property="tradeAcct" jdbcType="VARCHAR" />
+    <result column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="START_AMT" property="startAmt" jdbcType="DECIMAL" />
+    <result column="END_AMT" property="endAmt" jdbcType="DECIMAL" />
+    <result column="OCCUR_AMT" property="occurAmt" jdbcType="DECIMAL" />
+    <result column="OUT_IN_AMT" property="outInAmt" jdbcType="DECIMAL" />
+    <result column="OUT_AMT" property="outAmt" jdbcType="DECIMAL" />
+    <result column="IN_AMT" property="inAmt" jdbcType="DECIMAL" />
+    <result column="GET_PAY_AMT" property="getPayAmt" jdbcType="DECIMAL" />
+    <result column="GET_AMT" property="getAmt" jdbcType="DECIMAL" />
+    <result column="PAY_AMT" property="payAmt" jdbcType="DECIMAL" />
+    <result column="CLEAR_AMT" property="clearAmt" jdbcType="DECIMAL" />
+    <result column="PROFIT_LOSS" property="profitLoss" jdbcType="DECIMAL" />
+    <result column="EXCH_GET_FEE" property="exchGetFee" jdbcType="DECIMAL" />
+    <result column="HEAP_CLEAR_AMT" property="heapClearAmt" jdbcType="DECIMAL" />
+    <result column="HEAP_PROFIT_LOSS" property="heapProfitLoss" jdbcType="DECIMAL" />
+    <result column="HEAP_EXCH_GET_FEE" property="heapExchGetFee" jdbcType="DECIMAL" />
+    <result column="TRUE_CLEAR_AMT" property="trueClearAmt" jdbcType="DECIMAL" />
+    <result column="TRUE_PROFIT_LOSS" property="trueProfitLoss" jdbcType="DECIMAL" />
+    <result column="TRUE_EXCH_GET_FEE" property="trueExchGetFee" jdbcType="DECIMAL" />
+    <result column="BANK_START_AMT" property="bankStartAmt" jdbcType="DECIMAL" />
+    <result column="BANK_END_AMT" property="bankEndAmt" jdbcType="DECIMAL" />
+    <result column="BLAST_AMT" property="blastAmt" jdbcType="DECIMAL" />
+    <result column="BLAST_SUB_AMT" property="blastSubAmt" jdbcType="DECIMAL" />
+    <result column="BLAST_FLAG" property="blastFlag" jdbcType="DECIMAL" />
+    <result column="HEAP_FROM" property="heapFrom" jdbcType="DECIMAL" />
+    <result column="HEAP_START_DATE" property="heapStartDate" jdbcType="CHAR" />
+    <result column="HEAP_FLAG" property="heapFlag" jdbcType="DECIMAL" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="DECIMAL" />
+    <result column="DEAL_DESC" property="dealDesc" jdbcType="VARCHAR" />
+    <result column="BANK_RET_FLAG" property="bankRetFlag" jdbcType="DECIMAL" />
+    <result column="BANK_RET_AMT" property="bankRetAmt" jdbcType="DECIMAL" />
+    <result column="BANK_DEAL_DESC" property="bankDealDesc" jdbcType="VARCHAR" />
+    <result column="TRANS_FEE" property="transFee" jdbcType="DECIMAL" />
+    <result column="STORE_FEE" property="storeFee" jdbcType="DECIMAL" />
+    <result column="DEFER_FEE" property="deferFee" jdbcType="DECIMAL" />
+    <result column="DELIVERY_AMT" property="deliveryAmt" jdbcType="DECIMAL" />
+    <result column="COM_MEM_GET_FEE" property="comMemGetFee" jdbcType="DECIMAL" />
+    <result column="SPEC_MEM_GET_FEE" property="specMemGetFee" jdbcType="DECIMAL" />
+    <result column="ESTATE_MEM_GET_FEE" property="estateMemGetFee" jdbcType="DECIMAL" />
+    <result column="BROKER_MEM_GET_FEE" property="brokerMemGetFee" jdbcType="DECIMAL" />
+    <result column="OPER_CENTER_GET_FEE" property="operCenterGetFee" jdbcType="DECIMAL" />
+    <result column="SPEC_OPER_CENTER_GET_FEE" property="specOperCenterGetFee" jdbcType="DECIMAL" />
+    <result column="CLOSE_PL" property="closePl" jdbcType="DECIMAL" />
+    <result column="BALANCE_PL" property="balancePl" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLEAR_DATA_ID, EXCH_NO, TRAN_DATE, AMT_CLEAR_DATE, TRADE_ACCT, TRAN_NO, START_AMT, 
+    END_AMT, OCCUR_AMT, OUT_IN_AMT, OUT_AMT, IN_AMT, GET_PAY_AMT, GET_AMT, PAY_AMT, CLEAR_AMT, 
+    PROFIT_LOSS, EXCH_GET_FEE, HEAP_CLEAR_AMT, HEAP_PROFIT_LOSS, HEAP_EXCH_GET_FEE, TRUE_CLEAR_AMT, 
+    TRUE_PROFIT_LOSS, TRUE_EXCH_GET_FEE, BANK_START_AMT, BANK_END_AMT, BLAST_AMT, BLAST_SUB_AMT, 
+    BLAST_FLAG, HEAP_FROM, HEAP_START_DATE, HEAP_FLAG, DEAL_STATUS, DEAL_DESC, BANK_RET_FLAG, 
+    BANK_RET_AMT, BANK_DEAL_DESC, TRANS_FEE, STORE_FEE, DEFER_FEE, DELIVERY_AMT, COM_MEM_GET_FEE, 
+    SPEC_MEM_GET_FEE, ESTATE_MEM_GET_FEE, BROKER_MEM_GET_FEE, OPER_CENTER_GET_FEE, SPEC_OPER_CENTER_GET_FEE, 
+    CLOSE_PL, BALANCE_PL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLEAR_DATA
+    where CLEAR_DATA_ID = #{clearDataId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CLEAR_DATA
+    where CLEAR_DATA_ID = #{clearDataId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.ClearData" >
+    insert into CLEAR_DATA (CLEAR_DATA_ID, EXCH_NO, TRAN_DATE, 
+      AMT_CLEAR_DATE, TRADE_ACCT, TRAN_NO, 
+      START_AMT, END_AMT, OCCUR_AMT, 
+      OUT_IN_AMT, OUT_AMT, IN_AMT, 
+      GET_PAY_AMT, GET_AMT, PAY_AMT, 
+      CLEAR_AMT, PROFIT_LOSS, EXCH_GET_FEE, 
+      HEAP_CLEAR_AMT, HEAP_PROFIT_LOSS, HEAP_EXCH_GET_FEE, 
+      TRUE_CLEAR_AMT, TRUE_PROFIT_LOSS, TRUE_EXCH_GET_FEE, 
+      BANK_START_AMT, BANK_END_AMT, BLAST_AMT, 
+      BLAST_SUB_AMT, BLAST_FLAG, HEAP_FROM, 
+      HEAP_START_DATE, HEAP_FLAG, DEAL_STATUS, 
+      DEAL_DESC, BANK_RET_FLAG, BANK_RET_AMT, 
+      BANK_DEAL_DESC, TRANS_FEE, STORE_FEE, 
+      DEFER_FEE, DELIVERY_AMT, COM_MEM_GET_FEE, 
+      SPEC_MEM_GET_FEE, ESTATE_MEM_GET_FEE, BROKER_MEM_GET_FEE, 
+      OPER_CENTER_GET_FEE, SPEC_OPER_CENTER_GET_FEE, 
+      CLOSE_PL, BALANCE_PL)
+    values (#{clearDataId,jdbcType=DECIMAL}, #{exchNo,jdbcType=VARCHAR}, #{tranDate,jdbcType=CHAR}, 
+      #{amtClearDate,jdbcType=CHAR}, #{tradeAcct,jdbcType=VARCHAR}, #{tranNo,jdbcType=VARCHAR}, 
+      #{startAmt,jdbcType=DECIMAL}, #{endAmt,jdbcType=DECIMAL}, #{occurAmt,jdbcType=DECIMAL}, 
+      #{outInAmt,jdbcType=DECIMAL}, #{outAmt,jdbcType=DECIMAL}, #{inAmt,jdbcType=DECIMAL}, 
+      #{getPayAmt,jdbcType=DECIMAL}, #{getAmt,jdbcType=DECIMAL}, #{payAmt,jdbcType=DECIMAL}, 
+      #{clearAmt,jdbcType=DECIMAL}, #{profitLoss,jdbcType=DECIMAL}, #{exchGetFee,jdbcType=DECIMAL}, 
+      #{heapClearAmt,jdbcType=DECIMAL}, #{heapProfitLoss,jdbcType=DECIMAL}, #{heapExchGetFee,jdbcType=DECIMAL}, 
+      #{trueClearAmt,jdbcType=DECIMAL}, #{trueProfitLoss,jdbcType=DECIMAL}, #{trueExchGetFee,jdbcType=DECIMAL}, 
+      #{bankStartAmt,jdbcType=DECIMAL}, #{bankEndAmt,jdbcType=DECIMAL}, #{blastAmt,jdbcType=DECIMAL}, 
+      #{blastSubAmt,jdbcType=DECIMAL}, #{blastFlag,jdbcType=DECIMAL}, #{heapFrom,jdbcType=DECIMAL}, 
+      #{heapStartDate,jdbcType=CHAR}, #{heapFlag,jdbcType=DECIMAL}, #{dealStatus,jdbcType=DECIMAL}, 
+      #{dealDesc,jdbcType=VARCHAR}, #{bankRetFlag,jdbcType=DECIMAL}, #{bankRetAmt,jdbcType=DECIMAL}, 
+      #{bankDealDesc,jdbcType=VARCHAR}, #{transFee,jdbcType=DECIMAL}, #{storeFee,jdbcType=DECIMAL}, 
+      #{deferFee,jdbcType=DECIMAL}, #{deliveryAmt,jdbcType=DECIMAL}, #{comMemGetFee,jdbcType=DECIMAL}, 
+      #{specMemGetFee,jdbcType=DECIMAL}, #{estateMemGetFee,jdbcType=DECIMAL}, #{brokerMemGetFee,jdbcType=DECIMAL}, 
+      #{operCenterGetFee,jdbcType=DECIMAL}, #{specOperCenterGetFee,jdbcType=DECIMAL}, 
+      #{closePl,jdbcType=DECIMAL}, #{balancePl,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.ClearData" >
+    insert into CLEAR_DATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clearDataId != null" >
+        CLEAR_DATA_ID,
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE,
+      </if>
+      <if test="amtClearDate != null" >
+        AMT_CLEAR_DATE,
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT,
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="startAmt != null" >
+        START_AMT,
+      </if>
+      <if test="endAmt != null" >
+        END_AMT,
+      </if>
+      <if test="occurAmt != null" >
+        OCCUR_AMT,
+      </if>
+      <if test="outInAmt != null" >
+        OUT_IN_AMT,
+      </if>
+      <if test="outAmt != null" >
+        OUT_AMT,
+      </if>
+      <if test="inAmt != null" >
+        IN_AMT,
+      </if>
+      <if test="getPayAmt != null" >
+        GET_PAY_AMT,
+      </if>
+      <if test="getAmt != null" >
+        GET_AMT,
+      </if>
+      <if test="payAmt != null" >
+        PAY_AMT,
+      </if>
+      <if test="clearAmt != null" >
+        CLEAR_AMT,
+      </if>
+      <if test="profitLoss != null" >
+        PROFIT_LOSS,
+      </if>
+      <if test="exchGetFee != null" >
+        EXCH_GET_FEE,
+      </if>
+      <if test="heapClearAmt != null" >
+        HEAP_CLEAR_AMT,
+      </if>
+      <if test="heapProfitLoss != null" >
+        HEAP_PROFIT_LOSS,
+      </if>
+      <if test="heapExchGetFee != null" >
+        HEAP_EXCH_GET_FEE,
+      </if>
+      <if test="trueClearAmt != null" >
+        TRUE_CLEAR_AMT,
+      </if>
+      <if test="trueProfitLoss != null" >
+        TRUE_PROFIT_LOSS,
+      </if>
+      <if test="trueExchGetFee != null" >
+        TRUE_EXCH_GET_FEE,
+      </if>
+      <if test="bankStartAmt != null" >
+        BANK_START_AMT,
+      </if>
+      <if test="bankEndAmt != null" >
+        BANK_END_AMT,
+      </if>
+      <if test="blastAmt != null" >
+        BLAST_AMT,
+      </if>
+      <if test="blastSubAmt != null" >
+        BLAST_SUB_AMT,
+      </if>
+      <if test="blastFlag != null" >
+        BLAST_FLAG,
+      </if>
+      <if test="heapFrom != null" >
+        HEAP_FROM,
+      </if>
+      <if test="heapStartDate != null" >
+        HEAP_START_DATE,
+      </if>
+      <if test="heapFlag != null" >
+        HEAP_FLAG,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC,
+      </if>
+      <if test="bankRetFlag != null" >
+        BANK_RET_FLAG,
+      </if>
+      <if test="bankRetAmt != null" >
+        BANK_RET_AMT,
+      </if>
+      <if test="bankDealDesc != null" >
+        BANK_DEAL_DESC,
+      </if>
+      <if test="transFee != null" >
+        TRANS_FEE,
+      </if>
+      <if test="storeFee != null" >
+        STORE_FEE,
+      </if>
+      <if test="deferFee != null" >
+        DEFER_FEE,
+      </if>
+      <if test="deliveryAmt != null" >
+        DELIVERY_AMT,
+      </if>
+      <if test="comMemGetFee != null" >
+        COM_MEM_GET_FEE,
+      </if>
+      <if test="specMemGetFee != null" >
+        SPEC_MEM_GET_FEE,
+      </if>
+      <if test="estateMemGetFee != null" >
+        ESTATE_MEM_GET_FEE,
+      </if>
+      <if test="brokerMemGetFee != null" >
+        BROKER_MEM_GET_FEE,
+      </if>
+      <if test="operCenterGetFee != null" >
+        OPER_CENTER_GET_FEE,
+      </if>
+      <if test="specOperCenterGetFee != null" >
+        SPEC_OPER_CENTER_GET_FEE,
+      </if>
+      <if test="closePl != null" >
+        CLOSE_PL,
+      </if>
+      <if test="balancePl != null" >
+        BALANCE_PL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clearDataId != null" >
+        #{clearDataId,jdbcType=DECIMAL},
+      </if>
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="amtClearDate != null" >
+        #{amtClearDate,jdbcType=CHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="startAmt != null" >
+        #{startAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="endAmt != null" >
+        #{endAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="occurAmt != null" >
+        #{occurAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="outInAmt != null" >
+        #{outInAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="outAmt != null" >
+        #{outAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="inAmt != null" >
+        #{inAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="getPayAmt != null" >
+        #{getPayAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="getAmt != null" >
+        #{getAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmt != null" >
+        #{payAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmt != null" >
+        #{clearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="profitLoss != null" >
+        #{profitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="exchGetFee != null" >
+        #{exchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="heapClearAmt != null" >
+        #{heapClearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="heapProfitLoss != null" >
+        #{heapProfitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="heapExchGetFee != null" >
+        #{heapExchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="trueClearAmt != null" >
+        #{trueClearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="trueProfitLoss != null" >
+        #{trueProfitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="trueExchGetFee != null" >
+        #{trueExchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="bankStartAmt != null" >
+        #{bankStartAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="bankEndAmt != null" >
+        #{bankEndAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastAmt != null" >
+        #{blastAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastSubAmt != null" >
+        #{blastSubAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastFlag != null" >
+        #{blastFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="heapFrom != null" >
+        #{heapFrom,jdbcType=DECIMAL},
+      </if>
+      <if test="heapStartDate != null" >
+        #{heapStartDate,jdbcType=CHAR},
+      </if>
+      <if test="heapFlag != null" >
+        #{heapFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bankRetFlag != null" >
+        #{bankRetFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="bankRetAmt != null" >
+        #{bankRetAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="bankDealDesc != null" >
+        #{bankDealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="transFee != null" >
+        #{transFee,jdbcType=DECIMAL},
+      </if>
+      <if test="storeFee != null" >
+        #{storeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="deferFee != null" >
+        #{deferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryAmt != null" >
+        #{deliveryAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="comMemGetFee != null" >
+        #{comMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="specMemGetFee != null" >
+        #{specMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="estateMemGetFee != null" >
+        #{estateMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="brokerMemGetFee != null" >
+        #{brokerMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="operCenterGetFee != null" >
+        #{operCenterGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="specOperCenterGetFee != null" >
+        #{specOperCenterGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="closePl != null" >
+        #{closePl,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePl != null" >
+        #{balancePl,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.ClearData" >
+    update CLEAR_DATA
+    <set >
+      <if test="exchNo != null" >
+        EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="amtClearDate != null" >
+        AMT_CLEAR_DATE = #{amtClearDate,jdbcType=CHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="startAmt != null" >
+        START_AMT = #{startAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="endAmt != null" >
+        END_AMT = #{endAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="occurAmt != null" >
+        OCCUR_AMT = #{occurAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="outInAmt != null" >
+        OUT_IN_AMT = #{outInAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="outAmt != null" >
+        OUT_AMT = #{outAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="inAmt != null" >
+        IN_AMT = #{inAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="getPayAmt != null" >
+        GET_PAY_AMT = #{getPayAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="getAmt != null" >
+        GET_AMT = #{getAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmt != null" >
+        PAY_AMT = #{payAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="clearAmt != null" >
+        CLEAR_AMT = #{clearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="profitLoss != null" >
+        PROFIT_LOSS = #{profitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="exchGetFee != null" >
+        EXCH_GET_FEE = #{exchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="heapClearAmt != null" >
+        HEAP_CLEAR_AMT = #{heapClearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="heapProfitLoss != null" >
+        HEAP_PROFIT_LOSS = #{heapProfitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="heapExchGetFee != null" >
+        HEAP_EXCH_GET_FEE = #{heapExchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="trueClearAmt != null" >
+        TRUE_CLEAR_AMT = #{trueClearAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="trueProfitLoss != null" >
+        TRUE_PROFIT_LOSS = #{trueProfitLoss,jdbcType=DECIMAL},
+      </if>
+      <if test="trueExchGetFee != null" >
+        TRUE_EXCH_GET_FEE = #{trueExchGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="bankStartAmt != null" >
+        BANK_START_AMT = #{bankStartAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="bankEndAmt != null" >
+        BANK_END_AMT = #{bankEndAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastAmt != null" >
+        BLAST_AMT = #{blastAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastSubAmt != null" >
+        BLAST_SUB_AMT = #{blastSubAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="blastFlag != null" >
+        BLAST_FLAG = #{blastFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="heapFrom != null" >
+        HEAP_FROM = #{heapFrom,jdbcType=DECIMAL},
+      </if>
+      <if test="heapStartDate != null" >
+        HEAP_START_DATE = #{heapStartDate,jdbcType=CHAR},
+      </if>
+      <if test="heapFlag != null" >
+        HEAP_FLAG = #{heapFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="bankRetFlag != null" >
+        BANK_RET_FLAG = #{bankRetFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="bankRetAmt != null" >
+        BANK_RET_AMT = #{bankRetAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="bankDealDesc != null" >
+        BANK_DEAL_DESC = #{bankDealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="transFee != null" >
+        TRANS_FEE = #{transFee,jdbcType=DECIMAL},
+      </if>
+      <if test="storeFee != null" >
+        STORE_FEE = #{storeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="deferFee != null" >
+        DEFER_FEE = #{deferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryAmt != null" >
+        DELIVERY_AMT = #{deliveryAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="comMemGetFee != null" >
+        COM_MEM_GET_FEE = #{comMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="specMemGetFee != null" >
+        SPEC_MEM_GET_FEE = #{specMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="estateMemGetFee != null" >
+        ESTATE_MEM_GET_FEE = #{estateMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="brokerMemGetFee != null" >
+        BROKER_MEM_GET_FEE = #{brokerMemGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="operCenterGetFee != null" >
+        OPER_CENTER_GET_FEE = #{operCenterGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="specOperCenterGetFee != null" >
+        SPEC_OPER_CENTER_GET_FEE = #{specOperCenterGetFee,jdbcType=DECIMAL},
+      </if>
+      <if test="closePl != null" >
+        CLOSE_PL = #{closePl,jdbcType=DECIMAL},
+      </if>
+      <if test="balancePl != null" >
+        BALANCE_PL = #{balancePl,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CLEAR_DATA_ID = #{clearDataId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.ClearData" >
+    update CLEAR_DATA
+    set EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      AMT_CLEAR_DATE = #{amtClearDate,jdbcType=CHAR},
+      TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      START_AMT = #{startAmt,jdbcType=DECIMAL},
+      END_AMT = #{endAmt,jdbcType=DECIMAL},
+      OCCUR_AMT = #{occurAmt,jdbcType=DECIMAL},
+      OUT_IN_AMT = #{outInAmt,jdbcType=DECIMAL},
+      OUT_AMT = #{outAmt,jdbcType=DECIMAL},
+      IN_AMT = #{inAmt,jdbcType=DECIMAL},
+      GET_PAY_AMT = #{getPayAmt,jdbcType=DECIMAL},
+      GET_AMT = #{getAmt,jdbcType=DECIMAL},
+      PAY_AMT = #{payAmt,jdbcType=DECIMAL},
+      CLEAR_AMT = #{clearAmt,jdbcType=DECIMAL},
+      PROFIT_LOSS = #{profitLoss,jdbcType=DECIMAL},
+      EXCH_GET_FEE = #{exchGetFee,jdbcType=DECIMAL},
+      HEAP_CLEAR_AMT = #{heapClearAmt,jdbcType=DECIMAL},
+      HEAP_PROFIT_LOSS = #{heapProfitLoss,jdbcType=DECIMAL},
+      HEAP_EXCH_GET_FEE = #{heapExchGetFee,jdbcType=DECIMAL},
+      TRUE_CLEAR_AMT = #{trueClearAmt,jdbcType=DECIMAL},
+      TRUE_PROFIT_LOSS = #{trueProfitLoss,jdbcType=DECIMAL},
+      TRUE_EXCH_GET_FEE = #{trueExchGetFee,jdbcType=DECIMAL},
+      BANK_START_AMT = #{bankStartAmt,jdbcType=DECIMAL},
+      BANK_END_AMT = #{bankEndAmt,jdbcType=DECIMAL},
+      BLAST_AMT = #{blastAmt,jdbcType=DECIMAL},
+      BLAST_SUB_AMT = #{blastSubAmt,jdbcType=DECIMAL},
+      BLAST_FLAG = #{blastFlag,jdbcType=DECIMAL},
+      HEAP_FROM = #{heapFrom,jdbcType=DECIMAL},
+      HEAP_START_DATE = #{heapStartDate,jdbcType=CHAR},
+      HEAP_FLAG = #{heapFlag,jdbcType=DECIMAL},
+      DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      BANK_RET_FLAG = #{bankRetFlag,jdbcType=DECIMAL},
+      BANK_RET_AMT = #{bankRetAmt,jdbcType=DECIMAL},
+      BANK_DEAL_DESC = #{bankDealDesc,jdbcType=VARCHAR},
+      TRANS_FEE = #{transFee,jdbcType=DECIMAL},
+      STORE_FEE = #{storeFee,jdbcType=DECIMAL},
+      DEFER_FEE = #{deferFee,jdbcType=DECIMAL},
+      DELIVERY_AMT = #{deliveryAmt,jdbcType=DECIMAL},
+      COM_MEM_GET_FEE = #{comMemGetFee,jdbcType=DECIMAL},
+      SPEC_MEM_GET_FEE = #{specMemGetFee,jdbcType=DECIMAL},
+      ESTATE_MEM_GET_FEE = #{estateMemGetFee,jdbcType=DECIMAL},
+      BROKER_MEM_GET_FEE = #{brokerMemGetFee,jdbcType=DECIMAL},
+      OPER_CENTER_GET_FEE = #{operCenterGetFee,jdbcType=DECIMAL},
+      SPEC_OPER_CENTER_GET_FEE = #{specOperCenterGetFee,jdbcType=DECIMAL},
+      CLOSE_PL = #{closePl,jdbcType=DECIMAL},
+      BALANCE_PL = #{balancePl,jdbcType=DECIMAL}
+    where CLEAR_DATA_ID = #{clearDataId,jdbcType=DECIMAL}
+  </update>
+</mapper>

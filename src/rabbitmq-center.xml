@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+
+	<rabbit:connection-factory id="connectionFactory"
+		host="${rabbitmq.center.host}"
+		port="${rabbitmq.center.port}"
+		virtual-host="${rabbitmq.center.vhost}"
+		username="${rabbitmq.center.username}"
+		password="${rabbitmq.center.password}" />
+		
+	<rabbit:admin connection-factory="connectionFactory"/>
+	<rabbit:template id="centerRabbit" connection-factory="connectionFactory" exchange="entry" />
+	
+
+	<!-- queue 队列声明 -->
+	<rabbit:queue id="test.queue.hs" durable="true" auto-delete="false" exclusive="false" name="test.queue.hs" />
+
+	<rabbit:direct-exchange name="entry" durable="false" auto-delete="false" id="entry">
+		<rabbit:bindings>
+			<rabbit:binding queue="test.queue.hs" key="${center_hs_rsp}" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<bean id="centerRspListener" class="com.listener.CenterRspListener"/>
+	<rabbit:listener-container id="messageListenerContainer" connection-factory="connectionFactory" concurrency="1" acknowledge="auto">
+		<rabbit:listener queues="test.queue.hs" ref="centerRspListener" />
+	</rabbit:listener-container>
+</beans>

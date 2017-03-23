@@ -1,0 +1,13 @@
+rabbitmq.center.host=192.168.31.23
+rabbitmq.center.port=5222
+rabbitmq.center.vhost=test
+rabbitmq.center.username=qscenter
+rabbitmq.center.password=muchinfo
+#rabbitmq.center.host=192.168.31.23
+#rabbitmq.center.port=5222
+#rabbitmq.center.vhost=test
+#rabbitmq.center.username=qscenter
+#rabbitmq.center.password=muchinfo
+center_req=test_mtp_bing_key_zhouyao
+#center_req=center_req
+center_rsp=queue_210001

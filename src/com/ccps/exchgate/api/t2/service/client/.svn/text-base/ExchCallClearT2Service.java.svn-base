@@ -1,0 +1,319 @@
+package com.ccps.exchgate.api.t2.service.client;
+
+
+
+import com.hundsun.jresplus.remoting.impl.annotation.Service;
+import com.hundsun.jresplus.remoting.impl.annotation.ServiceModule;
+import com.hundsun.jresplus.remoting.impl.annotation.ServiceParam;
+import com.muchinfo.common.constants.FinalConstants;
+
+/**
+ * 交易所发起向清算中心的服务调用
+ * @author jiangzz
+ *
+ */
+@ServiceModule
+public interface ExchCallClearT2Service {
+	//--------------------------------- 交易所发起向清算中心(广清所)的服务调用-------------------------------------------//
+	@Service(functionId=FinalConstants.FunctionId.MSG311029,desc="银行签到/签退")
+	public String dealMSG311029(@ServiceParam(value="reqStr") String reqStr);
+
+	@Service(functionId=FinalConstants.FunctionId.MSG399000,desc="发送开闭市通知")
+	public String dealMSG399000(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG309000,desc="报送客户/会员开户信息")
+	public String dealMSG309000(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG309001,desc="根据客户/会员开户信息内容修改")
+	public String dealMSG309001(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG309002,desc="报送客户销户信息")
+	public String dealMSG309002(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG312009,desc="查询资金余额")
+	public String dealMSG312009(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG315001,desc="客户入金")
+	public String dealMSG315001(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG315002,desc="客户出金")
+	public String dealMSG315002(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG369000,desc="交易所报送文件通知")
+	public String dealMSG369000(@ServiceParam(value="reqStr") String reqStr);
+	
+	
+	/**
+	 *  客户信息变更文件 yyyymmdd_xxx(交易所代码)_clientInfoMod.txt
+	 * userChageFilemsg:(这里用一句话描述这个方法的作用). <br/>
+	 * @author zhou.yao
+	 * @param reqStr
+	 * @return
+	 */
+	@Service(functionId="",desc="客户信息变更文件")
+	public String clientInfoMod(@ServiceParam(value="reqStr") String reqStr);
+	
+	/**
+	 * 成交清算文件 yyyymmdd_xxx(交易所代码)_dealInfo.txt
+	 * dealInfo:(这里用一句话描述这个方法的作用). <br/>
+	 * @author zhou.yao
+	 * @param reqStr
+	 * @return
+	 */
+	@Service(functionId="",desc="成交清算文件")
+	public String dealInfo(@ServiceParam(value="reqStr") String reqStr);
+	
+	
+	/**
+	 *  资金余额文件 yyyymmdd_xxx(交易所代码)_memberFund.txt
+	 * memberFund:(这里用一句话描述这个方法的作用). <br/>
+	 * @author zhou.yao
+	 * @param reqStr
+	 * @return
+	 */
+	@Service(functionId="",desc="资金余额文件 ")
+	public String memberFund(@ServiceParam(value="reqStr") String reqStr);
+	
+	/**
+	 * 
+	 * 新增T2接口
+	 * @author zhou.yao
+	 * @param reqStr
+	 * @return
+	 */
+	@Service(functionId = "309999", desc = "查询交易所会员信息")
+	public String dealMSG309999(@ServiceParam(value = "reqStr") String reqStr);
+
+	@Service(functionId = "369001", desc = "查询交易所会员信息")
+	public String dealMSG369001(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "369002", desc = "报送交易单")
+	public String dealMSG369002(@ServiceParam(value = "reqStr") String reqStr);
+
+	@Service(functionId = "369003", desc = "向清算所报送交割单 ")
+	public String dealMSG369003(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "369004", desc = "向清算所报送收费单")
+	public String dealMSG369004(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "315003", desc = "查询清算中心出入金流水")
+	public String dealMSG315003(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "319005", desc = "客户银行信息变更")
+	public String dealMSG319005(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "319006", desc = "客户与银行签/解约")
+	public String dealMSG319006(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "312023", desc = "客户主/副卡变更")
+	public String dealMSG312023(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "313010", desc = "查询可签约银行列表")
+	public String dealMSG313010(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "312022", desc = "客户与银行解约(仅限中国银行)")
+	public String dealMSG312022(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378001", desc = "报送商品新增 ")
+	public String dealMSG378001(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378002", desc = "报送商品修改")
+	public String dealMSG378002(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378003", desc = "报送商品合约状态变更")
+	public String dealMSG378003(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378004", desc = "查询清算中心产品类别")
+	public String dealMSG378004(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378011", desc = "持仓冻结/解冻同步")
+	public String dealMSG378011(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378012", desc = "持仓手工调账份额变更同步")
+	public String dealMSG378012(@ServiceParam(value = "reqStr") String reqStr);
+	
+	@Service(functionId = "378013", desc = "持仓非交易过户同步")
+	public String dealMSG378013(@ServiceParam(value = "reqStr") String reqStr);
+	
+
+    //--------------------------------- t2服务demo例子-------------------------------------------//
+//	@Service(functionId = "109000",desc="会员开户接口")
+//	MemUsersSyncResp insertMemUserRegister(@ServiceParam(value="jsonReq") String jsonReq);
+//	
+//	@Service(functionId = "109001",desc="会员信息修改接口")
+//	MemUsersSyncResp syncMemUserModify(@ServiceParam(value="jsonReq") String jsonReq);
+//	
+//	@Service(functionId = "109002",desc = "会员销户接口")
+//	BaseResp syncCancelAccount(@ServiceParam(value="jsonReq")String jsonReq);
+//	
+//	/**
+//	 * 交易所发起的会员入金
+//	 * 
+//	 * @param inGoldenReq
+//	 * @return
+//	 */
+//	@Service(functionId = "115001", desc = "交易所发起的入金")
+//	FundCashResp extInGolden(@ServiceParam(value = "reqStr") String reqStr);
+//
+//	/**
+//	 * 交易所发起的会员出金
+//	 * 
+//	 * @param outGoldenReq
+//	 * @return
+//	 */
+//	@Service(functionId = "115002", desc = "交易所发起的出金")
+//	FundCashResp extOutGolden(@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * @Title:exchQueryCashExchangeDetail
+//	 * @Description: 查询清算中心出入金流水(交易所端发起)
+//	 * @param beginDate
+//	 * @param endDate
+//	 * @param exchangeId
+//	 * @param exchangeFundAccount
+//	 * @param pageSize
+//	 * @param currentPage
+//	 * @return CashExchangeDetailQuery
+//	 * @throws 
+//	 */
+//	@Service(functionId = "115003", desc = "查询清算中心出入金流水")
+//	ExchCashExchangeDetailQuery exchQueryCashExchangeDetail(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 可签约 支付途径列表 查询所有支付途径
+//	 * 
+//	 * @return
+//	 */
+//	@Service(functionId = "113010", desc = "查询所有支付途径")
+//	public PayWayQuery queryPayWays(@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 根据交易所资金账号查询账户余额（交易所端调用）
+//	 * 
+//	 * @param exchangeId			交易所编号
+//	 * @param exchangeFundAccount  	交易所资金账号
+//	 *            指的是交易所的资金账号
+//	 * @return BankResponse
+//	 */
+//	@Service(functionId = "112009", desc = "交易所资金余额查询")
+//	public BankResponse queryAccountBalanceByExchangeFundAccount(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 主副卡变更接口 交易所调用 客户主/副卡变更，第二天日切后生效
+//	 * 
+//	 * @param initDate
+//	 *            业务发生日期(YYYYMMDD)
+//	 * @param exchangeId
+//	 *            交易所代码
+//	 * @param exchangeFundAccount
+//	 *            交易所资金账号
+//	 * @param accountNoMain
+//	 *            主卡账号
+//	 * @param accountNoSecondStr
+//	 *            副卡账号串，多个副卡间以英文逗号分隔
+//	 * @return
+//	 */
+//	@Service(functionId = "112023", desc = "客户主/副卡变更")
+//	public BaseResp updateMainFundAccount(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 交易所端发起 1：签约；2:解约
+//	 * 
+//	 * @param fundAcctFreezeUnfreeze
+//	 * @return
+//	 */
+//	@Service(functionId = "112022", desc = "交易所端签约")
+//	public BaseResp clientSignBindAccount(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 交易所到清算中心签到签退
+//	 * 
+//	 * @param initDate
+//	 *            业务日期
+//	 * @param exchangeId
+//	 *            交易所编码
+//	 * @param bankProCode
+//	 *            银行产品代码
+//	 * @param exchangeMarketNo
+//	 *            交易市场编号
+//	 * @param signInTye
+//	 *            签到签退类型（1:签到，2:签退）
+//	 * @return
+//	 */
+//	@Service(functionId = "111029", desc = "交易所到清算中心签到签退")
+//	public BaseResp openOrCloseExchange(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * @Title:customerBankInfoModify
+//	 * @Description: 客户银行信息变更（交易所调用）
+//	 * @param reqStr
+//	 * @return BaseResp
+//	 * @throws 
+//	 */
+//	@Service(functionId = "119005", desc = "客户银行信息变更")
+//	public BaseResp customerBankInfoModify(
+//			@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	@Service(functionId="169000",desc="交易所报送文件")
+//	public BaseResp fileUploadNotify(@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	@Service(functionId="169001",desc="成交数据报送")
+//	public BaseResp dealInfoReport(@ServiceParam(value="reqStr") String reqStr);
+//			
+//	@Service(functionId="169002",desc="交易单报送")
+//	public BaseResp tradeReport(@ServiceParam(value="reqStr") String reqStr) throws Exception;
+//
+//	@Service(functionId="169003",desc="向清算所报送交割单")
+//	public BaseResp deliverReport(@ServiceParam(value="reqStr") String reqStr) throws Exception;
+//
+//	@Service(functionId="169004",desc="向清算所报送收费单")
+//	public BaseResp feesReport(@ServiceParam(value="reqStr") String reqStr);
+//	
+//	/**
+//	 * 修改日历相关信息
+//	 *
+//	 * @param exchangeId
+//	 *            交易所编码
+//	 * @param exchangeMarketType
+//	 *            交易所子市场编码
+//	 * @param bizType
+//	 *            业务类型
+//	 * @param initDate
+//	 *            当前工作日
+//	 * @param exchangeFlag
+//	 *            开闭市标记
+//	 * @param nextWorkday
+//	 *            下一工作日
+//	 * @return
+//	 */
+//	@Service(functionId = "999000", desc = "修改交易所的开闭市状态")
+//	BaseResp updateThirdPartyCalendarInfo(@ServiceParam("reqStr")String reqStr);
+//	
+//	@Service(functionId = "178011",desc="类别列表查询周边")
+//	public CategoryResp taSearchListCategory();
+//		
+//	@Service(functionId = "178000", desc = "登记持仓冻结解冻周边")
+//	public BaseResp taHoldUnOrFrozen(@ServiceParam("reqStr")String reqStr);
+//	
+//	@Service(functionId = "178001", desc = "登记手工调账周边")
+//	public BaseResp taManualAdjust(@ServiceParam("reqStr")String reqStr);
+//
+//	@Service(functionId = "178002", desc = "登记非交易过户周边")
+//	public BaseResp taNoTradeTransfer(@ServiceParam("reqStr")String reqStr);
+//	
+//	//Begin--这三个接口（原接口有问题）暂时尚未实现
+//	@Service(functionId = "178003",desc="登记产品新增周边")
+//	public BaseResp taInsertProduct(@ServiceParam(value="reqStr") String reqStr);
+//
+//	@Service(functionId = "178004",desc="登记产品修改周边")
+//	public BaseResp taModifyProduct(@ServiceParam(value="reqStr") String reqStr);
+//	
+//	@Service(functionId = "178005",desc="登记产品停牌/复牌/撤牌周边")
+//	public BaseResp taModifyProductStatus(@ServiceParam(value="reqStr") String reqStr);
+	
+}

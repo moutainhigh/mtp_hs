@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ClearResultMapper" >
+  <resultMap id="BaseResultMap" type="com.model.ClearResult" >
+    <id column="CLEAR_RESULT_ID" property="clearResultId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="FUND_ACCOUNT" property="fundAccount" jdbcType="VARCHAR" />
+    <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    <result column="BANK_PRO_CODE" property="bankProCode" jdbcType="VARCHAR" />
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="ERROR_REASON" property="errorReason" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_BALANCE" property="accountBalance" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLEAR_RESULT_ID, INIT_DATE, EXCHANGE_ID, FUND_ACCOUNT, BANK_NO, BANK_PRO_CODE, MONEY_TYPE, 
+    CUST_NAME, ERROR_REASON, ACCOUNT_BALANCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLEAR_RESULT
+    where CLEAR_RESULT_ID = #{clearResultId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CLEAR_RESULT
+    where CLEAR_RESULT_ID = #{clearResultId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.ClearResult" >
+    insert into CLEAR_RESULT (CLEAR_RESULT_ID, INIT_DATE, EXCHANGE_ID, 
+      FUND_ACCOUNT, BANK_NO, BANK_PRO_CODE, 
+      MONEY_TYPE, CUST_NAME, ERROR_REASON, 
+      ACCOUNT_BALANCE)
+    values (#{clearResultId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{fundAccount,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, #{bankProCode,jdbcType=VARCHAR}, 
+      #{moneyType,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, #{errorReason,jdbcType=VARCHAR}, 
+      #{accountBalance,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.ClearResult" >
+    insert into CLEAR_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clearResultId != null" >
+        CLEAR_RESULT_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT,
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO,
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="errorReason != null" >
+        ERROR_REASON,
+      </if>
+      <if test="accountBalance != null" >
+        ACCOUNT_BALANCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clearResultId != null" >
+        #{clearResultId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="errorReason != null" >
+        #{errorReason,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBalance != null" >
+        #{accountBalance,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.ClearResult" >
+    update CLEAR_RESULT
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="errorReason != null" >
+        ERROR_REASON = #{errorReason,jdbcType=VARCHAR},
+      </if>
+      <if test="accountBalance != null" >
+        ACCOUNT_BALANCE = #{accountBalance,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CLEAR_RESULT_ID = #{clearResultId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.ClearResult" >
+    update CLEAR_RESULT
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=VARCHAR},
+      ERROR_REASON = #{errorReason,jdbcType=VARCHAR},
+      ACCOUNT_BALANCE = #{accountBalance,jdbcType=VARCHAR}
+    where CLEAR_RESULT_ID = #{clearResultId,jdbcType=DECIMAL}
+  </update>
+</mapper>

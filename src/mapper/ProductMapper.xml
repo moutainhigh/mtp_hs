@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Product" >
+    <id column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="BANK_DATE" property="bankDate" jdbcType="VARCHAR" />
+    <result column="CENTER_SEQ" property="centerSeq" jdbcType="VARCHAR" />
+    <result column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="PRODUCT_STATUS" property="productStatus" jdbcType="DECIMAL" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PRODUCT_ID, TRAN_NO, BANK_DATE, CENTER_SEQ, EXCH_NO, PRODUCT_STATUS, DATA_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRODUCT
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from PRODUCT
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Product" >
+    insert into PRODUCT (PRODUCT_ID, TRAN_NO, BANK_DATE, CENTER_SEQ, EXCH_NO, PRODUCT_STATUS, DATA_TYPE)
+    values (#{productId,jdbcType=DECIMAL}, #{tranNo,jdbcType=VARCHAR}, 
+      #{bankDate,jdbcType=VARCHAR}, #{centerSeq,jdbcType=VARCHAR}, #{exchNo,jdbcType=VARCHAR}, 
+      #{productStatus,jdbcType=DECIMAL}, #{dataType,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Product" >
+    insert into PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="bankDate != null" >
+        BANK_DATE,
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ,
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="productStatus != null" >
+        PRODUCT_STATUS,
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDate != null" >
+        #{bankDate,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null" >
+        #{productStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Product" >
+    update PRODUCT
+    <set >
+      <if test="tranNo != null" >
+        TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDate != null" >
+        BANK_DATE = #{bankDate,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productStatus != null" >
+        PRODUCT_STATUS = #{productStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE = #{dataType,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Product" >
+    update PRODUCT
+    set TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      BANK_DATE = #{bankDate,jdbcType=VARCHAR},
+      CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      PRODUCT_STATUS = #{productStatus,jdbcType=DECIMAL},
+      DATA_TYPE = #{dataType,jdbcType=DECIMAL}
+    where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <select id="selectByCenterSeq" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRODUCT
+    where CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR}
+  </select> 
+  
+</mapper>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.DealInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.model.DealInfo" >
+    <id column="DEAL_INFO_ID" property="dealInfoId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_MARKET_TYPE" property="exchangeMarketType" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="DEAL_ID" property="dealId" jdbcType="VARCHAR" />
+    <result column="OPEN_MEM_CODE" property="openMemCode" jdbcType="VARCHAR" />
+    <result column="OPEN_FUND_ACCOUNT" property="openFundAccount" jdbcType="VARCHAR" />
+    <result column="OPEN_TRADE_ACCOUNT" property="openTradeAccount" jdbcType="VARCHAR" />
+    <result column="OPP_MEM_CODE" property="oppMemCode" jdbcType="VARCHAR" />
+    <result column="OPP_FUND_ACCOUNT" property="oppFundAccount" jdbcType="VARCHAR" />
+    <result column="OPP_TRADE_ACCOUNT" property="oppTradeAccount" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="TRADE_DIR" property="tradeDir" jdbcType="VARCHAR" />
+    <result column="DEAL_TYPE" property="dealType" jdbcType="VARCHAR" />
+    <result column="OPP_DEAL_TYPE" property="oppDealType" jdbcType="VARCHAR" />
+    <result column="TRADE_TYPE" property="tradeType" jdbcType="VARCHAR" />
+    <result column="DEAL_PRICE" property="dealPrice" jdbcType="VARCHAR" />
+    <result column="HOLD_PRICE" property="holdPrice" jdbcType="VARCHAR" />
+    <result column="DEAL_QUANTITY" property="dealQuantity" jdbcType="VARCHAR" />
+    <result column="DEAL_TOTAL_PRICE" property="dealTotalPrice" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATE" property="depositRate" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATIO_TYPE" property="depositRatioType" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_TYPE" property="depositType" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_BALANCE" property="depositBalance" jdbcType="VARCHAR" />
+    <result column="OPP_DEPOSIT_RATIO_TYPE" property="oppDepositRatioType" jdbcType="VARCHAR" />
+    <result column="OPP_DEPOSIT_RATE" property="oppDepositRate" jdbcType="VARCHAR" />
+    <result column="OPP_DEPOSIT_BALANCE" property="oppDepositBalance" jdbcType="VARCHAR" />
+    <result column="DEAL_TIME" property="dealTime" jdbcType="VARCHAR" />
+    <result column="DEPOT_ORDER_NO" property="depotOrderNo" jdbcType="VARCHAR" />
+    <result column="OPP_DEPOT_ORDER_NO" property="oppDepotOrderNo" jdbcType="VARCHAR" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="OPP_ORDER_ID" property="oppOrderId" jdbcType="VARCHAR" />
+    <result column="SETTLEMENT_DATE" property="settlementDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DEAL_INFO_ID, INIT_DATE, EXCHANGE_ID, EXCHANGE_MARKET_TYPE, BIZ_TYPE, DEAL_ID, OPEN_MEM_CODE, 
+    OPEN_FUND_ACCOUNT, OPEN_TRADE_ACCOUNT, OPP_MEM_CODE, OPP_FUND_ACCOUNT, OPP_TRADE_ACCOUNT, 
+    PRODUCT_CATEGORY_ID, PRODUCT_CODE, TRADE_DIR, DEAL_TYPE, OPP_DEAL_TYPE, TRADE_TYPE, 
+    DEAL_PRICE, HOLD_PRICE, DEAL_QUANTITY, DEAL_TOTAL_PRICE, DEPOSIT_RATE, DEPOSIT_RATIO_TYPE, 
+    DEPOSIT_TYPE, DEPOSIT_BALANCE, OPP_DEPOSIT_RATIO_TYPE, OPP_DEPOSIT_RATE, OPP_DEPOSIT_BALANCE, DEAL_TIME, 
+    DEPOT_ORDER_NO, OPP_DEPOT_ORDER_NO, ORDER_ID, OPP_ORDER_ID, SETTLEMENT_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from DEAL_INFO
+    where DEAL_INFO_ID = #{dealInfoId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from DEAL_INFO
+    where DEAL_INFO_ID = #{dealInfoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.DealInfo" >
+    insert into DEAL_INFO (DEAL_INFO_ID, INIT_DATE, EXCHANGE_ID, 
+      EXCHANGE_MARKET_TYPE, BIZ_TYPE, DEAL_ID, 
+      OPEN_MEM_CODE, OPEN_FUND_ACCOUNT, OPEN_TRADE_ACCOUNT, 
+      OPP_MEM_CODE, OPP_FUND_ACCOUNT, OPP_TRADE_ACCOUNT, 
+      PRODUCT_CATEGORY_ID, PRODUCT_CODE, TRADE_DIR, 
+      DEAL_TYPE, OPP_DEAL_TYPE, TRADE_TYPE, 
+      DEAL_PRICE, HOLD_PRICE, DEAL_QUANTITY, 
+      DEAL_TOTAL_PRICE, DEPOSIT_RATE, DEPOSIT_RATIO_TYPE, 
+      DEPOSIT_TYPE, DEPOSIT_BALANCE, OPP_DEPOSIT_RATIO_TYPE, 
+      OPP_DEPOSIT_RATE, OPP_DEPOSIT_BALANCE, DEAL_TIME, 
+      DEPOT_ORDER_NO, OPP_DEPOT_ORDER_NO, ORDER_ID, 
+      OPP_ORDER_ID, SETTLEMENT_DATE)
+    values (#{dealInfoId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{exchangeMarketType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{dealId,jdbcType=VARCHAR}, 
+      #{openMemCode,jdbcType=VARCHAR}, #{openFundAccount,jdbcType=VARCHAR}, #{openTradeAccount,jdbcType=VARCHAR}, 
+      #{oppMemCode,jdbcType=VARCHAR}, #{oppFundAccount,jdbcType=VARCHAR}, #{oppTradeAccount,jdbcType=VARCHAR}, 
+      #{productCategoryId,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, #{tradeDir,jdbcType=VARCHAR}, 
+      #{dealType,jdbcType=VARCHAR}, #{oppDealType,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
+      #{dealPrice,jdbcType=VARCHAR}, #{holdPrice,jdbcType=VARCHAR}, #{dealQuantity,jdbcType=VARCHAR}, 
+      #{dealTotalPrice,jdbcType=VARCHAR}, #{depositRate,jdbcType=VARCHAR}, #{depositRatioType,jdbcType=VARCHAR}, 
+      #{depositType,jdbcType=VARCHAR}, #{depositBalance,jdbcType=VARCHAR}, #{oppDepositRatioType,jdbcType=VARCHAR}, 
+      #{oppDepositRate,jdbcType=VARCHAR}, #{oppDepositBalance,jdbcType=VARCHAR}, #{dealTime,jdbcType=VARCHAR}, 
+      #{depotOrderNo,jdbcType=VARCHAR}, #{oppDepotOrderNo,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{oppOrderId,jdbcType=VARCHAR}, #{settlementDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.DealInfo" >
+    insert into DEAL_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dealInfoId != null" >
+        DEAL_INFO_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="dealId != null" >
+        DEAL_ID,
+      </if>
+      <if test="openMemCode != null" >
+        OPEN_MEM_CODE,
+      </if>
+      <if test="openFundAccount != null" >
+        OPEN_FUND_ACCOUNT,
+      </if>
+      <if test="openTradeAccount != null" >
+        OPEN_TRADE_ACCOUNT,
+      </if>
+      <if test="oppMemCode != null" >
+        OPP_MEM_CODE,
+      </if>
+      <if test="oppFundAccount != null" >
+        OPP_FUND_ACCOUNT,
+      </if>
+      <if test="oppTradeAccount != null" >
+        OPP_TRADE_ACCOUNT,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR,
+      </if>
+      <if test="dealType != null" >
+        DEAL_TYPE,
+      </if>
+      <if test="oppDealType != null" >
+        OPP_DEAL_TYPE,
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE,
+      </if>
+      <if test="dealPrice != null" >
+        DEAL_PRICE,
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE,
+      </if>
+      <if test="dealQuantity != null" >
+        DEAL_QUANTITY,
+      </if>
+      <if test="dealTotalPrice != null" >
+        DEAL_TOTAL_PRICE,
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE,
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE,
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE,
+      </if>
+      <if test="depositBalance != null" >
+        DEPOSIT_BALANCE,
+      </if>
+      <if test="oppDepositRatioType != null" >
+        OPP_DEPOSIT_RATIO_TYPE,
+      </if>
+      <if test="oppDepositRate != null" >
+        OPP_DEPOSIT_RATE,
+      </if>
+      <if test="oppDepositBalance != null" >
+        OPP_DEPOSIT_BALANCE,
+      </if>
+      <if test="dealTime != null" >
+        DEAL_TIME,
+      </if>
+      <if test="depotOrderNo != null" >
+        DEPOT_ORDER_NO,
+      </if>
+      <if test="oppDepotOrderNo != null" >
+        OPP_DEPOT_ORDER_NO,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="oppOrderId != null" >
+        OPP_ORDER_ID,
+      </if>
+      <if test="settlementDate != null" >
+        SETTLEMENT_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dealInfoId != null" >
+        #{dealInfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="dealId != null" >
+        #{dealId,jdbcType=VARCHAR},
+      </if>
+      <if test="openMemCode != null" >
+        #{openMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openFundAccount != null" >
+        #{openFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="openTradeAccount != null" >
+        #{openTradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="oppMemCode != null" >
+        #{oppMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oppFundAccount != null" >
+        #{oppFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="oppTradeAccount != null" >
+        #{oppTradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null" >
+        #{dealType,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDealType != null" >
+        #{oppDealType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="dealPrice != null" >
+        #{dealPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dealQuantity != null" >
+        #{dealQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTotalPrice != null" >
+        #{dealTotalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBalance != null" >
+        #{depositBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositRatioType != null" >
+        #{oppDepositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositRate != null" >
+        #{oppDepositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositBalance != null" >
+        #{oppDepositBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTime != null" >
+        #{dealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="depotOrderNo != null" >
+        #{depotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepotOrderNo != null" >
+        #{oppDepotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oppOrderId != null" >
+        #{oppOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementDate != null" >
+        #{settlementDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.DealInfo" >
+    update DEAL_INFO
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="dealId != null" >
+        DEAL_ID = #{dealId,jdbcType=VARCHAR},
+      </if>
+      <if test="openMemCode != null" >
+        OPEN_MEM_CODE = #{openMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="openFundAccount != null" >
+        OPEN_FUND_ACCOUNT = #{openFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="openTradeAccount != null" >
+        OPEN_TRADE_ACCOUNT = #{openTradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="oppMemCode != null" >
+        OPP_MEM_CODE = #{oppMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="oppFundAccount != null" >
+        OPP_FUND_ACCOUNT = #{oppFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="oppTradeAccount != null" >
+        OPP_TRADE_ACCOUNT = #{oppTradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="dealType != null" >
+        DEAL_TYPE = #{dealType,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDealType != null" >
+        OPP_DEAL_TYPE = #{oppDealType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="dealPrice != null" >
+        DEAL_PRICE = #{dealPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dealQuantity != null" >
+        DEAL_QUANTITY = #{dealQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTotalPrice != null" >
+        DEAL_TOTAL_PRICE = #{dealTotalPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBalance != null" >
+        DEPOSIT_BALANCE = #{depositBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositRatioType != null" >
+        OPP_DEPOSIT_RATIO_TYPE = #{oppDepositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositRate != null" >
+        OPP_DEPOSIT_RATE = #{oppDepositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepositBalance != null" >
+        OPP_DEPOSIT_BALANCE = #{oppDepositBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="dealTime != null" >
+        DEAL_TIME = #{dealTime,jdbcType=VARCHAR},
+      </if>
+      <if test="depotOrderNo != null" >
+        DEPOT_ORDER_NO = #{depotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="oppDepotOrderNo != null" >
+        OPP_DEPOT_ORDER_NO = #{oppDepotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="oppOrderId != null" >
+        OPP_ORDER_ID = #{oppOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementDate != null" >
+        SETTLEMENT_DATE = #{settlementDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DEAL_INFO_ID = #{dealInfoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.DealInfo" >
+    update DEAL_INFO
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      DEAL_ID = #{dealId,jdbcType=VARCHAR},
+      OPEN_MEM_CODE = #{openMemCode,jdbcType=VARCHAR},
+      OPEN_FUND_ACCOUNT = #{openFundAccount,jdbcType=VARCHAR},
+      OPEN_TRADE_ACCOUNT = #{openTradeAccount,jdbcType=VARCHAR},
+      OPP_MEM_CODE = #{oppMemCode,jdbcType=VARCHAR},
+      OPP_FUND_ACCOUNT = #{oppFundAccount,jdbcType=VARCHAR},
+      OPP_TRADE_ACCOUNT = #{oppTradeAccount,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      DEAL_TYPE = #{dealType,jdbcType=VARCHAR},
+      OPP_DEAL_TYPE = #{oppDealType,jdbcType=VARCHAR},
+      TRADE_TYPE = #{tradeType,jdbcType=VARCHAR},
+      DEAL_PRICE = #{dealPrice,jdbcType=VARCHAR},
+      HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      DEAL_QUANTITY = #{dealQuantity,jdbcType=VARCHAR},
+      DEAL_TOTAL_PRICE = #{dealTotalPrice,jdbcType=VARCHAR},
+      DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      DEPOSIT_BALANCE = #{depositBalance,jdbcType=VARCHAR},
+      OPP_DEPOSIT_RATIO_TYPE = #{oppDepositRatioType,jdbcType=VARCHAR},
+      OPP_DEPOSIT_RATE = #{oppDepositRate,jdbcType=VARCHAR},
+      OPP_DEPOSIT_BALANCE = #{oppDepositBalance,jdbcType=VARCHAR},
+      DEAL_TIME = #{dealTime,jdbcType=VARCHAR},
+      DEPOT_ORDER_NO = #{depotOrderNo,jdbcType=VARCHAR},
+      OPP_DEPOT_ORDER_NO = #{oppDepotOrderNo,jdbcType=VARCHAR},
+      ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      OPP_ORDER_ID = #{oppOrderId,jdbcType=VARCHAR},
+      SETTLEMENT_DATE = #{settlementDate,jdbcType=VARCHAR}
+    where DEAL_INFO_ID = #{dealInfoId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model
+END
+Entrust.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Entrust.java
+END
+Account.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Account.java
+END
+RegisterRec.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/RegisterRec.java
+END
+BankCheck.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/BankCheck.java
+END
+MemberFee.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/MemberFee.java
+END
+Quotation.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Quotation.java
+END
+Client.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Client.java
+END
+Tran.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Tran.java
+END
+ClearResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/ClearResult.java
+END
+AmtRec.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/AmtRec.java
+END
+ClientRec.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/ClientRec.java
+END
+Deliver.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Deliver.java
+END
+MemberPosition.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/MemberPosition.java
+END
+CenterFileRec.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/CenterFileRec.java
+END
+MemberFund.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/MemberFund.java
+END
+Bank.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Bank.java
+END
+ClearPrice.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/ClearPrice.java
+END
+RecvMsg.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/RecvMsg.java
+END
+DealInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/DealInfo.java
+END
+SendMsg.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/SendMsg.java
+END
+Exch.java
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/Exch.java
+END
+ClearData.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/ClearData.java
+END
+SignRec.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/model/SignRec.java
+END

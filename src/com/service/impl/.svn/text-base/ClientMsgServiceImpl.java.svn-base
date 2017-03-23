@@ -1,0 +1,197 @@
+package com.service.impl;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ccps.exchgate.api.t2.service.client.ExchCallClearT2Service;
+import com.common.constants.FinalConstants;
+import com.common.constants.FunCodeConstants;
+import com.common.util.CenterToExchUtil;
+import com.common.util.DateHelp;
+import com.common.util.TASProtoHelper;
+import com.dao.Impl.ClientDao;
+import com.dao.Impl.ClientRecDao;
+import com.dao.Impl.SendMsgDao;
+import com.model.Client;
+import com.model.ClientRec;
+import com.model.SendMsg;
+import com.proto.CenterBank.Msg10702;
+import com.proto.CenterBank.Msg10703;
+import com.proto.ExchangeCenter;
+import com.service.ClientMsgService;
+import com.service.SendMsgService;
+
+import net.sf.json.JSONObject;
+
+/**
+ *  
+ * ClassName: ClientMsgServiceImpl.java
+ * date: 2016年12月12日下午6:28:43
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class ClientMsgServiceImpl implements ClientMsgService{
+	private static final Logger LOGGER = Logger.getLogger(ClientMsgServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: ClientMsgServiceImpl.java
+	 * date: 2016年12月12日下午6:29:20
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private ClientRecDao clientRecDao; 
+	@Autowired
+	private ExchCallClearT2Service exchCallClearT2Service;
+	@Autowired
+	private SendMsgDao sendMsgDao;
+	@Autowired 
+	private SendMsgService sendMsgService;
+	@Autowired 
+	private ClientDao clientDao;
+	@Override
+	public void doAcctReq(Msg10702 msg10702, Long recMsgID) throws Exception {
+		try{
+			LOGGER.info("*客户开户*");
+			LOGGER.info("*插入客户信息记录表*");
+			ClientRec clientRec = new ClientRec();
+			Long clientRecId = clientRecDao.generateId();
+			clientRec.setClientRecId(clientRecId);
+			clientRec.setExchNo(msg10702.getExchNo());
+			clientRec.setTradeAcct(msg10702.getTradeAcct());
+			clientRec.setTranNo(msg10702.getTranNo());
+			clientRec.setTranDate(msg10702.getBankDate()); // 业务日期
+			// clientRec.setExchSysSeq(String.valueOf(exchSign.getExtOperatorID()));
+			clientRec.setClientName(msg10702.getClientName());
+			clientRec.setClientType(msg10702.getClientType());
+			clientRec.setCertType(msg10702.getCertType()); // 证件类型
+			clientRec.setCertCode(msg10702.getCertCode()); // 证件号码
+			clientRec.setContactPhone(msg10702.getContactPhone()); // 联系人电话
+			if (Integer.parseInt(msg10702.getChangeType()) == 1)
+				clientRec.setChangeType(FinalConstants.ChangeType.ADD);
+			if (Integer.parseInt(msg10702.getChangeType()) == 2)
+				clientRec.setChangeType(FinalConstants.ChangeType.CHANGE);
+			clientRec.setContactFax(msg10702.getContactFax());
+			clientRec.setContactEmail(msg10702.getContactEmail());
+			clientRec.setIsSendLink(0);
+			clientRec.setOrgCode(msg10702.getOrgCode());
+			clientRec.setSex(Integer.parseInt(msg10702.getSex()));
+			clientRec.setAddress(msg10702.getAddress());
+			LOGGER.info("*插入客户信息记录表成功*");
+			
+			
+			Client client = new Client();
+			Long clientId = clientDao.generateId();
+			client.setClientId(clientId);
+			client.setTradeAcct(msg10702.getTradeAcct());
+			client.setClientName(msg10702.getClientName());
+			client.setExchNo(msg10702.getExchNo());
+			client.setClientType(msg10702.getClientType()); // 客户类型
+			client.setCertType(msg10702.getCertType()); // 证件类型
+			client.setCertCode(msg10702.getCertCode()); // 证件号码
+			client.setSex(Integer.parseInt(msg10702.getSex()));
+			client.setOrgCode(msg10702.getOrgCode()==null?"":msg10702.getOrgCode());
+			client.setContactPhone(msg10702.getContactPhone()); // 联系人电话
+			client.setNationality(msg10702.getNationality()==null?"":msg10702.getNationality());
+			client.setAddress(msg10702.getAddress()==null?"":msg10702.getAddress());
+			client.setContactFax(msg10702.getContactFax()==null?"":msg10702.getContactFax());
+			client.setContactEmail(msg10702.getContactEmail()==null?"":msg10702.getContactEmail());
+			client.setClientStatus(FinalConstants.Status.OK);
+			clientDao.getClientMapper().insert(client);
+			
+			JSONObject json = new JSONObject();
+			json.put("exchangeId", msg10702.getExchNo());
+			json.put("memCode", msg10702.getTradeAcct()); // 会员编号 Y
+			if (Integer.parseInt(msg10702.getChangeType()) == 1) {
+				json.put("exchangeFundAccount", msg10702.getTradeAcct()); // 资金账号Y
+				json.put("tradeAccount", msg10702.getTradeAcct());
+				json.put("memberType", ""); // 会员类型Y
+											// 1-交易所，2-综合类，3-结算类，4-经纪类；5-交易类；6-产业类；7-服务类；8-其他
+				json.put("memberMainType", msg10702.getClientType() == 1 ? 2 : 1); // 1-机构；2-个人
+			}
+			json.put("fullName", msg10702.getClientName());
+			json.put("shortName", msg10702.getClientShortName());
+			json.put("enFullName", "");
+			json.put("enShortName", "");
+			json.put("tel", msg10702.getContactPhone());
+			json.put("exchangeMemberStatus", "");
+			json.put("upMemCode", ""); // 关联会员账号
+			json.put("brokerCode", ""); // 经纪会员编号
+			json.put("legalPerson", msg10702.getLegalPerson());
+			json.put("idKind", CenterToExchUtil.HS_CERT_TYPE.get(msg10702.getCertType()));
+			json.put("gender", CenterToExchUtil.HS_SEX.get(msg10702.getSex()));
+			json.put("nationality", msg10702.getNationality());
+			json.put("businessCert", ""); // 工商营业执照N
+			json.put("orgCode", msg10702.getOrgCode());
+			json.put("taxCert", ""); // 税务登记证号
+			json.put("taxCertType", ""); // 税务登记证类型
+			json.put("regAddr", msg10702.getAddress());
+			json.put("comAddr", ""); // 营业地址
+			json.put("contactName", msg10702.getContactName());
+			json.put("contactTel", msg10702.getContactPhone());
+			json.put("contactFax", msg10702.getContactFax());
+			json.put("contactEmail", msg10702.getContactEmail());
+
+			String result;
+			if (Integer.parseInt(msg10702.getChangeType()) == 1)
+				result = exchCallClearT2Service.dealMSG309000(json.toString());
+			else
+				result = exchCallClearT2Service.dealMSG309001(json.toString());
+			JSONObject jsonObj = JSONObject.fromObject(result);
+			int errorNo = jsonObj.getInt("errorNo");
+			String errorInfo = jsonObj.getString("errorInfo");
+//			if (Integer.parseInt(msg10702.getChangeType()) == 1) {
+//				String memCodeClear = jsonObj.getString("memCodeClear");
+//				String fundAccountClear = jsonObj.getString("fundAccountClear");
+//			}
+			LOGGER.info("*组发送至中心的用户信息报文Msg10703报文*");
+			ExchangeCenter.MessageHead.Builder value = ExchangeCenter.MessageHead.newBuilder();
+			value.setFunCode(10703); // 功能号
+			Msg10703.Builder msg10703 = Msg10703.newBuilder();
+			msg10703.setTranNo(msg10702.getTranNo());
+			msg10703.setBankDate(msg10702.getBankDate());
+//			msg10703.setBankSeq(clientRecId + "");
+			msg10703.setCenterSeq(msg10702.getCenterSeq());
+			if (errorNo == 0)
+				msg10703.setRetCode(FinalConstants.RetCode.SUCCESS);
+			else if (errorNo == 99) {
+				msg10703.setRetCode(FinalConstants.RetCode.UNKNOWN);
+				msg10703.setRetDesc("正在审核中，等待后续审核通知");
+			} else {
+				msg10703.setRetCode(FinalConstants.RetCode.FAIL);
+				msg10703.setRetDesc(errorInfo);
+			}
+			LOGGER.info("*记录往包*");
+			SendMsg sendMsg = new SendMsg();
+			Long sendMsgID = sendMsgDao.generateId();
+			sendMsg.setSendMsgId(sendMsgID); // 往包ID
+			sendMsg.setRecvMsgId(recMsgID); // 来包id
+			sendMsg.setRecverType(FinalConstants.SenderType.CENTER); // 接收方类型
+			sendMsg.setRecver("000000"); // 业务接收方
+			sendMsg.setMsgCode("10703"); // 报文类型编号
+			sendMsg.setSendDate(DateHelp.getCurrentDateOfString());
+			sendMsg.setTranSeq(clientRecId); // 业务流水号
+			sendMsg.setSendMsg(msg10703.build().toString()); // 报文内容
+			sendMsg.setSysTime(new Date()); // 系统时间
+			sendMsgDao.getSendMsgMapper().insert(sendMsg);
+
+			byte[] bytes = TASProtoHelper.getNTAS(msg10703.build().toByteArray(), FunCodeConstants.MSG10703, 0);
+			sendMsgService.send(sendMsg, bytes);
+			LOGGER.info("*成功发送用户信息应答报文*");
+
+			LOGGER.info("*更新往包表状态*");
+			sendMsg.setRetCode(Integer.parseInt(FinalConstants.RetCode.SUCCESS));
+			sendMsg.setRetDesc("发送成功");
+			sendMsgDao.getSendMsgMapper().updateByPrimaryKeySelective(sendMsg);
+			
+		}catch (Exception e){
+			throw e;
+		}
+	}
+
+}

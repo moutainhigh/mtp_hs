@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.RecvMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.model.RecvMsg" >
+    <id column="RECV_MSG_ID" property="recvMsgId" jdbcType="DECIMAL" />
+    <result column="SEND_MSG_ID" property="sendMsgId" jdbcType="DECIMAL" />
+    <result column="MSG_CODE" property="msgCode" jdbcType="VARCHAR" />
+    <result column="SENDER_TYPE" property="senderType" jdbcType="DECIMAL" />
+    <result column="SENDER" property="sender" jdbcType="VARCHAR" />
+    <result column="SENDER_DATE" property="senderDate" jdbcType="CHAR" />
+    <result column="SENDER_SEQ" property="senderSeq" jdbcType="VARCHAR" />
+    <result column="RECV_MSG" property="recvMsg" jdbcType="VARCHAR" />
+    <result column="RET_CODE" property="retCode" jdbcType="DECIMAL" />
+    <result column="RET_DESC" property="retDesc" jdbcType="VARCHAR" />
+    <result column="SYS_TIME" property="sysTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECV_MSG_ID, SEND_MSG_ID, MSG_CODE, SENDER_TYPE, SENDER, SENDER_DATE, SENDER_SEQ, 
+    RECV_MSG, RET_CODE, RET_DESC, SYS_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from RECV_MSG
+    where RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from RECV_MSG
+    where RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.RecvMsg" >
+    insert into RECV_MSG (RECV_MSG_ID, SEND_MSG_ID, MSG_CODE, 
+      SENDER_TYPE, SENDER, SENDER_DATE, 
+      SENDER_SEQ, RECV_MSG, RET_CODE, 
+      RET_DESC, SYS_TIME)
+    values (#{recvMsgId,jdbcType=DECIMAL}, #{sendMsgId,jdbcType=DECIMAL}, #{msgCode,jdbcType=VARCHAR}, 
+      #{senderType,jdbcType=DECIMAL}, #{sender,jdbcType=VARCHAR}, #{senderDate,jdbcType=CHAR}, 
+      #{senderSeq,jdbcType=VARCHAR}, #{recvMsg,jdbcType=VARCHAR}, #{retCode,jdbcType=DECIMAL}, 
+      #{retDesc,jdbcType=VARCHAR}, #{sysTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.RecvMsg" >
+    insert into RECV_MSG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recvMsgId != null" >
+        RECV_MSG_ID,
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID,
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE,
+      </if>
+      <if test="senderType != null" >
+        SENDER_TYPE,
+      </if>
+      <if test="sender != null" >
+        SENDER,
+      </if>
+      <if test="senderDate != null" >
+        SENDER_DATE,
+      </if>
+      <if test="senderSeq != null" >
+        SENDER_SEQ,
+      </if>
+      <if test="recvMsg != null" >
+        RECV_MSG,
+      </if>
+      <if test="retCode != null" >
+        RET_CODE,
+      </if>
+      <if test="retDesc != null" >
+        RET_DESC,
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recvMsgId != null" >
+        #{recvMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMsgId != null" >
+        #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="msgCode != null" >
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="senderType != null" >
+        #{senderType,jdbcType=DECIMAL},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="senderDate != null" >
+        #{senderDate,jdbcType=CHAR},
+      </if>
+      <if test="senderSeq != null" >
+        #{senderSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="recvMsg != null" >
+        #{recvMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="retCode != null" >
+        #{retCode,jdbcType=DECIMAL},
+      </if>
+      <if test="retDesc != null" >
+        #{retDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysTime != null" >
+        #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.RecvMsg" >
+    update RECV_MSG
+    <set >
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="msgCode != null" >
+        MSG_CODE = #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="senderType != null" >
+        SENDER_TYPE = #{senderType,jdbcType=DECIMAL},
+      </if>
+      <if test="sender != null" >
+        SENDER = #{sender,jdbcType=VARCHAR},
+      </if>
+      <if test="senderDate != null" >
+        SENDER_DATE = #{senderDate,jdbcType=CHAR},
+      </if>
+      <if test="senderSeq != null" >
+        SENDER_SEQ = #{senderSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="recvMsg != null" >
+        RECV_MSG = #{recvMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="retCode != null" >
+        RET_CODE = #{retCode,jdbcType=DECIMAL},
+      </if>
+      <if test="retDesc != null" >
+        RET_DESC = #{retDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME = #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.RecvMsg" >
+    update RECV_MSG
+    set SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      MSG_CODE = #{msgCode,jdbcType=VARCHAR},
+      SENDER_TYPE = #{senderType,jdbcType=DECIMAL},
+      SENDER = #{sender,jdbcType=VARCHAR},
+      SENDER_DATE = #{senderDate,jdbcType=CHAR},
+      SENDER_SEQ = #{senderSeq,jdbcType=VARCHAR},
+      RECV_MSG = #{recvMsg,jdbcType=VARCHAR},
+      RET_CODE = #{retCode,jdbcType=DECIMAL},
+      RET_DESC = #{retDesc,jdbcType=VARCHAR},
+      SYS_TIME = #{sysTime,jdbcType=TIMESTAMP}
+    where RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL}
+  </update>
+</mapper>

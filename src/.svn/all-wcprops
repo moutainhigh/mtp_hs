@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src
+END
+rabbitmq.properties
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/60924/mtp_java/mtp_hs/src/rabbitmq.properties
+END
+ares-app-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/ares-app-config.xml
+END
+mybatis-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mybatis-config.xml
+END
+client_license.dat
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/client_license.dat
+END
+ehcache.xml
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/ehcache.xml
+END
+spring-mybatis.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/spring-mybatis.xml
+END
+rabbitmq-center.xml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/rabbitmq-center.xml
+END
+config.properties
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/config.properties
+END
+ftp.properties
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/tas/!svn/ver/60700/mtp_java/mtp_hs/src/ftp.properties
+END

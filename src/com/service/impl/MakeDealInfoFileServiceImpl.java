@@ -1,0 +1,253 @@
+package com.service.impl;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.common.util.DateHelp;
+import com.core.util.FileUtil;
+import com.core.util.FtpUtil;
+import com.core.util.PropertiesUtil;
+import com.core.util.ZipUtil;
+import com.dao.CenterFileRecMapper;
+import com.model.CenterFileRec;
+import com.model.DealInfo;
+import com.proto.CenterBank.Msg31001;
+import com.service.MakeDealInfoFileService;
+
+
+/**
+ *  成交单文件
+ * ClassName: MakeDealInfoFileServiceImpl.java
+ * date: 2016年12月16日下午6:40:57
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class MakeDealInfoFileServiceImpl implements MakeDealInfoFileService {
+	private static final Logger LOGGER = Logger.getLogger(MakeDealInfoFileServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: MakeDealInfoFileServiceImpl.java
+	 * date: 2016年12月16日下午6:40:58
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private CenterFileRecMapper fileRecMapper;
+	@Override
+	public String doMakeDealInfoFile(Msg31001 msg31001, long recId) throws Exception {
+		try{
+			CenterFileRec fileRec = fileRecMapper.selectByPrimaryKey(recId);
+			
+			String exchNo = msg31001.getExchNo();
+			String filePath = msg31001.getFilePath();
+			String fileName = msg31001.getFileName();
+			
+			//读取ftp信息
+			String url = PropertiesUtil.getProperty(exchNo + ".exch_ftp_url");     //ftp地址
+			int port = Integer.valueOf(PropertiesUtil.getProperty(exchNo + ".exch_ftp_port"));   //端口
+			String username = PropertiesUtil.getProperty(exchNo + ".exch_ftp_user_name");        
+			String password = PropertiesUtil.getProperty(exchNo + ".exch_ftp_pw");
+			
+			//下载成交单文件到本地路径
+			String sysPath = System.getProperty("user.dir");
+			String localPath = sysPath + File.separator + PropertiesUtil.getProperty("recv_exch_path");
+			
+			LOGGER.info("【成交单文件】  下载文件开始 URL:" + url + "|PORT:" + port + "|filePath:" + filePath + "+|localPath:"
+					+ localPath );
+			boolean isSuccess = FtpUtil.downFile(url, port, username, password, filePath, fileName, localPath);
+			
+			if (!isSuccess) {
+				fileRec.setDealStatus(1);
+				fileRec.setDealDesc("失败");
+				fileRecMapper.updateByPrimaryKeySelective(fileRec);
+				throw new Exception("*文件下载失败*");
+			}
+			
+			LOGGER.info("*文件下载成功*");
+			
+			//读取成交单文件内容
+			Map<String, Object> dataMap = readBF13(localPath+ File.separator + fileName);
+			//取数据内容
+			List<DealInfo> dataList = (List<DealInfo>) dataMap.get("beanList"); 
+			
+			LOGGER.info("*开始组装成交单文件*");
+			String upDealInfoFileName = makeDealInfoFile(dataList, "4110014", msg31001.getBankDate());
+			
+			
+			//上传文件
+			LOGGER.info("【成交单文件】  成交单文件文件上传  localPath:" + localPath + "+|fileName：" + upDealInfoFileName);
+			
+			String hs_url = PropertiesUtil.getProperty("hs_ftp_url");
+			int hs_port = Integer.valueOf(PropertiesUtil.getProperty("hs_ftp_port"));
+			String hs_username = PropertiesUtil.getProperty("hs_ftp_user_name");
+			String hs_password = PropertiesUtil.getProperty("hs_ftp_pw");
+			
+			String send_localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+			String srcFilename = send_localPath + File.separator + upDealInfoFileName;
+			
+			isSuccess = FtpUtil.uploadFile(hs_url, hs_port, hs_username, hs_password, msg31001.getBankDate(), upDealInfoFileName,srcFilename);
+			if (!isSuccess) {
+				throw new Exception("*成交单文件上传失败*");
+			}
+			return upDealInfoFileName;
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	//读取成交单文件
+	public Map<String, Object> readBF13(String filePath) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<DealInfo> dealInfoList = new ArrayList<DealInfo>();
+		try {
+			int i = 0;
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+			String lineStr = br.readLine();
+			while (lineStr != null) {
+				if (i++ == 0) {
+					String[] liStr = lineStr.split("&");
+					String tranNo = liStr[0];
+					String bankDate = liStr[1];
+					String totalRecord = liStr[2];
+					map.put("tranNo", tranNo);
+					map.put("exchDate", bankDate);
+					map.put("totalRecord", totalRecord);
+				} else {
+					DealInfo dealInfo = new DealInfo();
+					String[] liStr = lineStr.split("&");
+					dealInfo.setInitDate(liStr[1]);
+					dealInfo.setExchangeId(liStr[0]);
+					dealInfo.setExchangeMarketType(liStr[2]);
+					dealInfo.setBizType(liStr[3]);
+					dealInfo.setDealId(liStr[4]);
+					dealInfo.setOpenMemCode(liStr[5]);
+					dealInfo.setOpenFundAccount(liStr[6]);
+					dealInfo.setOpenTradeAccount(liStr[7]);
+					dealInfo.setOppMemCode(liStr[8]);
+					dealInfo.setOppFundAccount(liStr[9]);
+					dealInfo.setOppTradeAccount(liStr[10]);
+					dealInfo.setProductCategoryId(liStr[11]);
+					dealInfo.setProductCode(liStr[12]);
+					dealInfo.setTradeDir(liStr[13]);
+					dealInfo.setDealType(liStr[14]);
+					dealInfo.setOppDealType(liStr[15]);
+					dealInfo.setTradeType(liStr[16]);
+					dealInfo.setDealPrice(liStr[17]);
+					dealInfo.setHoldPrice(liStr[18]);
+					dealInfo.setDealQuantity(liStr[19]);
+					dealInfo.setDealTotalPrice(liStr[20]);
+					dealInfo.setDepositRate(liStr[21]);
+					dealInfo.setDepositRatioType(liStr[22]);
+					dealInfo.setDepositType(liStr[23]);
+					dealInfo.setDepositBalance(liStr[24]);
+					dealInfo.setOppDepositRatioType(liStr[25]);
+					dealInfo.setOppDepositRate(liStr[26]);
+					dealInfo.setOppDepositBalance(liStr[27]);
+					dealInfo.setDealTime(liStr[28]);
+					dealInfo.setDepotOrderNo(liStr[29]);
+					dealInfo.setOppDepotOrderNo(liStr[30]);
+					dealInfo.setOrderId(liStr[31]);
+					dealInfo.setOppOrderId(liStr[32]);
+					dealInfo.setSettlementDate(liStr[33]);
+					
+					dealInfoList.add(dealInfo);
+				}
+
+				lineStr = br.readLine();
+			}
+			map.put("beanList", dealInfoList);
+		} catch (FileNotFoundException e) {
+			LOGGER.error("*交易所成交单文件读取失败*", e);
+			throw new Exception("*交易所成交单文件读取失败*", e);
+		} catch (IOException e) {
+			LOGGER.error("*交易所成交单文件读取失败*", e);
+			throw new Exception("*交易所成交单文件读取失败*", e);
+		}
+		return map;
+	}
+	
+	//组装成交单文件
+	public String makeDealInfoFile(List<DealInfo> dataList, String exchNo, String bankDate) throws Exception{
+		String upDealInfoData = "";
+		
+		for(int i=0; i<dataList.size();i++){
+			DealInfo dealInfo = dataList.get(i);
+			String initDate = dealInfo.getInitDate();//	N8	业务发生日期(YYYYMMDD)	
+			String exchangeId = exchNo;//	C32	交易所代码	
+			String exchangeMarketType = dealInfo.getExchangeMarketType();//	C1	交易所市场编码	
+			String bizType = dealInfo.getBizType();//	C4	业务类型	
+			String dealId = dealInfo.getDealId()	;//C32	成交编号（唯一有序，且能根据排序确定成交先后顺序的数字）	
+			String openMemCode = dealInfo.getOpenMemCode()	;//C20	会员编码(发起方)	
+			String openFundAccount = dealInfo.getOpenFundAccount();//	C20	资金账号（发起方）	
+			String openTradeAccount = dealInfo.getOpenTradeAccount();//	C20	交易账号(发起方)	
+			String oppMemCode = dealInfo.getOppMemCode();//	C20	会员编码(对手方)	
+			String oppFundAccount = dealInfo.getOppFundAccount();//	C20	资金账号(对手方)	
+			String oppTradeAccount = dealInfo.getOppTradeAccount();//	C20	交易账号(对手方)	
+			String productCategoryId = dealInfo.getProductCategoryId();//	N16	产品类别ID	
+			String productCode = dealInfo.getProductCode()	;//C20	产品代码	
+			String tradeDir = dealInfo.getTradeDir();//	C1	买卖方向(1买2卖)	
+			String dealType = dealInfo.getDealType();//	C1	成交类型(1-开仓(建仓) 2-平仓)	
+			String oppDealType = dealInfo.getOppDealType();//	C1	对手方成交类型(1-开仓(建仓) 2-平仓)	
+			String tradeType = dealInfo.getTradeType();//	C1	交易类型(1-默认(做市商) 2-协议开仓 3-协议平仓 4-协议换手 5-强平 6-现金交割)	
+			String dealPrice = dealInfo.getDealPrice()	;//L	成交单价	
+			String holdPrice = dealInfo.getHoldPrice();//	L	持仓价格（暂未使用）	
+			String dealQuantity = dealInfo.getDealQuantity();//	D	成交数量	
+			String dealTotalPrice = dealInfo.getDealTotalPrice();//	L	成交总价	
+			String depositRate = dealInfo.getDepositRate();//	D	定金率	
+			String depositRatioType = dealInfo.getDepositRatioType();//	C1	定金率是否比率(0-固定 1-比率)	
+			String depositType = dealInfo.getDepositType();//	C1	定金收取方式(0-开仓价 1-持仓价)	
+			String depositBalance = dealInfo.getDepositBalance();//	L	定金金额或成交货款	
+			String oppDepositRatioType = dealInfo.getOppDepositRatioType();//	D	仓单数量（质押仓单数量，暂未使用）	
+			String oppDepositRate = dealInfo.getOppDepositRate();//	L	发起方手续费（可选，与费用文件数据一致）	
+			String oppDepositBalance = dealInfo.getOppDepositBalance();//	L	对手方手续费（可选，与费用文件数据一致）	
+			String dealTime = dealInfo.getDealTime();//	C20	成交时间(HHmmss)	
+			String depotOrderNo = dealInfo.getDepotOrderNo();//	C20	建仓单号	
+			String oppDepotOrderNo = dealInfo.getOppDepotOrderNo();//	C20	对手方建仓单号	
+			String orderId = dealInfo.getOrderId();//	C16	报单编码	
+			String oppOrderId = dealInfo.getOppOrderId();//	C16	对手报单编号	
+			String settlementDate = dealInfo.getSettlementDate();//	C20	结算日期(yyyyMMdd)	
+			
+			upDealInfoData = upDealInfoData+initDate+"|"+exchangeId+"|"+exchangeMarketType+"|"+bizType+"|"+dealId
+					+"|"+openMemCode+"|"+openFundAccount+"|"+openTradeAccount+"|"+oppMemCode+"|"+oppFundAccount
+					+"|"+oppTradeAccount+"|"+productCategoryId
+					+"|"+productCode+"|"+tradeDir+"|"+dealType
+					+"|"+oppDealType+"|"+tradeType+"|"+dealPrice+"|"+holdPrice+"|"+dealQuantity
+					+"|"+dealTotalPrice+"|"+depositRate
+					+"|"+depositRatioType+"|"+depositType+"|"+depositBalance
+					+"|"+oppDepositRatioType+"|"+oppDepositRate+"|"+oppDepositBalance+"|"+dealTime+"|"+depotOrderNo
+					+"|"+oppDepotOrderNo+"|"+orderId
+					+"|"+oppOrderId+"|"+settlementDate+"|"+"\r\n";
+		}
+		//将所有数据一次性写入文件
+		//下载成交单文件到本地路径
+		String sysPath = System.getProperty("user.dir");
+		String localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+		String fileName = bankDate+"_"+ exchNo+"_" +"dealInfo.txt";//yyyymmdd_xxx(交易所代码)_clearResult.txt
+		
+		boolean isSuccess = FileUtil.writeFile(upDealInfoData, localPath, fileName);
+		if(!isSuccess){
+			throw new Exception( fileName + "*成交单文件写入失败*");
+		}
+		File file = new File(localPath + File.separator + fileName);
+		String zipFileName = bankDate+"_"+ exchNo+"_" +"dealInfo.zip";
+		File zipFile = new File(localPath + File.separator+zipFileName);
+		ZipUtil.zip(file, zipFile);
+		return zipFileName;
+	}
+
+}

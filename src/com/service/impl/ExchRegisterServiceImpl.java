@@ -1,0 +1,144 @@
+package com.service.impl;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ccps.exchgate.api.t2.service.client.ExchCallClearT2Service;
+import com.common.constants.FinalConstants;
+import com.common.constants.FunCodeConstants;
+import com.common.util.DateHelp;
+import com.common.util.TASProtoHelper;
+import com.core.exception.ServiceException;
+import com.dao.TranMapper;
+import com.dao.Impl.RegisterRecDao;
+import com.dao.Impl.SendMsgDao;
+import com.model.RegisterRec;
+import com.model.SendMsg;
+import com.model.Tran;
+import com.muchinfo.common.util.PropertiesUtil;
+import com.proto.CenterBank.Msg30501;
+import com.proto.CenterBank.Msg30502;
+import com.proto.ExchangeCenter;
+import com.service.ExchRegisterService;
+import com.service.SendMsgService;
+
+import net.sf.json.JSONObject;
+
+/**
+ *  
+ * ClassName: ExchRegisterServiceImpl.java
+ * date: 2016年12月13日下午3:07:53
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class ExchRegisterServiceImpl implements ExchRegisterService {
+	private static final Logger LOGGER = Logger.getLogger(ExchRegisterServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: ExchRegisterServiceImpl.java
+	 * date: 2016年12月13日下午3:07:54
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private RegisterRecDao registerRecDao;
+	@Autowired
+	private SendMsgDao sendMsgDao;
+	@Autowired 
+	private SendMsgService sendMsgService;
+	@Autowired
+	private ExchCallClearT2Service exchCallClearT2Service;
+	@Autowired
+	private TranMapper tranMapper;
+	@Override
+	public void doRegisterReq(Msg30501 msg30501, long recMsgId) throws Exception {
+		try{
+			LOGGER.info("*交易所签到*");
+			String hsExchNo=PropertiesUtil.getProperty("HSexchNO"); 
+			//签到签退信息记录
+			RegisterRec registerRec = new RegisterRec();
+			Long registerRecId = registerRecDao.generateId();              //生成签到签退记录表主键
+			registerRec.setRegisterRecId(registerRecId);              
+			registerRec.setTranNo(msg30501.getTranNo());					   //银行业务编号
+			registerRec.setTranDate(msg30501.getBankDate());     //业务时间
+			registerRec.setRegisterFlag(FinalConstants.RegisterFlag.ON);    //签到签退标志
+			registerRec.setDealStatus(FinalConstants.DealStatus.UNKNOW);	//0-成功; FAIL:1-失败; SEND:2-已发送; SEND_CHECK:3-已发送检查; UNKNOW:9-未明确
+			registerRec.setSysTime(new Date());			 			       //签到系统时间
+			Long sendMsgId = sendMsgDao.generateId();
+			registerRec.setSendMsgId(sendMsgId);
+			registerRecDao.getRegisterRecMapper().insert(registerRec);
+			
+			Tran tran = tranMapper.selectByPrimaryKey(msg30501.getTranNo());
+			if(tran==null){
+				throw new ServiceException("*银行业务编号为空*");
+			}
+			
+			JSONObject json = new JSONObject();
+			json.put("exchangeId", hsExchNo);
+			json.put("initDate", msg30501.getBankDate());
+			json.put("bankProCode", tran.getBankProCode());
+			json.put("operatingStatus", tran.getTranStatus());     //			营业状态( 0:正常，1:日终，2:暂停)
+			
+			String result = exchCallClearT2Service.dealMSG311029(json.toString());
+			JSONObject jsonObj = JSONObject.fromObject(result);
+			int errorNo = jsonObj.getInt("errorNo");
+			String errorInfo = jsonObj.getString("errorInfo");
+			
+			LOGGER.info("*组发送至中心的签到应答报文Msg30502报文*");
+			ExchangeCenter.MessageHead.Builder value = ExchangeCenter.MessageHead.newBuilder();
+			value.setFunCode(30502); // 功能号
+			Msg30502.Builder msg30502 = Msg30502.newBuilder();
+			msg30502.setTranNo(msg30501.getTranNo());
+			msg30502.setBankDate(msg30501.getBankDate());
+//			msg30502.setBankSeq(clientRecId + "");
+			msg30502.setCenterSeq(msg30501.getCenterSeq());
+			if (errorNo == 0){
+				msg30502.setRetCode(FinalConstants.RetCode.SUCCESS);
+				msg30502.setRetDesc(errorInfo);
+				registerRec.setDealStatus(FinalConstants.DealStatus.SUCCESS);
+				registerRecDao.getRegisterRecMapper().updateByPrimaryKeySelective(registerRec);
+			}
+			else if (errorNo == 99) {
+				msg30502.setRetCode(FinalConstants.RetCode.UNKNOWN);
+				msg30502.setRetDesc(errorInfo);
+				registerRec.setDealStatus(FinalConstants.DealStatus.SEND_DEAL);
+				registerRecDao.getRegisterRecMapper().updateByPrimaryKeySelective(registerRec);
+			} else {
+				msg30502.setRetCode(FinalConstants.RetCode.FAIL);
+				msg30502.setRetDesc(errorInfo);
+				registerRec.setDealStatus(FinalConstants.DealStatus.FAIL);
+				registerRecDao.getRegisterRecMapper().updateByPrimaryKeySelective(registerRec);
+			}
+			LOGGER.info("*记录往包*");
+			SendMsg sendMsg = new SendMsg();
+			Long sendMsgID = sendMsgDao.generateId();
+			sendMsg.setSendMsgId(sendMsgID); // 往包ID
+			sendMsg.setRecvMsgId(recMsgId); // 来包id
+			sendMsg.setRecverType(FinalConstants.SenderType.CENTER); // 接收方类型
+			sendMsg.setRecver("000000"); // 业务接收方
+			sendMsg.setMsgCode("30502"); // 报文类型编号
+			sendMsg.setSendDate(DateHelp.getCurrentDateOfString());
+			sendMsg.setTranSeq(registerRecId); // 业务流水号
+			sendMsg.setSendMsg(msg30502.build().toString()); // 报文内容
+			sendMsg.setSysTime(new Date()); // 系统时间
+			sendMsgDao.getSendMsgMapper().insert(sendMsg);
+
+			byte[] bytes = TASProtoHelper.getNTAS(msg30502.build().toByteArray(), FunCodeConstants.MSG30502, 0);
+			sendMsgService.send(sendMsg, bytes);
+			LOGGER.info("*成功发送签到应答报文*");
+
+			LOGGER.info("*更新往包表状态*");
+			sendMsg.setRetCode(Integer.parseInt(FinalConstants.RetCode.SUCCESS));
+			sendMsg.setRetDesc("发送成功");
+			sendMsgDao.getSendMsgMapper().updateByPrimaryKeySelective(sendMsg);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+
+}

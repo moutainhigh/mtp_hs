@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception
+END
+CustomExceptionHandler.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception/CustomExceptionHandler.java
+END
+CommonErrorCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception/CommonErrorCode.java
+END
+ServiceException.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception/ServiceException.java
+END
+ErrorCode.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception/ErrorCode.java
+END
+ErrorResult.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/exception/ErrorResult.java
+END

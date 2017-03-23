@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ControlDateMapper" >
+  <resultMap id="BaseResultMap" type="com.model.ControlDate" >
+    <id column="CONTROL_DATE" property="controlDate" jdbcType="CHAR" />
+    <result column="IS_OPEN" property="isOpen" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CONTROL_DATE, IS_OPEN
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CONTROL_DATE
+    where CONTROL_DATE = #{controlDate,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CONTROL_DATE
+    where CONTROL_DATE = #{controlDate,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.model.ControlDate" >
+    insert into CONTROL_DATE (CONTROL_DATE, IS_OPEN)
+    values (#{controlDate,jdbcType=CHAR}, #{isOpen,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.ControlDate" >
+    insert into CONTROL_DATE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="controlDate != null" >
+        CONTROL_DATE,
+      </if>
+      <if test="isOpen != null" >
+        IS_OPEN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="controlDate != null" >
+        #{controlDate,jdbcType=CHAR},
+      </if>
+      <if test="isOpen != null" >
+        #{isOpen,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.ControlDate" >
+    update CONTROL_DATE
+    <set >
+      <if test="isOpen != null" >
+        IS_OPEN = #{isOpen,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CONTROL_DATE = #{controlDate,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.ControlDate" >
+    update CONTROL_DATE
+    set IS_OPEN = #{isOpen,jdbcType=DECIMAL}
+    where CONTROL_DATE = #{controlDate,jdbcType=CHAR}
+  </update>
+  
+</mapper>

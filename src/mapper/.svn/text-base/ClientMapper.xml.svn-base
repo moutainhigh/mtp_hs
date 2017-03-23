@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ClientMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Client" >
+    <id column="CLIENT_ID" property="clientId" jdbcType="DECIMAL" />
+    <result column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="TRADE_ACCT" property="tradeAcct" jdbcType="VARCHAR" />
+    <result column="CLIENT_NAME" property="clientName" jdbcType="VARCHAR" />
+    <result column="CLIENT_SHORT_NAME" property="clientShortName" jdbcType="VARCHAR" />
+    <result column="CLIENT_TYPE" property="clientType" jdbcType="DECIMAL" />
+    <result column="CLIENT_ACCT_TYPE" property="clientAcctType" jdbcType="DECIMAL" />
+    <result column="CERT_TYPE" property="certType" jdbcType="VARCHAR" />
+    <result column="CERT_CODE" property="certCode" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+    <result column="LEGAL_PERSON" property="legalPerson" jdbcType="VARCHAR" />
+    <result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="CHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="CONTACT_FAX" property="contactFax" jdbcType="VARCHAR" />
+    <result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+    <result column="RELATED_ACCT_STR" property="relatedAcctStr" jdbcType="VARCHAR" />
+    <result column="CLIENT_STATUS" property="clientStatus" jdbcType="DECIMAL" />
+    <result column="MEMBER_CODE" property="memberCode" jdbcType="VARCHAR" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLIENT_ID, EXCH_NO, TRADE_ACCT, CLIENT_NAME, CLIENT_SHORT_NAME, CLIENT_TYPE, CLIENT_ACCT_TYPE, 
+    CERT_TYPE, CERT_CODE, SEX, LEGAL_PERSON, ORG_CODE, NATIONALITY, ADDRESS, CONTACT_NAME, 
+    CONTACT_PHONE, CONTACT_FAX, CONTACT_EMAIL, RELATED_ACCT_STR, CLIENT_STATUS, MEMBER_CODE, 
+    AREA_CODE, CURRENCY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLIENT
+    where CLIENT_ID = #{clientId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CLIENT
+    where CLIENT_ID = #{clientId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Client" >
+    insert into CLIENT (CLIENT_ID, EXCH_NO, TRADE_ACCT, 
+      CLIENT_NAME, CLIENT_SHORT_NAME, CLIENT_TYPE, 
+      CLIENT_ACCT_TYPE, CERT_TYPE, CERT_CODE, 
+      SEX, LEGAL_PERSON, ORG_CODE, 
+      NATIONALITY, ADDRESS, CONTACT_NAME, 
+      CONTACT_PHONE, CONTACT_FAX, CONTACT_EMAIL, 
+      RELATED_ACCT_STR, CLIENT_STATUS, MEMBER_CODE, 
+      AREA_CODE, CURRENCY)
+    values (#{clientId,jdbcType=DECIMAL}, #{exchNo,jdbcType=VARCHAR}, #{tradeAcct,jdbcType=VARCHAR}, 
+      #{clientName,jdbcType=VARCHAR}, #{clientShortName,jdbcType=VARCHAR}, #{clientType,jdbcType=DECIMAL}, 
+      #{clientAcctType,jdbcType=DECIMAL}, #{certType,jdbcType=VARCHAR}, #{certCode,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=DECIMAL}, #{legalPerson,jdbcType=VARCHAR}, #{orgCode,jdbcType=VARCHAR}, 
+      #{nationality,jdbcType=CHAR}, #{address,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, 
+      #{relatedAcctStr,jdbcType=VARCHAR}, #{clientStatus,jdbcType=DECIMAL}, #{memberCode,jdbcType=VARCHAR}, 
+      #{areaCode,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Client" >
+    insert into CLIENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        CLIENT_ID,
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT,
+      </if>
+      <if test="clientName != null" >
+        CLIENT_NAME,
+      </if>
+      <if test="clientShortName != null" >
+        CLIENT_SHORT_NAME,
+      </if>
+      <if test="clientType != null" >
+        CLIENT_TYPE,
+      </if>
+      <if test="clientAcctType != null" >
+        CLIENT_ACCT_TYPE,
+      </if>
+      <if test="certType != null" >
+        CERT_TYPE,
+      </if>
+      <if test="certCode != null" >
+        CERT_CODE,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="legalPerson != null" >
+        LEGAL_PERSON,
+      </if>
+      <if test="orgCode != null" >
+        ORG_CODE,
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE,
+      </if>
+      <if test="contactFax != null" >
+        CONTACT_FAX,
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL,
+      </if>
+      <if test="relatedAcctStr != null" >
+        RELATED_ACCT_STR,
+      </if>
+      <if test="clientStatus != null" >
+        CLIENT_STATUS,
+      </if>
+      <if test="memberCode != null" >
+        MEMBER_CODE,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        #{clientId,jdbcType=DECIMAL},
+      </if>
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientShortName != null" >
+        #{clientShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        #{clientType,jdbcType=DECIMAL},
+      </if>
+      <if test="clientAcctType != null" >
+        #{clientAcctType,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null" >
+        #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="legalPerson != null" >
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null" >
+        #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedAcctStr != null" >
+        #{relatedAcctStr,jdbcType=VARCHAR},
+      </if>
+      <if test="clientStatus != null" >
+        #{clientStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="memberCode != null" >
+        #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Client" >
+    update CLIENT
+    <set >
+      <if test="exchNo != null" >
+        EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        CLIENT_NAME = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientShortName != null" >
+        CLIENT_SHORT_NAME = #{clientShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        CLIENT_TYPE = #{clientType,jdbcType=DECIMAL},
+      </if>
+      <if test="clientAcctType != null" >
+        CLIENT_ACCT_TYPE = #{clientAcctType,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null" >
+        CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="legalPerson != null" >
+        LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY = #{nationality,jdbcType=CHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null" >
+        CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedAcctStr != null" >
+        RELATED_ACCT_STR = #{relatedAcctStr,jdbcType=VARCHAR},
+      </if>
+      <if test="clientStatus != null" >
+        CLIENT_STATUS = #{clientStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="memberCode != null" >
+        MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CLIENT_ID = #{clientId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Client" >
+    update CLIENT
+    set EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      CLIENT_NAME = #{clientName,jdbcType=VARCHAR},
+      CLIENT_SHORT_NAME = #{clientShortName,jdbcType=VARCHAR},
+      CLIENT_TYPE = #{clientType,jdbcType=DECIMAL},
+      CLIENT_ACCT_TYPE = #{clientAcctType,jdbcType=DECIMAL},
+      CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=DECIMAL},
+      LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      NATIONALITY = #{nationality,jdbcType=CHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      RELATED_ACCT_STR = #{relatedAcctStr,jdbcType=VARCHAR},
+      CLIENT_STATUS = #{clientStatus,jdbcType=DECIMAL},
+      MEMBER_CODE = #{memberCode,jdbcType=VARCHAR},
+      AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=VARCHAR}
+    where CLIENT_ID = #{clientId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <select id="selectByTradeAcct" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select 
+    	<include refid="Base_Column_List" />
+    	from CLIENT
+    	where TRADE_ACCT = #{tradeAcct,jdbcType=DECIMAL}
+  	</select>
+</mapper>

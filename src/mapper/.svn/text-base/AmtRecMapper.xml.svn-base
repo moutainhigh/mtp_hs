@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.AmtRecMapper" >
+  <resultMap id="BaseResultMap" type="com.model.AmtRec" >
+    <id column="AMT_REC_ID" property="amtRecId" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_ID" property="accountId" jdbcType="DECIMAL" />
+    <result column="CHECK_DATE" property="checkDate" jdbcType="CHAR" />
+    <result column="CLEAR_CHECK_DATE" property="clearCheckDate" jdbcType="CHAR" />
+    <result column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="TRADE_ACCT" property="tradeAcct" jdbcType="VARCHAR" />
+    <result column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="TRAN_DATE" property="tranDate" jdbcType="CHAR" />
+    <result column="BANK_SEQ" property="bankSeq" jdbcType="VARCHAR" />
+    <result column="CENTER_SEQ" property="centerSeq" jdbcType="VARCHAR" />
+    <result column="ACCT" property="acct" jdbcType="VARCHAR" />
+    <result column="ACCT_NAME" property="acctName" jdbcType="VARCHAR" />
+    <result column="ACCT_TYPE" property="acctType" jdbcType="DECIMAL" />
+    <result column="SET_ACCT" property="setAcct" jdbcType="VARCHAR" />
+    <result column="SET_ACCT_NAME" property="setAcctName" jdbcType="VARCHAR" />
+    <result column="AMT" property="amt" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="CHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CARD_BANK_NO" property="cardBankNo" jdbcType="VARCHAR" />
+    <result column="CARD_ACCT" property="cardAcct" jdbcType="VARCHAR" />
+    <result column="CARD_NAME" property="cardName" jdbcType="VARCHAR" />
+    <result column="OUT_IN_FLAG" property="outInFlag" jdbcType="DECIMAL" />
+    <result column="SENDER_TYPE" property="senderType" jdbcType="DECIMAL" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="DECIMAL" />
+    <result column="DEAL_DESC" property="dealDesc" jdbcType="VARCHAR" />
+    <result column="IS_SEND_LINK" property="isSendLink" jdbcType="DECIMAL" />
+    <result column="IS_APPLY" property="isApply" jdbcType="DECIMAL" />
+    <result column="APPLY_ID" property="applyId" jdbcType="DECIMAL" />
+    <result column="CARD_STATUS_UPDATE" property="cardStatusUpdate" jdbcType="DECIMAL" />
+    <result column="CARD_STATUS" property="cardStatus" jdbcType="DECIMAL" />
+    <result column="RECV_MSG_ID" property="recvMsgId" jdbcType="DECIMAL" />
+    <result column="SEND_MSG_ID" property="sendMsgId" jdbcType="DECIMAL" />
+    <result column="SYS_TIME" property="sysTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AMT_REC_ID, ACCOUNT_ID, CHECK_DATE, CLEAR_CHECK_DATE, EXCH_NO, TRADE_ACCT, TRAN_NO, 
+    TRAN_DATE, BANK_SEQ, CENTER_SEQ, ACCT, ACCT_NAME, ACCT_TYPE, SET_ACCT, SET_ACCT_NAME, 
+    AMT, CURRENCY, REMARK, CARD_BANK_NO, CARD_ACCT, CARD_NAME, OUT_IN_FLAG, SENDER_TYPE, 
+    DEAL_STATUS, DEAL_DESC, IS_SEND_LINK, IS_APPLY, APPLY_ID, CARD_STATUS_UPDATE, CARD_STATUS, 
+    RECV_MSG_ID, SEND_MSG_ID, SYS_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from AMT_REC
+    where AMT_REC_ID = #{amtRecId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from AMT_REC
+    where AMT_REC_ID = #{amtRecId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.AmtRec" >
+    insert into AMT_REC (AMT_REC_ID, ACCOUNT_ID, CHECK_DATE, 
+      CLEAR_CHECK_DATE, EXCH_NO, TRADE_ACCT, 
+      TRAN_NO, TRAN_DATE, BANK_SEQ, 
+      CENTER_SEQ, ACCT, ACCT_NAME, 
+      ACCT_TYPE, SET_ACCT, SET_ACCT_NAME, 
+      AMT, CURRENCY, REMARK, 
+      CARD_BANK_NO, CARD_ACCT, CARD_NAME, 
+      OUT_IN_FLAG, SENDER_TYPE, DEAL_STATUS, 
+      DEAL_DESC, IS_SEND_LINK, IS_APPLY, 
+      APPLY_ID, CARD_STATUS_UPDATE, CARD_STATUS, 
+      RECV_MSG_ID, SEND_MSG_ID, SYS_TIME
+      )
+    values (#{amtRecId,jdbcType=DECIMAL}, #{accountId,jdbcType=DECIMAL}, #{checkDate,jdbcType=CHAR}, 
+      #{clearCheckDate,jdbcType=CHAR}, #{exchNo,jdbcType=VARCHAR}, #{tradeAcct,jdbcType=VARCHAR}, 
+      #{tranNo,jdbcType=VARCHAR}, #{tranDate,jdbcType=CHAR}, #{bankSeq,jdbcType=VARCHAR}, 
+      #{centerSeq,jdbcType=VARCHAR}, #{acct,jdbcType=VARCHAR}, #{acctName,jdbcType=VARCHAR}, 
+      #{acctType,jdbcType=DECIMAL}, #{setAcct,jdbcType=VARCHAR}, #{setAcctName,jdbcType=VARCHAR}, 
+      #{amt,jdbcType=DECIMAL}, #{currency,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{cardBankNo,jdbcType=VARCHAR}, #{cardAcct,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR}, 
+      #{outInFlag,jdbcType=DECIMAL}, #{senderType,jdbcType=DECIMAL}, #{dealStatus,jdbcType=DECIMAL}, 
+      #{dealDesc,jdbcType=VARCHAR}, #{isSendLink,jdbcType=DECIMAL}, #{isApply,jdbcType=DECIMAL}, 
+      #{applyId,jdbcType=DECIMAL}, #{cardStatusUpdate,jdbcType=DECIMAL}, #{cardStatus,jdbcType=DECIMAL}, 
+      #{recvMsgId,jdbcType=DECIMAL}, #{sendMsgId,jdbcType=DECIMAL}, #{sysTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.AmtRec" >
+    insert into AMT_REC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="amtRecId != null" >
+        AMT_REC_ID,
+      </if>
+      <if test="accountId != null" >
+        ACCOUNT_ID,
+      </if>
+      <if test="checkDate != null" >
+        CHECK_DATE,
+      </if>
+      <if test="clearCheckDate != null" >
+        CLEAR_CHECK_DATE,
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT,
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE,
+      </if>
+      <if test="bankSeq != null" >
+        BANK_SEQ,
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ,
+      </if>
+      <if test="acct != null" >
+        ACCT,
+      </if>
+      <if test="acctName != null" >
+        ACCT_NAME,
+      </if>
+      <if test="acctType != null" >
+        ACCT_TYPE,
+      </if>
+      <if test="setAcct != null" >
+        SET_ACCT,
+      </if>
+      <if test="setAcctName != null" >
+        SET_ACCT_NAME,
+      </if>
+      <if test="amt != null" >
+        AMT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="cardBankNo != null" >
+        CARD_BANK_NO,
+      </if>
+      <if test="cardAcct != null" >
+        CARD_ACCT,
+      </if>
+      <if test="cardName != null" >
+        CARD_NAME,
+      </if>
+      <if test="outInFlag != null" >
+        OUT_IN_FLAG,
+      </if>
+      <if test="senderType != null" >
+        SENDER_TYPE,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC,
+      </if>
+      <if test="isSendLink != null" >
+        IS_SEND_LINK,
+      </if>
+      <if test="isApply != null" >
+        IS_APPLY,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="cardStatusUpdate != null" >
+        CARD_STATUS_UPDATE,
+      </if>
+      <if test="cardStatus != null" >
+        CARD_STATUS,
+      </if>
+      <if test="recvMsgId != null" >
+        RECV_MSG_ID,
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID,
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="amtRecId != null" >
+        #{amtRecId,jdbcType=DECIMAL},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=DECIMAL},
+      </if>
+      <if test="checkDate != null" >
+        #{checkDate,jdbcType=CHAR},
+      </if>
+      <if test="clearCheckDate != null" >
+        #{clearCheckDate,jdbcType=CHAR},
+      </if>
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="bankSeq != null" >
+        #{bankSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="acct != null" >
+        #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="acctType != null" >
+        #{acctType,jdbcType=DECIMAL},
+      </if>
+      <if test="setAcct != null" >
+        #{setAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="setAcctName != null" >
+        #{setAcctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amt != null" >
+        #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBankNo != null" >
+        #{cardBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAcct != null" >
+        #{cardAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="outInFlag != null" >
+        #{outInFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="senderType != null" >
+        #{senderType,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isSendLink != null" >
+        #{isSendLink,jdbcType=DECIMAL},
+      </if>
+      <if test="isApply != null" >
+        #{isApply,jdbcType=DECIMAL},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatusUpdate != null" >
+        #{cardStatusUpdate,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatus != null" >
+        #{cardStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="recvMsgId != null" >
+        #{recvMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMsgId != null" >
+        #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.AmtRec" >
+    update AMT_REC
+    <set >
+      <if test="accountId != null" >
+        ACCOUNT_ID = #{accountId,jdbcType=DECIMAL},
+      </if>
+      <if test="checkDate != null" >
+        CHECK_DATE = #{checkDate,jdbcType=CHAR},
+      </if>
+      <if test="clearCheckDate != null" >
+        CLEAR_CHECK_DATE = #{clearCheckDate,jdbcType=CHAR},
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="bankSeq != null" >
+        BANK_SEQ = #{bankSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="acct != null" >
+        ACCT = #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="acctType != null" >
+        ACCT_TYPE = #{acctType,jdbcType=DECIMAL},
+      </if>
+      <if test="setAcct != null" >
+        SET_ACCT = #{setAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="setAcctName != null" >
+        SET_ACCT_NAME = #{setAcctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amt != null" >
+        AMT = #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=CHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBankNo != null" >
+        CARD_BANK_NO = #{cardBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAcct != null" >
+        CARD_ACCT = #{cardAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null" >
+        CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="outInFlag != null" >
+        OUT_IN_FLAG = #{outInFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="senderType != null" >
+        SENDER_TYPE = #{senderType,jdbcType=DECIMAL},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isSendLink != null" >
+        IS_SEND_LINK = #{isSendLink,jdbcType=DECIMAL},
+      </if>
+      <if test="isApply != null" >
+        IS_APPLY = #{isApply,jdbcType=DECIMAL},
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatusUpdate != null" >
+        CARD_STATUS_UPDATE = #{cardStatusUpdate,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatus != null" >
+        CARD_STATUS = #{cardStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="recvMsgId != null" >
+        RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME = #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where AMT_REC_ID = #{amtRecId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.AmtRec" >
+    update AMT_REC
+    set ACCOUNT_ID = #{accountId,jdbcType=DECIMAL},
+      CHECK_DATE = #{checkDate,jdbcType=CHAR},
+      CLEAR_CHECK_DATE = #{clearCheckDate,jdbcType=CHAR},
+      EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      BANK_SEQ = #{bankSeq,jdbcType=VARCHAR},
+      CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      ACCT = #{acct,jdbcType=VARCHAR},
+      ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      ACCT_TYPE = #{acctType,jdbcType=DECIMAL},
+      SET_ACCT = #{setAcct,jdbcType=VARCHAR},
+      SET_ACCT_NAME = #{setAcctName,jdbcType=VARCHAR},
+      AMT = #{amt,jdbcType=DECIMAL},
+      CURRENCY = #{currency,jdbcType=CHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CARD_BANK_NO = #{cardBankNo,jdbcType=VARCHAR},
+      CARD_ACCT = #{cardAcct,jdbcType=VARCHAR},
+      CARD_NAME = #{cardName,jdbcType=VARCHAR},
+      OUT_IN_FLAG = #{outInFlag,jdbcType=DECIMAL},
+      SENDER_TYPE = #{senderType,jdbcType=DECIMAL},
+      DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      IS_SEND_LINK = #{isSendLink,jdbcType=DECIMAL},
+      IS_APPLY = #{isApply,jdbcType=DECIMAL},
+      APPLY_ID = #{applyId,jdbcType=DECIMAL},
+      CARD_STATUS_UPDATE = #{cardStatusUpdate,jdbcType=DECIMAL},
+      CARD_STATUS = #{cardStatus,jdbcType=DECIMAL},
+      RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL},
+      SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      SYS_TIME = #{sysTime,jdbcType=TIMESTAMP}
+    where AMT_REC_ID = #{amtRecId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <select id="selectByBean" resultMap="BaseResultMap" parameterType="com.model.AmtRec">
+		select
+		<include refid="Base_Column_List" />
+		from AMT_REC T WHERE 1 = 1
+      <if test="accountId != null" >
+        AND ACCOUNT_ID = #{accountId,jdbcType=DECIMAL}
+      </if>
+      <if test="checkDate != null" >
+        AND CHECK_DATE = #{checkDate,jdbcType=CHAR}
+      </if>
+      <if test="exchNo != null" >
+        AND EXCH_NO = #{exchNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeAcct != null" >
+        AND TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR}
+      </if>
+      <if test="tranNo != null" >
+        AND TRAN_NO = #{tranNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tranDate != null" >
+        AND TRAN_DATE = #{tranDate,jdbcType=CHAR}
+      </if>
+      <if test="bankSeq != null" >
+        AND BANK_SEQ = #{bankSeq,jdbcType=VARCHAR}
+      </if>
+      <if test="centerSeq != null" >
+        AND CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR}
+      </if>
+      <if test="acct != null" >
+        AND ACCT = #{acct,jdbcType=VARCHAR}
+      </if>
+      <if test="acctName != null" >
+        AND ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+      </if>
+      <if test="acctType != null" >
+        AND ACCT_TYPE = #{acctType,jdbcType=DECIMAL}
+      </if>
+      <if test="setAcct != null" >
+        AND SET_ACCT = #{setAcct,jdbcType=VARCHAR}
+      </if>
+      <if test="setAcctName != null" >
+        AND SET_ACCT_NAME = #{setAcctName,jdbcType=VARCHAR}
+      </if>
+      <if test="amt != null" >
+        AND AMT = #{amt,jdbcType=DECIMAL}
+      </if>
+      <if test="currency != null" >
+        AND CURRENCY = #{currency,jdbcType=CHAR}
+      </if>
+      <if test="remark != null" >
+        AND REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="cardBankNo != null" >
+        AND CARD_BANK_NO = #{cardBankNo,jdbcType=VARCHAR}
+      </if>
+      <if test="cardAcct != null" >
+        AND CARD_ACCT = #{cardAcct,jdbcType=VARCHAR}
+      </if>
+      <if test="cardName != null" >
+        AND CARD_NAME = #{cardName,jdbcType=VARCHAR}
+      </if>
+      <if test="outInFlag != null" >
+        AND OUT_IN_FLAG = #{outInFlag,jdbcType=DECIMAL}
+      </if>
+      <if test="senderType != null" >
+        AND SENDER_TYPE = #{senderType,jdbcType=DECIMAL}
+      </if>
+      <if test="dealStatus != null" >
+        AND DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL}
+      </if>
+      <if test="dealDesc != null" >
+        AND DEAL_DESC = #{dealDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="isSendLink != null" >
+        AND IS_SEND_LINK = #{isSendLink,jdbcType=DECIMAL}
+      </if>
+      <if test="isApply != null" >
+        AND IS_APPLY = #{isApply,jdbcType=DECIMAL}
+      </if>
+      <if test="applyId != null" >
+        AND APPLY_ID = #{applyId,jdbcType=DECIMAL}
+      </if>
+      <if test="cardStatus != null" >
+        AND CARD_STATUS = #{cardStatus,jdbcType=DECIMAL}
+      </if>
+      <if test="recvMsgId != null" >
+        AND RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL}
+      </if>
+      <if test="sendMsgId != null" >
+        AND SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL}
+      </if>
+      <if test="sysTime != null" >
+        AND SYS_TIME = #{sysTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="clearCheckDate != null" >
+        AND CLEAR_CHECK_DATE = #{clearCheckDate,jdbcType=CHAR}
+      </if>
+	</select>
+</mapper>

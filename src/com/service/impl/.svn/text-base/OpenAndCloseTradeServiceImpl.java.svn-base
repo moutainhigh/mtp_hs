@@ -1,0 +1,73 @@
+package com.service.impl;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ccps.exchgate.api.t2.service.client.ExchCallClearT2Service;
+import com.common.util.DateHelp;
+import com.dao.ExchMapper;
+import com.model.Exch;
+import com.service.OpenAndCloseTradeService;
+
+import net.sf.json.JSONObject;
+
+/**
+ *  
+ * ClassName: OpenAndCloseTradeServiceImpl.java
+ * date: 2016年12月17日下午3:17:59
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class OpenAndCloseTradeServiceImpl implements OpenAndCloseTradeService {
+	private static final Logger LOGGER = Logger.getLogger(OpenAndCloseTradeServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: OpenAndCloseTradeServiceImpl.java
+	 * date: 2016年12月17日下午3:17:59
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private ExchMapper exchMapper;
+	@Autowired
+	private ExchCallClearT2Service exchCallClearT2Service;
+	@Override
+	public void dealTrade(int exchangeFlag) throws Exception {
+		try{
+//			业务日期(YYYYMMDD)	initDate
+//			交易所代码	exchangeId
+//			交易所子市场编码	exchangeMarketType
+//			交易市场业务类型	bizType
+//			开闭市标志（0闭市 1开市,参见数据字典2）	exchangeFlag
+//			下一工作日	nextWorkday
+//			操作时间(yyyyMMddHHmmss)	busiDatetime
+			Exch exch = exchMapper.selectByStatus(0).get(0);
+			JSONObject json = new JSONObject();
+			json.put("initDate", DateHelp.getCurrentDateOfString());
+			json.put("exchangeId", exch.getExchNo());
+			json.put("bizType", "");
+			json.put("exchangeFlag", exchangeFlag);
+			json.put("nextWorkday", "");
+			json.put("busiDatetime", DateHelp.getCurrentDateOfString());
+
+			String result = exchCallClearT2Service.dealMSG399000(json.toString());
+			
+			JSONObject jsonObj = JSONObject.fromObject(result);
+			int errorNo = jsonObj.getInt("errorNo");
+			String errorInfo = jsonObj.getString("errorInfo");
+			
+			if(errorNo==0)
+				LOGGER.info("*开闭市通知成功*");
+			else if(errorNo==99)
+				LOGGER.info("*请求正在审核*");
+			else
+				LOGGER.info("*开闭市通知失败*"+errorInfo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+}

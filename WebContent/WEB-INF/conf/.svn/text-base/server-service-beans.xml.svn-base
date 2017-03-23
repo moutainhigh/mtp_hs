@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+		<context:annotation-config />
+		<context:component-scan base-package="com.*"/>
+		<aop:aspectj-autoproxy proxy-target-class="true" />
+		
+		<bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/conf/jdbc.properties</value>
+				<value>classpath:rabbitmq.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- 通过spring 加载读取配置文件的类以及相应的配置文件 实现整个过程只读取一次配置文件 -->
+	<bean id="utilsProperty" class="com.core.util.PropertiesUtil" scope="singleton">
+		<constructor-arg name="location">
+			<list>
+				<value>/ftp.properties</value>
+				<value>/rabbitmq.properties</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	
+	<bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+       <property name="configLocation" value="classpath:ehcache.xml"/>
+    </bean>
+	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+       <property name="cacheManager" ref="cacheManagerFactory" />
+    </bean>
+
+	<import resource="classpath:spring-mybatis.xml" />
+	<import resource="classpath:rabbitmq-center.xml" />
+	<bean id="simpleMessageConverter" class="org.springframework.amqp.support.converter.SimpleMessageConverter" />
+
+
+
+	<!-- 开市定时任务配置 -->
+	<bean id="openTradeSchedulerJob" class="com.service.impl.OpenAndCloseTradeSchedulerJob">
+		<property name="taskList">
+			<list>
+				<bean id="openTradeRetTask"
+					class="com.service.impl.OpenAndCloseTradeServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="openTradeJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="openTradeSchedulerJob" />
+		<property name="targetMethod" value="executeOpen" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="openTradeCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="openTradeJob" />
+		<!--开市定时任务配置	       工作日特定时间执行一次 -->
+		<property name="cronExpression" value="0 30 8 * * ?" />
+	</bean>
+	
+	
+	
+	<!-- 闭市定时任务配置 -->
+	<bean id="closeTradeSchedulerJob" class="com.service.impl.OpenAndCloseTradeSchedulerJob">
+		<property name="taskList">
+			<list>
+				<bean id="closeTradeRetTask"
+					class="com.service.impl.OpenAndCloseTradeServiceImpl" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="closeTradeJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="closeTradeSchedulerJob" />
+		<property name="targetMethod" value="executeClose" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="closeTradeCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="closeTradeJob" />
+		<!--闭市定时任务配置	       工作日特定时间执行一次 -->
+		<property name="cronExpression" value="0 30 18 * * ?" />
+	</bean>
+	
+	<!-- 定时任务开关 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- <ref bean="openTradeCronTrigger" /> -->
+				<!-- <ref bean="closeTradeCronTrigger" /> -->
+			</list>
+		</property>
+	</bean>
+</beans>

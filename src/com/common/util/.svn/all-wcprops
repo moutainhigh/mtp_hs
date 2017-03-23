@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util
+END
+TASProtoHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/TASProtoHelper.java
+END
+AssignmentUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/AssignmentUtil.java
+END
+CheckPropertyUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/CheckPropertyUtil.java
+END
+DateHelp.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/DateHelp.java
+END
+CenterToExchUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tas/!svn/ver/59858/mtp_java/mtp_hs/src/com/common/util/CenterToExchUtil.java
+END
+IDGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/IDGenerator.java
+END
+PorpertyCopyUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/PorpertyCopyUtil.java
+END
+RecvMsgUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/RecvMsgUtils.java
+END
+BeansUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/BeansUtil.java
+END
+StringUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/StringUtil.java
+END
+ConvertHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/common/util/ConvertHelper.java
+END

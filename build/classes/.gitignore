@@ -1,0 +1,14 @@
+/.svn/
+/Doc/
+/ares-app-config.xml
+/client_license.dat
+/com/
+/config.properties
+/ehcache.xml
+/ftp.properties
+/mapper/
+/mybatis-config.xml
+/rabbitmq-center.xml
+/rabbitmq.properties
+/servicetest/
+/spring-mybatis.xml

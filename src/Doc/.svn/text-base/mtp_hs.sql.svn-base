@@ -1,0 +1,1196 @@
+﻿/*==============================================================*/
+/* DBMS name:      ORACLE Version 11g                           */
+/* Created on:     2016-12-20 16:21:31                          */
+/*==============================================================*/
+drop table account cascade constraints;
+
+drop table amt_rec cascade constraints;
+
+drop table bank cascade constraints;
+
+drop table bank_check cascade constraints;
+
+drop table center_file_rec cascade constraints;
+
+drop table clear_data cascade constraints;
+
+drop table clear_price cascade constraints;
+
+drop table clear_result cascade constraints;
+
+drop table client cascade constraints;
+
+drop table client_rec cascade constraints;
+
+drop table deal_info cascade constraints;
+
+drop table deliver cascade constraints;
+
+drop table entrust cascade constraints;
+
+drop table exch cascade constraints;
+
+drop table member_fee cascade constraints;
+
+drop table member_fund cascade constraints;
+
+drop table member_position cascade constraints;
+
+drop table quotation cascade constraints;
+
+drop table recv_msg cascade constraints;
+
+drop table register_rec cascade constraints;
+
+drop table send_msg cascade constraints;
+
+drop table sign_rec cascade constraints;
+
+drop table tran cascade constraints;
+
+
+
+drop sequence seq_account_id;
+
+drop sequence seq_amt_rec_id;
+
+drop sequence seq_bank_check_id;
+
+drop sequence seq_center_file_rec_id;
+
+drop sequence seq_clear_data_id;
+
+drop sequence seq_clear_price_id;
+
+drop sequence seq_clear_result_id;
+
+drop sequence seq_client_id;
+
+drop sequence seq_client_rec_id;
+
+drop sequence seq_deal_info_id;
+
+drop sequence seq_deliver_id;
+
+drop sequence seq_entrust_id;
+
+drop sequence seq_member_fee_id;
+
+drop sequence seq_member_fund_id;
+
+drop sequence seq_member_position_id;
+
+drop sequence seq_quotation_id;
+
+drop sequence seq_generator_id;
+
+drop sequence seq_recv_msg_id;
+
+drop sequence seq_register_rec_id;
+
+drop sequence seq_send_msg_id;
+
+drop sequence seq_sign_rec_id;
+
+
+
+create sequence seq_account_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_amt_rec_id
+increment by 1
+start with 1
+ maxvalue 990000000000
+ minvalue 1
+cycle;
+
+create sequence seq_bank_check_id
+increment by 1
+start with 1
+ maxvalue 990000000000
+ minvalue 1
+cycle;
+
+create sequence seq_center_file_rec_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+
+create sequence seq_clear_data_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_clear_price_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_clear_result_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_client_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_client_rec_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_deal_info_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_deliver_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_entrust_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_member_fee_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_member_fund_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_member_position_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_quotation_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_generator_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+
+create sequence seq_recv_msg_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_register_rec_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+create sequence seq_send_msg_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+
+create sequence seq_sign_rec_id
+increment by 1
+start with 1
+ maxvalue 999999999999
+ minvalue 1
+cycle;
+
+
+
+/*==============================================================*/
+/* Table: account                                               */
+/*==============================================================*/
+create table account 
+(
+   account_id           NUMBER(12)           not null,
+   client_id            NUMBER(12),
+   tran_no              VARCHAR2(14),
+   exch_no              VARCHAR2(12),
+   trade_acct           VARCHAR2(50)         not null,
+   acct                 VARCHAR2(50),
+   acct_name            VARCHAR2(300),
+   amt                  NUMBER(16,2),
+   currency             VARCHAR2(3),
+   acct_type            NUMBER(3)            default 0,
+   cert_type            VARCHAR2(3),
+   cert_code            VARCHAR2(50),
+   client_name          VARCHAR2(300),
+   mobile               VARCHAR2(50),
+   email                VARCHAR2(100),
+   extend_info          VARCHAR2(3000),
+   sign_time            DATE,
+   sign_off_time        DATE,
+   tran_sender          NUMBER(5)            default 1,
+   sign_status          NUMBER(5)            default 0,
+   card_status          NUMBER(5)            default 0,
+   constraint PK_ACCOUNT primary key (account_id)
+);
+
+comment on column account.acct_type is
+'[NON:0-未填; PRIVATE:1-对私; PUBLIC:2-对公]';
+
+comment on column account.extend_info is
+'JSON串';
+
+comment on column account.tran_sender is
+'[CENTER:0-中心; EXCH:1-交易所; BANK:2-银行]';
+
+comment on column account.sign_status is
+'[NO_SIGN:0-未签约;SIGN:1-已签约;SIGN_OFF:2-已解约]';
+
+comment on column account.card_status is
+'[NO_BIND:0-未绑定;BIND:1-已绑定;BIND_OFF:2-已解绑]';
+
+
+/*==============================================================*/
+/* Table: amt_rec                                               */
+/*==============================================================*/
+create table amt_rec 
+(
+   amt_rec_id           NUMBER(12)           not null,
+   account_id           NUMBER(12)           not null,
+   check_date           CHAR(8),
+   clear_check_date     CHAR(8),
+   exch_no              VARCHAR2(12)         not null,
+   trade_acct           VARCHAR2(50)         not null,
+   tran_no              VARCHAR2(14),
+   tran_date            CHAR(8),
+   bank_seq         VARCHAR2(50),
+   center_seq           VARCHAR2(50),
+   acct                 VARCHAR2(50),
+   acct_name            VARCHAR2(300),
+   acct_type            NUMBER(5)            default 1,
+   set_acct             VARCHAR2(50),
+   set_acct_name        VARCHAR2(300),
+   amt                  NUMBER(16,2),
+   currency             CHAR(3),
+   remark               VARCHAR2(50),
+   card_bank_no         VARCHAR2(12),
+   card_acct            VARCHAR2(50),
+   card_name            VARCHAR2(300),
+   out_in_flag          NUMBER(5)            default 0,
+   sender_type          NUMBER(5)            default 1,
+   deal_status          NUMBER(5)            default 2,
+   deal_desc            VARCHAR2(1000),
+   is_send_link         NUMBER(5)            default 0,
+   is_apply             NUMBER(5)            default 0,
+   apply_id             NUMBER(12),
+   card_status_update   NUMBER(5),
+   card_status          NUMBER(5)            default 0,
+   recv_msg_id          NUMBER(12),
+   send_msg_id          NUMBER(12),
+   sys_time             DATE                 default sysdate,
+   constraint PK_AMT_REC primary key (amt_rec_id)
+);
+
+comment on column amt_rec.acct_type is
+'[PRIVATE:1-对私; PUBLIC:2-对私]';
+
+comment on column amt_rec.out_in_flag is
+'[OUT:0-出金; IN:1-入金]';
+
+comment on column amt_rec.sender_type is
+'[CENTER:0-中心; EXCH:1-交易所; BANK:2-银行]';
+
+comment on column amt_rec.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败; SEND:2-已发送; SEND_CHECK:3-已发送检查; SEND_DEAL:4-已发送处理; SEND_FROZEN:4-已发送冻结; UNKNOW:9-未明确]';
+
+comment on column amt_rec.is_send_link is
+'[NO:0-否; YES:1-是] 用户返回链接地址的银行处理';
+
+comment on column amt_rec.is_apply is
+'[NO:0-否; YES:1-是] 是否有出入金申请';
+
+comment on column amt_rec.card_status_update is
+'[NO:0-否; YES:1-是] ';
+
+comment on column amt_rec.card_status is
+'[NO_BIND:0-未绑定;BIND:1-已绑定]';
+
+
+/*==============================================================*/
+/* Table: bank                                                  */
+/*==============================================================*/
+create table bank 
+(
+   bank_no              VARCHAR2(12)         not null,
+   bank_pro_code        VARCHAR2(50),
+   bank_name            VARCHAR2(50),
+   status               NUMBER(5)            default 0,
+   constraint PK_BANK primary key (bank_no)
+);
+
+comment on column bank.status is
+'[OK:0-正常; CANCEL:1-注销]';
+
+
+/*==============================================================*/
+/* Table: bank_check                                                 */
+/*==============================================================*/
+create table bank_check
+(
+	bank_check_id		NUMBER(12)			 not null,
+	serial_no			VARCHAR2(20)         not null,
+	trade_serial_no		VARCHAR2(20),        
+	init_date			VARCHAR2(12),
+	exchange_id			VARCHAR2(12),
+	mem_code			VARCHAR2(12),
+	fund_account		VARCHAR2(12),
+	inout_way			VARCHAR2(2),
+	inout_type			VARCHAR2(2),
+	inout_source		VARCHAR2(2),
+	occur_amount		VARCHAR2(12),
+	money_type			VARCHAR2(5),
+	bank_no				VARCHAR2(12),
+	bank_pro_code		VARCHAR2(12),
+	bank_account		VARCHAR2(12),
+	deal_status			VARCHAR2(10),
+	remark				VARCHAR2(200),
+	constraint PK_BANK_CHECK primary key (bank_check_id)
+);
+
+
+/*==============================================================*/
+/* Table: center_file_rec                                       */
+/*==============================================================*/
+create table center_file_rec 
+(
+   center_file_rec_id   NUMBER(12)           not null,
+   tran_date            CHAR(8),
+   center_seq           VARCHAR2(50),
+   recv_send_type       NUMBER(5)            not null,
+   file_type            CHAR(4)              not null,
+   file_path            VARCHAR2(100),
+   file_name            VARCHAR2(100)        not null,
+   is_resend            NUMBER(5)            default 0,
+   md5_str              VARCHAR2(200),
+   deal_status          NUMBER(5)            default 0,
+   deal_desc            VARCHAR2(1000),
+   recv_msg_id          NUMBER(12),
+   send_msg_id          NUMBER(12),
+   sys_time             DATE                 default sysdate,
+   constraint PK_CENTER_FILE_REC primary key (center_file_rec_id)
+);
+
+comment on column center_file_rec.recv_send_type is
+'[RECV:1-接收; SEND:2-发送]';
+
+comment on column center_file_rec.file_type is
+'BF01-对账文件; BF02-清算文件; BF04-清算结果返回文件';
+
+comment on column center_file_rec.is_resend is
+'[ON:0-否; YES:1-是]';
+
+comment on column center_file_rec.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败]';
+
+
+
+/*==============================================================*/
+/* Table: clear_data                                            */
+/*==============================================================*/
+create table clear_data 
+(
+   clear_data_id        NUMBER(12)           not null,
+   exch_no              VARCHAR2(12)         not null,
+   tran_date            CHAR(8),
+   amt_clear_date       CHAR(8),
+   trade_acct           VARCHAR2(50),
+   tran_no              VARCHAR2(14),
+   start_amt            NUMBER(16,2),
+   end_amt              NUMBER(16,2),
+   occur_amt            NUMBER(16,2),
+   out_in_amt           NUMBER(16,2),
+   out_amt              NUMBER(16,2),
+   in_amt               NUMBER(16,2),
+   get_pay_amt          NUMBER(16,2),
+   get_amt              NUMBER(16,2),
+   pay_amt              NUMBER(16,2),
+   clear_amt            NUMBER(16,2),
+   profit_loss          NUMBER(16,2),
+   exch_get_fee         NUMBER(16,2),
+   heap_clear_amt       NUMBER(16,2),
+   heap_profit_loss     NUMBER(16,2),
+   heap_exch_get_fee    NUMBER(16,2),
+   true_clear_amt       NUMBER(16,2),
+   true_profit_loss     NUMBER(16,2),
+   true_exch_get_fee    NUMBER(16,2),
+   bank_start_amt       NUMBER(16,2),
+   bank_end_amt         NUMBER(16,2),
+   blast_amt            NUMBER(16,2),
+   blast_sub_amt        NUMBER(16,2),
+   blast_flag           NUMBER(5)            default 0,
+   heap_from            NUMBER(5)            default 1,
+   heap_start_date      CHAR(8),
+   heap_flag            NUMBER(5)            default 0,
+   deal_status          NUMBER(5)            default 2,
+   deal_desc            VARCHAR2(1000),
+   bank_ret_flag        NUMBER(5),
+   bank_ret_amt         NUMBER(16,2),
+   bank_deal_desc       VARCHAR2(1000),
+   trans_fee            NUMBER(16,2),
+   store_fee            NUMBER(16,2),
+   defer_fee            NUMBER(16,2),
+   delivery_amt         NUMBER(16,2),
+   com_mem_get_fee      NUMBER(16,2),
+   spec_mem_get_fee     NUMBER(16,2),
+   estate_mem_get_fee   NUMBER(16,2),
+   broker_mem_get_fee   NUMBER(16,2),
+   oper_center_get_fee  NUMBER(16,2),
+   spec_oper_center_get_fee NUMBER(16,2),
+   close_pl             NUMBER(16,2),
+   balance_pl           NUMBER(16,2),
+   constraint PK_CLEAR_DATA primary key (clear_data_id)
+);
+
+comment on column clear_data.tran_date is
+'清算文件的业务日期';
+
+comment on column clear_data.amt_clear_date is
+'资金清算成功的日期，在银行返回成功时填写';
+
+comment on column clear_data.start_amt is
+'期初余额=上日余额';
+
+comment on column clear_data.end_amt is
+'当前余额=期初+发生金额';
+
+comment on column clear_data.occur_amt is
+'发生金额=出入金+收付款+清算金额';
+
+comment on column clear_data.out_in_amt is
+'出入金=出入金记录汇总';
+
+comment on column clear_data.get_pay_amt is
+'收付款=付款记录汇总';
+
+comment on column clear_data.clear_amt is
+'清算金额=盈亏+ 给交易所收益';
+
+comment on column clear_data.profit_loss is
+'盈亏的总和 为0   盈亏包括浮动盈亏和费用等，但不包括交易所收益';
+
+comment on column clear_data.exch_get_fee is
+'给交易所收益';
+
+comment on column clear_data.heap_clear_amt is
+'累计清算金额=最后一次失败的实际清算金额
+累计清算金额=累计盈亏+累计交易所收益
+
+当累计来源为未签约时，为首次签约时的结算资金账户金额';
+
+comment on column clear_data.heap_profit_loss is
+'累计盈亏=最后一次失败的实际盈亏
+';
+
+comment on column clear_data.heap_exch_get_fee is
+'累计交易所收益=最后一次失败的实际交易所收益';
+
+comment on column clear_data.true_clear_amt is
+'实际清算金额=清算金额 + 累计清算金额
+实际清算金额=实际盈亏+实际交易所收益
+
+穿仓时期  
+实际清算金额=清算金额 + 累计清算金额+穿仓垫付资金
+
+';
+
+comment on column clear_data.true_profit_loss is
+'实际盈亏=盈亏+累计盈亏
+穿仓时期
+实际盈亏=盈亏+累计盈亏+穿仓垫付资金';
+
+comment on column clear_data.true_exch_get_fee is
+'实际交易所收益=交易所收益+累计交易所收益';
+
+comment on column clear_data.bank_start_amt is
+'银行期初金额=银行期末金额-实际清算金额
+';
+
+comment on column clear_data.bank_end_amt is
+'银行期末余额=期末余额（当前余额）
+穿仓时期 开始穿仓和继续穿仓，银行期末金额=0；结束穿仓，银行期末金额=期末余额
+';
+
+comment on column clear_data.blast_amt is
+'穿仓时期 开始穿仓和继续穿仓时 为期末余额；结束穿仓时为0';
+
+comment on column clear_data.blast_sub_amt is
+'穿仓时期 开始穿仓时为期末金额的绝对值；继续穿仓时为期末-期初；结束穿仓时为期初值';
+
+comment on column clear_data.blast_flag is
+'[NON:0-没有; START_BLAST:1-开始穿仓; STILL_BLAST:2-继续穿仓;END_BLAST:3-结束穿仓]
+
+如果期初和期末存在负数，表示穿仓期。
+期初为正，期末为负，表示开始穿仓。
+期初为负，期末为负，表示继续穿仓。
+期初为负，期末为正，表示结束穿仓。
+';
+
+comment on column clear_data.heap_from is
+'[NON:0-未累计;CLEAR_FAIL:1-清算失败; UNSIGN:2-未签约]';
+
+comment on column clear_data.heap_flag is
+'[NO:0-否; YES:1-是] 当累计处理成功时置为是';
+
+comment on column clear_data.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败; SEND:2-已发送;VALID:22-已校验; VALIDFAIL:23-校验失败; BANKFAIL:24-银行返回清算失败]';
+
+comment on column clear_data.bank_ret_flag is
+'[NO:0-未在银行返回数据中; YES:1-在返回数据中] ';
+
+
+
+/*==============================================================*/
+/* Table: clear_data                                            */
+/*==============================================================*/
+create table clear_price
+(
+	clear_price_id 			NUMBER(12)           not null,
+	init_date				VARCHAR2(8),
+	exchange_id				VARCHAR2(12),
+	exchange_market_type	VARCHAR2(12),
+	product_category_id		VARCHAR2(12),
+	product_code			VARCHAR2(12),
+	money_type				VARCHAR2(12),
+	settle_price			VARCHAR2(12),
+	constraint PK_CLEAR_PRICE primary key (clear_price_id)
+);
+
+
+/*==============================================================*/
+/* Table: clear_result                                            */
+/*==============================================================*/
+create table clear_result
+(
+	clear_result_id 	NUMBER(12)           not null,	
+	init_date			VARCHAR2(8),
+	exchange_id			VARCHAR2(12),
+	fund_account		VARCHAR2(12),
+	bank_no				VARCHAR2(12),
+	bank_pro_code		VARCHAR2(12),
+	money_type			VARCHAR2(12),
+	cust_name			VARCHAR2(12),
+	error_reason		VARCHAR2(12),
+	account_balance		VARCHAR2(12),
+	constraint PK_CLEAR_RESULT primary key (clear_result_id) 
+);
+
+
+/*==============================================================*/
+/* Table: client                                                */
+/*==============================================================*/
+create table client 
+(
+   client_id            NUMBER(12)           not null,
+   exch_no              VARCHAR2(12),
+   trade_acct           VARCHAR2(50)         not null,
+   client_name          VARCHAR2(300)        not null,
+   client_short_name    VARCHAR2(300),
+   client_type          NUMBER(5)            default 0 not null,
+   client_acct_type     NUMBER(5),
+   cert_type            VARCHAR2(3),
+   cert_code            VARCHAR2(50),
+   sex                  NUMBER(5)            default 0,
+   legal_person         VARCHAR2(300),
+   org_code             VARCHAR2(50),
+   nationality          CHAR(3),
+   address              VARCHAR2(600),
+   contact_name         VARCHAR2(300),
+   contact_phone        VARCHAR2(50),
+   contact_fax          VARCHAR2(50),
+   contact_email        VARCHAR2(100),
+   related_acct_str     VARCHAR2(200),
+   client_status        NUMBER(5)            default 0,
+   member_code          VARCHAR2(30),
+   area_code            VARCHAR2(30),
+   currency             VARCHAR2(10),
+   constraint PK_CLIENT primary key (client_id)
+);
+
+comment on column client.client_type is
+'[NON:0-未填; PERSON:1-个人; ORG:2-机构]';
+
+comment on column client.sex is
+'[NON:0-未填; MAN:1-男; WOMEN:2-女]';
+
+comment on column client.legal_person is
+'机构必填';
+
+comment on column client.org_code is
+'机构必填';
+
+comment on column client.client_status is
+'[OK:0-正常; CANCEL:1-注销]';
+
+comment on column client.member_code is
+'交易系统里的所属会员代码';
+
+comment on column client.area_code is
+'交易系统里的所属机构代码';
+
+
+/*==============================================================*/
+/* Table: client_rec                                            */
+/*==============================================================*/
+create table client_rec 
+(
+   client_rec_id        NUMBER(12)           not null,
+   sign_rec_id          NUMBER(12),
+   exch_no              VARCHAR2(12)         not null,
+   trade_acct           VARCHAR2(50)         not null,
+   tran_no              VARCHAR2(14),
+   tran_date            CHAR(8),
+   exch_sys_seq         VARCHAR2(50),
+   center_seq           VARCHAR2(50),
+   client_name          VARCHAR2(300)        not null,
+   client_short_name    VARCHAR2(300),
+   client_type          NUMBER(5)            default 0,
+   cert_type            VARCHAR2(3),
+   cert_code            VARCHAR2(50),
+   sex                  NUMBER(5)            default 0,
+   legal_person         VARCHAR2(300),
+   org_code             VARCHAR2(50),
+   nationality          CHAR(3),
+   address              VARCHAR2(600),
+   contact_name         VARCHAR2(300),
+   contact_phone        VARCHAR2(50),
+   contact_fax          VARCHAR2(50),
+   contact_email        VARCHAR2(100),
+   related_acct_str     VARCHAR2(200),
+   change_type          NUMBER(5)            default 1,
+   deal_status          NUMBER(5)            default 2,
+   deal_desc            VARCHAR2(1000),
+   is_send_link         NUMBER(5)            default 0,
+   recv_msg_id          NUMBER(12),
+   sys_time             DATE                 default sysdate,
+   constraint PK_CLIENT_REC primary key (client_rec_id)
+);
+
+comment on column client_rec.client_type is
+'[NON:0-未填; PERSON:1-个人; ORG:2-机构]';
+
+comment on column client_rec.sex is
+'[NON:0-未填; MAN:1-男; WOMEN:2-女]';
+
+comment on column client_rec.legal_person is
+'机构必填';
+
+comment on column client_rec.org_code is
+'机构必填';
+
+comment on column client_rec.change_type is
+'[ADD:1-增加;  ALTER:2-修改; CANCEL:3-注销]';
+
+comment on column client_rec.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败; SEND:2-已发送; UNKNOW:9-未明确]';
+
+comment on column client_rec.is_send_link is
+'[NO:0-否; YES:1-是] 用户返回链接地址的银行处理';
+
+
+/*==============================================================*/
+/* Table: deal_info                                             */
+/*==============================================================*/
+create table deal_info
+(
+		deal_info_id			NUMBER(12)           not null,
+		init_date				VARCHAR2(8),
+		exchange_id				VARCHAR2(20),
+		exchange_market_type	VARCHAR2(20),
+		biz_type				VARCHAR2(20),
+		deal_id					VARCHAR2(20),
+		open_mem_code			VARCHAR2(20),
+		open_fund_account		VARCHAR2(20),
+		open_trade_account		VARCHAR2(20),
+		opp_mem_code			VARCHAR2(20),
+		opp_fund_account		VARCHAR2(20),
+		opp_trade_account		VARCHAR2(20),
+		product_category_id		VARCHAR2(20),
+		product_code			VARCHAR2(20),
+		trade_dir				VARCHAR2(20),
+		deal_type				VARCHAR2(20),
+		opp_deal_type			VARCHAR2(20),
+		trade_type				VARCHAR2(20),
+		deal_price				VARCHAR2(20),
+		hold_price				VARCHAR2(20),
+		deal_quantity			VARCHAR2(20),
+		deal_total_price		VARCHAR2(20),
+		deposit_rate			VARCHAR2(20),
+		deposit_ratio_type		VARCHAR2(20),
+		deposit_type			VARCHAR2(20),
+		deposit_balance			VARCHAR2(20),
+		receipt_quantity		VARCHAR2(20),
+		open_poundage			VARCHAR2(20),
+		opp_poundage			VARCHAR2(20),
+		deal_time				VARCHAR2(20),
+		depot_order_no			VARCHAR2(20),
+		opp_depot_order_no		VARCHAR2(20),
+		order_id				VARCHAR2(20),
+		opp_order_id			VARCHAR2(20),
+		settlement_date			VARCHAR2(20),
+		constraint PK_DEAL_INFO primary key (deal_info_id)
+);
+
+
+/*==============================================================*/
+/* Table: deliver                                             */
+/*==============================================================*/
+create table deliver
+(
+	deliver_id 						NUMBER(12)		not null,
+	init_date						VARCHAR2(8),
+	exchange_id						VARCHAR2(20),
+	mem_code						VARCHAR2(20),
+	product_category_id				VARCHAR2(20),
+	product_category_name			VARCHAR2(20),
+	product_code					VARCHAR2(20),
+	product_name					VARCHAR2(20),
+	deliver_order_no				VARCHAR2(20),
+	depot_order_no					VARCHAR2(20),
+	deliver_apply_time				VARCHAR2(20),
+	deliver_effect_time				VARCHAR2(20),
+	deliver_addr					VARCHAR2(20),
+	deliver_depot					VARCHAR2(20),
+	deliver_type					VARCHAR2(20),
+	deliver_direction				VARCHAR2(20),
+	deliver_price					VARCHAR2(20),
+	deliver_quantity				VARCHAR2(20),
+	deliver_payment					VARCHAR2(20),
+	deliver_fees					VARCHAR2(20),
+	hold_price						VARCHAR2(20),
+	busi_datetime					VARCHAR2(20),
+	constraint PK_DELIVER primary key(deliver_id)
+);
+
+
+/*==============================================================*/
+/* Table: entrust                                               */
+/*==============================================================*/
+create table entrust
+(
+	entrust_id                  	NUMBER(12)			not null,
+	init_date						VARCHAR2(8),
+	exchange_id						VARCHAR2(20),
+	entrust_no						VARCHAR2(20),
+	product_category_id				VARCHAR2(20),
+	product_code					VARCHAR2(20),
+	mem_code						VARCHAR2(20),
+	trade_dir						VARCHAR2(20),
+	order_type						VARCHAR2(20),
+	order_way						VARCHAR2(20),
+	order_serial_no					VARCHAR2(20),
+	deposit_way						VARCHAR2(20),
+	order_price						VARCHAR2(20),
+	order_quantity					VARCHAR2(20),
+	left_quantity					VARCHAR2(20),
+	deposit_rate					VARCHAR2(20),
+	deposit_ratio_type				VARCHAR2(20),
+	deposit_type					VARCHAR2(20),
+	poundage_rate					VARCHAR2(20),
+	poundage_ratio_type				VARCHAR2(20),
+	trade_poundage					VARCHAR2(20),
+	paper_balance					VARCHAR2(20),
+	order_frozen					VARCHAR2(20),
+	tax_rate						VARCHAR2(20),
+	valid_date						VARCHAR2(20),
+	trader							VARCHAR2(20),
+	order_time						VARCHAR2(20),
+	order_ip						VARCHAR2(20),
+	order_status					VARCHAR2(20),
+	remark							VARCHAR2(20),
+	busi_datetime					VARCHAR2(20),
+	constraint PK_ENTRUST primary key (entrust_id)
+);
+
+
+
+/*==============================================================*/
+/* Table: exch                                                  */
+/*==============================================================*/
+create table exch 
+(
+   exch_no              VARCHAR2(12)         not null,
+   exch_name            VARCHAR2(50),
+   que_code             VARCHAR2(50),
+   encrypt_key          VARCHAR2(2000),
+   plat_type            NUMBER(5),
+   tran_status          NUMBER(5),
+   status               NUMBER(5)            default 0,
+   check_file_style     NUMBER(5),
+   set_date             CHAR(8),
+   set_time             CHAR(8),
+   constraint PK_EXCH primary key (exch_no)
+);
+
+comment on column exch.encrypt_key is
+'用于资金密码的加密
+客户端启动的时候会通过密钥获取报文获取密钥，对资金密码进行加密
+系统每天在收到交易所清算文件的时候，重新生成密钥。交易所在清算的时候会强制用户下线，所以，用户下次登录的时候会获取到新密钥。
+密钥在数据库里保存的时候是用了一层加密的，这个加密是用了和客户端约定的加密密钥，存放在系统参数表中';
+
+comment on column exch.plat_type is
+'[EXCH_SYS:1-交易系统; SPOT_GOODS:2-现货电商]';
+
+comment on column exch.tran_status is
+'[OK:0-正常; STOP:1-暂停]';
+
+comment on column exch.status is
+'[OK:0-正常; CANCEL:1-注销]';
+
+comment on column exch.check_file_style is
+'[WHOLE:1-合并; SPLIT:2-分开]';
+
+comment on column exch.set_date is
+'yyyymmdd';
+
+comment on column exch.set_time is
+'hh:mi:ss';
+
+
+/*==============================================================*/
+/* Table: member_fee                                            */
+/*==============================================================*/
+create table member_fee
+(
+	member_fee_id				NUMBER(12)         not null,
+	init_date					VARCHAR2(8),
+	serial_no					VARCHAR2(20),
+	exchange_id					VARCHAR2(20),
+	exchange_market_type		VARCHAR2(20),
+	biz_type					VARCHAR2(20),
+	exchange_fees_type			VARCHAR2(20),
+	fees_balance				VARCHAR2(20),
+	payer_mem_code				VARCHAR2(20),
+	payer_fund_account			VARCHAR2(20),
+	payee_mem_code				VARCHAR2(20),
+	payee_fund_account			VARCHAR2(20),
+	related_bill_type			VARCHAR2(20),
+	related_bill_no				VARCHAR2(20),
+	remark						VARCHAR2(20),
+	busi_datetime				VARCHAR2(20),
+	constraint PK_MEMBER_FEE primary key (member_fee_id)
+);
+
+
+/*==============================================================*/
+/* Table: member_fund                                            */
+/*==============================================================*/
+create table member_fund
+(
+	member_fund_id			NUMBER(12)		not null,
+	init_date				VARCHAR2(8),		
+	exchange_id				VARCHAR2(20),
+	mem_code				VARCHAR2(20),
+	fund_account			VARCHAR2(20),
+	money_type				VARCHAR2(20),
+	occur_amount			VARCHAR2(20),
+	current_balance			VARCHAR2(20),
+	constraint PK_MEMBER_FUND　primary key(member_fund_id)
+);
+
+
+/*==============================================================*/
+/* Table: member_position                                       */
+/*==============================================================*/
+create table member_position
+(
+	member_position_id			NUMBER(12)			not null,
+	init_date					VARCHAR2(8),
+	exchange_id					VARCHAR2(20),
+	hold_id						VARCHAR2(20),
+	mem_code					VARCHAR2(20),
+	trade_account				VARCHAR2(20),
+	product_category_id			VARCHAR2(20),
+	product_code				VARCHAR2(20),
+	trade_dir					VARCHAR2(20),
+	deposit_way					VARCHAR2(20),
+	open_price					VARCHAR2(20),
+	hold_price					VARCHAR2(20),
+	deal_quantity				VARCHAR2(20),
+	left_quantity				VARCHAR2(20),
+	present_unit				VARCHAR2(20),
+	trade_poundage				VARCHAR2(20),
+	delay_fees					VARCHAR2(20),
+	perform_balance				VARCHAR2(20),
+	deposit_rate				VARCHAR2(20),
+	square_profit_loss			VARCHAR2(20),
+	settle_profit_loss			VARCHAR2(20),
+	settle_price				VARCHAR2(20),
+	deposit_ratio_type			VARCHAR2(20),
+	deposit_type				VARCHAR2(20),
+	today_hold_flag				VARCHAR2(20),
+	busi_datetime				VARCHAR2(20),
+	constraint PK_MEMBER_POSITION primary key(member_position_id)
+);
+
+
+/*==============================================================*/
+/* Table: quotation                                             */
+/*==============================================================*/
+create table quotation
+(
+	quotation_id				NUMBER(12)		not null,
+	init_date					VARCHAR2(8),
+	price_type					VARCHAR2(20),
+	exchange_id					VARCHAR2(20),
+	exchange_market_type		VARCHAR2(20),
+	product_category_id			VARCHAR2(20),
+	product_code				VARCHAR2(20),
+	money_type					VARCHAR2(20),
+	bit_num						VARCHAR2(20),
+	open_quotation_price		VARCHAR2(20),
+	preclose_price				VARCHAR2(20),
+	ask_price					VARCHAR2(20),
+	bid_price					VARCHAR2(20),
+	last_price					VARCHAR2(20),
+	high_price					VARCHAR2(20),
+	low_price					VARCHAR2(20),
+	timestampH					VARCHAR2(20),
+	constraint PK_QUOTATION primary key (quotation_id)
+);
+
+
+/*==============================================================*/
+/* Table: recv_msg                                              */
+/*==============================================================*/
+create table recv_msg 
+(
+   recv_msg_id          NUMBER(12)           not null,
+   send_msg_id          NUMBER(12),
+   msg_code             VARCHAR2(10)         not null,
+   sender_type          NUMBER(5)            not null,
+   sender               VARCHAR2(20)         not null,
+   sender_date          CHAR(8)              not null,
+   sender_seq           VARCHAR2(50),
+   recv_msg             VARCHAR2(3000),
+   ret_code             NUMBER(5),
+   ret_desc             VARCHAR2(1000),
+   sys_time             DATE                 default sysdate,
+   constraint PK_RECV_MSG primary key (recv_msg_id)
+);
+
+comment on column recv_msg.sender_type is
+'[CENTER:0-中心; EXCH:1-交易所; BANK:2-银行; CLIENT:11-客户端; FUND:12-资金服务; MANAGER:13-管理端;JOB:14-定时服务; BANKSERVICE:15-银行服务; SETTLE:16-结算服务; TAS_MANAGER:20-TAS管理端]';
+
+comment on column recv_msg.sender is
+'交易所编号、银行业务编号';
+
+comment on column recv_msg.ret_code is
+'[0-处理成功 1-处理失败 2-系统错误]
+处理成功表示处理过程中未出现异常，业务处理是完整的，但不表示该笔交易成功。交易是否成功是由业务逻辑决定的。
+处理失败表示处理过程中出现了业务异常
+系统错误表示处理过程中出现了系统异常';
+
+
+/*==============================================================*/
+/* Table: register_rec                                          */
+/*==============================================================*/
+create table register_rec 
+(
+   register_rec_id      NUMBER(12)           not null,
+   tran_no              VARCHAR2(14)         not null,
+   tran_date            CHAR(8),
+   exch_sys_seq         VARCHAR2(50),
+   center_seq           VARCHAR2(50),
+   register_flag        NUMBER(5)            default 1,
+   is_force             NUMBER(5)            default 0,
+   deal_status          NUMBER(5)            default 2,
+   deal_desc            VARCHAR2(1000),
+   send_msg_id          NUMBER(12),
+   sys_time             DATE                 default sysdate,
+   constraint PK_REGISTER_REC primary key (register_rec_id)
+);
+
+comment on table register_rec is
+'通道模式下，不需要';
+
+comment on column register_rec.register_flag is
+'[ON:1-签到; OFF2-签退]';
+
+comment on column register_rec.is_force is
+'[NO:0-否; YES:1-是]';
+
+comment on column register_rec.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败; SEND:2-已发送; SEND_CHECK:3-已发送检查; UNKNOW:9-未明确]';
+
+
+/*==============================================================*/
+/* Table: send_msg                                              */
+/*==============================================================*/
+create table send_msg 
+(
+   send_msg_id          NUMBER(12)           not null,
+   recv_msg_id          NUMBER(12),
+   recver_type          NUMBER(5)            not null,
+   recver               VARCHAR2(20)         not null,
+   msg_code             VARCHAR2(10)         not null,
+   send_date            CHAR(8)              not null,
+   tran_seq             NUMBER(12)           not null,
+   send_msg             VARCHAR2(3000),
+   ret_code             NUMBER(5),
+   ret_desc             VARCHAR2(1000),
+   sys_time             DATE                 default sysdate,
+   constraint PK_SEND_MSG primary key (send_msg_id)
+);
+
+comment on column send_msg.recver_type is
+'[CENTER:0-中心; EXCH:1-交易所; BANK:2-银行; CLIENT:11-客户端; FUND:12-资金服务; MANAGER:13-管理端;JOB:14-定时服务; BANKSERVICE:15-银行服务; SETTLE:16-结算服务; TAS_MANAGER:20-TAS管理端]';
+
+comment on column send_msg.recver is
+'交易所编号、银行业务编号';
+
+comment on column send_msg.ret_code is
+'[0-发送成功 1-发送失败]';
+
+
+
+
+
+/*==============================================================*/
+/* Table: sign_rec                                              */
+/*==============================================================*/
+create table sign_rec 
+(
+   sign_rec_id          NUMBER(12)           not null,
+   client_id            NUMBER(12)           not null,
+   exch_no              VARCHAR2(12)         not null,
+   trade_acct           VARCHAR2(50)         not null,
+   tran_no              VARCHAR2(14),
+   tran_date            CHAR(8),
+   bank_seq         VARCHAR2(50),
+   center_seq           VARCHAR2(50),
+   acct                 VARCHAR2(50),
+   acct_name            VARCHAR2(300),
+   currency             VARCHAR2(3),
+   card_bank_no         VARCHAR2(12),
+   card_acct            VARCHAR2(50),
+   card_name            VARCHAR2(300),
+   acct_type            NUMBER(5)            default 0,
+   cert_type            VARCHAR2(3),
+   cert_code            VARCHAR2(50),
+   client_name          VARCHAR2(300),
+   mobile               VARCHAR2(50),
+   email                VARCHAR2(100),
+   extend_info          VARCHAR2(3000),
+   is_force             NUMBER(5)            default 0,
+   sign_flag            NUMBER(5)            default 1,
+   change_type          NUMBER(5)            default 1,
+   sender_type          NUMBER(5)            default 1,
+   deal_status          NUMBER(5)            default 0,
+   deal_desc            VARCHAR2(1000),
+   is_send_link         NUMBER(5)            default 0,
+   is_first_sign        NUMBER(5)            default 1,
+   sign_amt             NUMBER(16,2)         default 0,
+   recv_msg_id          NUMBER(12),
+   send_msg_id          NUMBER(12),
+   sys_time             DATE                 default sysdate,
+   constraint PK_SIGN_REC primary key (sign_rec_id)
+);
+
+comment on column sign_rec.acct_type is
+'[NON:0-未填;PRIVATE:1-对私; PUBLIC:2-对公]';
+
+comment on column sign_rec.extend_info is
+'JSON串';
+
+comment on column sign_rec.is_force is
+'[NO:0-否; YES:1-是]';
+
+comment on column sign_rec.sign_flag is
+'[SIGN_ON:1-签约; SIGN_OFF:2-解约]';
+
+comment on column sign_rec.change_type is
+'[ADD:1-增加;  ALTER:2-修改; CANCEL:3-注销; BIND:4-绑卡; RELIEVE:5-解绑; CHANGE:6-换卡]';
+
+comment on column sign_rec.sender_type is
+'[CENTER:0-中心; EXCH:1-交易所; BANK:2-银行]';
+
+comment on column sign_rec.deal_status is
+'[SUCCESS:0-成功; FAIL:1-失败; SEND:2-已发送; SEND_CHECK:3-已发送检查; SEND_DEAL:4-已发送处理; UNKNOW:9-未明确]';
+
+comment on column sign_rec.is_send_link is
+'[NO:0-否; YES:1-是] 用户返回链接地址的银行处理';
+
+comment on column sign_rec.is_first_sign is
+'[NO:0-否; YES:1-是]
+首次签约且签约时结算资金余额为0，需要计入当期清算的累计金额里去';
+
+
+
+
+
+/*==============================================================*/
+/* Table: tran                                                  */
+/*==============================================================*/
+create table tran 
+(
+   tran_no              VARCHAR2(14)         not null,
+   bank_pro_code        VARCHAR2(14)         not null,
+   bank_no              VARCHAR2(12),
+   tran_bank_no         VARCHAR2(2),
+   currency             CHAR(3),
+   register_date        CHAR(8),
+   register_status      NUMBER(5),
+   tran_status          NUMBER(5),
+   status               NUMBER(5)            default 0,
+   constraint PK_TRAN primary key (tran_no)
+);
+
+comment on column tran.register_status is
+'[ON:0-在线; OFF:1-离线]';
+
+comment on column tran.tran_status is
+'[OK:0-正常; STOP:1-暂停]';
+
+comment on column tran.status is
+'[OK:0-正常; CANCEL:1-注销]';

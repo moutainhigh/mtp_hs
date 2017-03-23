@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.ClearPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.model.ClearPrice" >
+    <id column="CLEAR_PRICE_ID" property="clearPriceId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_MARKET_TYPE" property="exchangeMarketType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="VARCHAR" />
+    <result column="SETTLE_PRICE" property="settlePrice" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLEAR_PRICE_ID, INIT_DATE, EXCHANGE_ID, EXCHANGE_MARKET_TYPE, PRODUCT_CATEGORY_ID, 
+    PRODUCT_CODE, MONEY_TYPE, SETTLE_PRICE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLEAR_PRICE
+    where CLEAR_PRICE_ID = #{clearPriceId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CLEAR_PRICE
+    where CLEAR_PRICE_ID = #{clearPriceId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.ClearPrice" >
+    insert into CLEAR_PRICE (CLEAR_PRICE_ID, INIT_DATE, EXCHANGE_ID, 
+      EXCHANGE_MARKET_TYPE, PRODUCT_CATEGORY_ID, 
+      PRODUCT_CODE, MONEY_TYPE, SETTLE_PRICE
+      )
+    values (#{clearPriceId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{exchangeMarketType,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=VARCHAR}, 
+      #{productCode,jdbcType=VARCHAR}, #{moneyType,jdbcType=VARCHAR}, #{settlePrice,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.ClearPrice" >
+    insert into CLEAR_PRICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clearPriceId != null" >
+        CLEAR_PRICE_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clearPriceId != null" >
+        #{clearPriceId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="settlePrice != null" >
+        #{settlePrice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.ClearPrice" >
+    update CLEAR_PRICE
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE = #{settlePrice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CLEAR_PRICE_ID = #{clearPriceId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.ClearPrice" >
+    update CLEAR_PRICE
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      SETTLE_PRICE = #{settlePrice,jdbcType=VARCHAR}
+    where CLEAR_PRICE_ID = #{clearPriceId,jdbcType=DECIMAL}
+  </update>
+</mapper>

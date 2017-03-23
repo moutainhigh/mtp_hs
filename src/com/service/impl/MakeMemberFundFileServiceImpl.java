@@ -1,0 +1,199 @@
+package com.service.impl;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.common.util.DateHelp;
+import com.core.util.FileUtil;
+import com.core.util.FtpUtil;
+import com.core.util.PropertiesUtil;
+import com.core.util.ZipUtil;
+import com.dao.CenterFileRecMapper;
+import com.dao.ClientMapper;
+import com.model.CenterFileRec;
+import com.model.Client;
+import com.model.MemberFund;
+import com.proto.CenterBank.Msg31001;
+import com.service.MakeMemberFundFileService;
+
+
+/**
+ *  资金余额文件
+ * ClassName: MakeMemberFundFileServiceImpl.java
+ * date: 2016年12月16日下午2:54:51
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class MakeMemberFundFileServiceImpl implements MakeMemberFundFileService {
+	private static final Logger LOGGER = Logger.getLogger(MakeMemberFundFileServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: MakeMemberFundFileServiceImpl.java
+	 * date: 2016年12月16日下午2:54:51
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private CenterFileRecMapper fileRecMapper;
+	@Autowired
+	private ClientMapper clientMapper;
+	@Override
+	public String doMakeFundFile(Msg31001 msg31001, long recId) throws Exception {
+		try{
+			CenterFileRec fileRec = fileRecMapper.selectByPrimaryKey(recId);
+			
+			String exchNo = msg31001.getExchNo();
+			String filePath = msg31001.getFilePath();
+			String fileName = msg31001.getFileName();
+			
+			//读取ftp信息
+			String url = PropertiesUtil.getProperty(exchNo + ".exch_ftp_url");     //ftp地址
+			int port = Integer.valueOf(PropertiesUtil.getProperty(exchNo + ".exch_ftp_port"));   //端口
+			String username = PropertiesUtil.getProperty(exchNo + ".exch_ftp_user_name");        
+			String password = PropertiesUtil.getProperty(exchNo + ".exch_ftp_pw");
+			
+			//下载资金余额文件到本地路径
+			String sysPath = System.getProperty("user.dir");
+			String localPath = sysPath + File.separator + PropertiesUtil.getProperty("recv_exch_path");
+			
+			LOGGER.info("【余额文件】  下载文件开始 URL:" + url + "|PORT:" + port + "|filePath:" + filePath + "+|localPath:"
+					+ localPath );
+			boolean isSuccess = FtpUtil.downFile(url, port, username, password, filePath, fileName, localPath);
+			
+			if (!isSuccess) {
+				fileRec.setDealStatus(1);
+				fileRec.setDealDesc("失败");
+				fileRecMapper.updateByPrimaryKeySelective(fileRec);
+				throw new Exception("*文件下载失败*");
+			}
+			
+			LOGGER.info("*文件下载成功*");
+			
+			//读取资金余额余额文件内容
+			Map<String, Object> dataMap = readBF04(localPath+ File.separator + fileName);
+			//取数据内容
+			List<MemberFund> dataList = (List<MemberFund>) dataMap.get("beanList"); 
+			
+			LOGGER.info("*开始组装资金余额文件*");
+			String upFundFileName = makeFunFile(dataList, "4110014", msg31001.getBankDate());
+			
+			
+			//上传文件
+			LOGGER.info("【资金余额文件】  资金余额文件文件上传  localPath:" + localPath + "+|fileName：" + upFundFileName);
+			
+			String hs_url = PropertiesUtil.getProperty("hs_ftp_url");
+			int hs_port = Integer.valueOf(PropertiesUtil.getProperty("hs_ftp_port"));
+			String hs_username = PropertiesUtil.getProperty("hs_ftp_user_name");
+			String hs_password = PropertiesUtil.getProperty("hs_ftp_pw");
+			
+			String send_localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+			String srcFilename = send_localPath + File.separator + upFundFileName;
+			
+			isSuccess = FtpUtil.uploadFile(hs_url, hs_port, hs_username, hs_password, msg31001.getBankDate(), upFundFileName,srcFilename);
+			if (!isSuccess) {
+				throw new Exception("*资金余额文件上传失败*");
+			}
+			return upFundFileName;
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	//读取资金余额文件
+	@Override
+	public Map<String, Object> readBF04(String filePath) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MemberFund> memberFundList = new ArrayList<MemberFund>();
+		try {
+			int i = 0;
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+			String lineStr = br.readLine();
+			while (lineStr != null) {
+				if (i++ == 0) {
+					String[] liStr = lineStr.split("&");
+					String tranNo = liStr[0];
+					String bankDate = liStr[1];
+					String totalRecord = liStr[2];
+					map.put("exchNo", tranNo);
+					map.put("exchDate", bankDate);
+					map.put("totalRecord", totalRecord);
+				} else {
+					MemberFund memberFund = new MemberFund();
+					String[] liStr = lineStr.split("&");
+					Client client = clientMapper.selectByTradeAcct(liStr[3]);
+					memberFund.setInitDate(liStr[1]);//	N8	业务发生日期(YYYYMMDD)	
+					memberFund.setExchangeId(liStr[2]);//	C32	交易所代码	
+					memberFund.setMemCode(liStr[3]);//	C20	会员编码	
+					memberFund.setFundAccount(liStr[3]);//	C20	资金账号	
+					memberFund.setMoneyType(client.getCurrency().equals("CNY") ? "RMB" : client.getCurrency());//	C3	币种编码	
+					memberFund.setOccurAmount(liStr[6]);//	L	当日发生额	
+					memberFund.setCurrentBalance(liStr[5]);//	L	当日余额	
+
+					
+					memberFundList.add(memberFund);
+				}
+
+				lineStr = br.readLine();
+			}
+			map.put("beanList", memberFundList);
+		} catch (FileNotFoundException e) {
+			LOGGER.error("*交易所清算文件读取失败*", e);
+			throw new Exception("*交易所清算文件读取失败*", e);
+		} catch (IOException e) {
+			LOGGER.error("*交易所清算文件读取失败*", e);
+			throw new Exception("*交易所清算文件读取失败*", e);
+		}
+		return map;
+	}
+	
+	//组装资金余额文件
+	public String makeFunFile(List<MemberFund> dataList, String exchNo, String bankDate) throws Exception{
+		String upFundData = "";
+		
+		for(int i=0; i<dataList.size();i++){
+			MemberFund memberFund = dataList.get(i);
+			String initDate=memberFund.getInitDate();     //	N8	业务发生日期(YYYYMMDD)		Y
+			String exchangeId=exchNo;//	C32	交易所代码		Y
+			String memCode = memberFund.getMemCode();//	C20	会员编码		Y
+			String fundAccount = memberFund.getFundAccount();//	C20	资金账号		Y
+			String moneyType = memberFund.getMoneyType();//	C3	币种编码		Y
+			String occurAmount = memberFund.getOccurAmount();//	L	当日发生额		Y
+			String currentBalance = memberFund.getCurrentBalance();      //	L	当日余额		Y
+			
+			upFundData = upFundData+initDate+"|"+exchangeId+"|"+memCode+"|"+fundAccount+"|"+moneyType
+					+"|"+occurAmount+"|"+currentBalance+"|"+"\r\n";
+		}
+		//将所有数据一次性写入文件
+		//下载清算文件到本地路径
+		String sysPath = System.getProperty("user.dir");
+		String localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+		String fileName = bankDate+"_"+ exchNo+"_" +"memberFund.txt";//yyyymmdd_xxx(交易所代码)_clearResult.txt
+		
+		boolean isSuccess = FileUtil.writeFile(upFundData, localPath, fileName);
+		if(!isSuccess){
+			throw new Exception( fileName + "*资金余额文件写入失败*");
+		}
+		File file = new File(localPath + File.separator + fileName);
+		String zipFileName = bankDate+"_"+ exchNo+"_" +"memberFund.zip";
+		File zipFile = new File(localPath + File.separator+zipFileName);
+		ZipUtil.zip(file, zipFile);
+		return zipFileName;
+
+	}
+
+}

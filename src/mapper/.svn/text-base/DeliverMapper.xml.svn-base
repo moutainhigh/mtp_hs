@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.DeliverMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Deliver" >
+    <id column="DELIVER_ID" property="deliverId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="MEM_CODE" property="memCode" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_NAME" property="productCategoryName" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="DELIVER_ORDER_NO" property="deliverOrderNo" jdbcType="VARCHAR" />
+    <result column="DEPOT_ORDER_NO" property="depotOrderNo" jdbcType="VARCHAR" />
+    <result column="DELIVER_APPLY_TIME" property="deliverApplyTime" jdbcType="VARCHAR" />
+    <result column="DELIVER_EFFECT_TIME" property="deliverEffectTime" jdbcType="VARCHAR" />
+    <result column="DELIVER_ADDR" property="deliverAddr" jdbcType="VARCHAR" />
+    <result column="DELIVER_DEPOT" property="deliverDepot" jdbcType="VARCHAR" />
+    <result column="DELIVER_TYPE" property="deliverType" jdbcType="VARCHAR" />
+    <result column="DELIVER_DIRECTION" property="deliverDirection" jdbcType="VARCHAR" />
+    <result column="DELIVER_PRICE" property="deliverPrice" jdbcType="VARCHAR" />
+    <result column="DELIVER_QUANTITY" property="deliverQuantity" jdbcType="VARCHAR" />
+    <result column="DELIVER_PAYMENT" property="deliverPayment" jdbcType="VARCHAR" />
+    <result column="DELIVER_FEES" property="deliverFees" jdbcType="VARCHAR" />
+    <result column="HOLD_PRICE" property="holdPrice" jdbcType="VARCHAR" />
+    <result column="BUSI_DATETIME" property="busiDatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DELIVER_ID, INIT_DATE, EXCHANGE_ID, MEM_CODE, PRODUCT_CATEGORY_ID, PRODUCT_CATEGORY_NAME, 
+    PRODUCT_CODE, PRODUCT_NAME, DELIVER_ORDER_NO, DEPOT_ORDER_NO, DELIVER_APPLY_TIME, 
+    DELIVER_EFFECT_TIME, DELIVER_ADDR, DELIVER_DEPOT, DELIVER_TYPE, DELIVER_DIRECTION, 
+    DELIVER_PRICE, DELIVER_QUANTITY, DELIVER_PAYMENT, DELIVER_FEES, HOLD_PRICE, BUSI_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from DELIVER
+    where DELIVER_ID = #{deliverId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from DELIVER
+    where DELIVER_ID = #{deliverId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Deliver" >
+    insert into DELIVER (DELIVER_ID, INIT_DATE, EXCHANGE_ID, 
+      MEM_CODE, PRODUCT_CATEGORY_ID, PRODUCT_CATEGORY_NAME, 
+      PRODUCT_CODE, PRODUCT_NAME, DELIVER_ORDER_NO, 
+      DEPOT_ORDER_NO, DELIVER_APPLY_TIME, DELIVER_EFFECT_TIME, 
+      DELIVER_ADDR, DELIVER_DEPOT, DELIVER_TYPE, 
+      DELIVER_DIRECTION, DELIVER_PRICE, DELIVER_QUANTITY, 
+      DELIVER_PAYMENT, DELIVER_FEES, HOLD_PRICE, 
+      BUSI_DATETIME)
+    values (#{deliverId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{memCode,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=VARCHAR}, #{productCategoryName,jdbcType=VARCHAR}, 
+      #{productCode,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{deliverOrderNo,jdbcType=VARCHAR}, 
+      #{depotOrderNo,jdbcType=VARCHAR}, #{deliverApplyTime,jdbcType=VARCHAR}, #{deliverEffectTime,jdbcType=VARCHAR}, 
+      #{deliverAddr,jdbcType=VARCHAR}, #{deliverDepot,jdbcType=VARCHAR}, #{deliverType,jdbcType=VARCHAR}, 
+      #{deliverDirection,jdbcType=VARCHAR}, #{deliverPrice,jdbcType=VARCHAR}, #{deliverQuantity,jdbcType=VARCHAR}, 
+      #{deliverPayment,jdbcType=VARCHAR}, #{deliverFees,jdbcType=VARCHAR}, #{holdPrice,jdbcType=VARCHAR}, 
+      #{busiDatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Deliver" >
+    insert into DELIVER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deliverId != null" >
+        DELIVER_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCategoryName != null" >
+        PRODUCT_CATEGORY_NAME,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME,
+      </if>
+      <if test="deliverOrderNo != null" >
+        DELIVER_ORDER_NO,
+      </if>
+      <if test="depotOrderNo != null" >
+        DEPOT_ORDER_NO,
+      </if>
+      <if test="deliverApplyTime != null" >
+        DELIVER_APPLY_TIME,
+      </if>
+      <if test="deliverEffectTime != null" >
+        DELIVER_EFFECT_TIME,
+      </if>
+      <if test="deliverAddr != null" >
+        DELIVER_ADDR,
+      </if>
+      <if test="deliverDepot != null" >
+        DELIVER_DEPOT,
+      </if>
+      <if test="deliverType != null" >
+        DELIVER_TYPE,
+      </if>
+      <if test="deliverDirection != null" >
+        DELIVER_DIRECTION,
+      </if>
+      <if test="deliverPrice != null" >
+        DELIVER_PRICE,
+      </if>
+      <if test="deliverQuantity != null" >
+        DELIVER_QUANTITY,
+      </if>
+      <if test="deliverPayment != null" >
+        DELIVER_PAYMENT,
+      </if>
+      <if test="deliverFees != null" >
+        DELIVER_FEES,
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE,
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deliverId != null" >
+        #{deliverId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryName != null" >
+        #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverOrderNo != null" >
+        #{deliverOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depotOrderNo != null" >
+        #{depotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverApplyTime != null" >
+        #{deliverApplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverEffectTime != null" >
+        #{deliverEffectTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAddr != null" >
+        #{deliverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDepot != null" >
+        #{deliverDepot,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverType != null" >
+        #{deliverType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDirection != null" >
+        #{deliverDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPrice != null" >
+        #{deliverPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverQuantity != null" >
+        #{deliverQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPayment != null" >
+        #{deliverPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverFees != null" >
+        #{deliverFees,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Deliver" >
+    update DELIVER
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryName != null" >
+        PRODUCT_CATEGORY_NAME = #{productCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverOrderNo != null" >
+        DELIVER_ORDER_NO = #{deliverOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depotOrderNo != null" >
+        DEPOT_ORDER_NO = #{depotOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverApplyTime != null" >
+        DELIVER_APPLY_TIME = #{deliverApplyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverEffectTime != null" >
+        DELIVER_EFFECT_TIME = #{deliverEffectTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAddr != null" >
+        DELIVER_ADDR = #{deliverAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDepot != null" >
+        DELIVER_DEPOT = #{deliverDepot,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverType != null" >
+        DELIVER_TYPE = #{deliverType,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDirection != null" >
+        DELIVER_DIRECTION = #{deliverDirection,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPrice != null" >
+        DELIVER_PRICE = #{deliverPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverQuantity != null" >
+        DELIVER_QUANTITY = #{deliverQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverPayment != null" >
+        DELIVER_PAYMENT = #{deliverPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverFees != null" >
+        DELIVER_FEES = #{deliverFees,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DELIVER_ID = #{deliverId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Deliver" >
+    update DELIVER
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_NAME = #{productCategoryName,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      DELIVER_ORDER_NO = #{deliverOrderNo,jdbcType=VARCHAR},
+      DEPOT_ORDER_NO = #{depotOrderNo,jdbcType=VARCHAR},
+      DELIVER_APPLY_TIME = #{deliverApplyTime,jdbcType=VARCHAR},
+      DELIVER_EFFECT_TIME = #{deliverEffectTime,jdbcType=VARCHAR},
+      DELIVER_ADDR = #{deliverAddr,jdbcType=VARCHAR},
+      DELIVER_DEPOT = #{deliverDepot,jdbcType=VARCHAR},
+      DELIVER_TYPE = #{deliverType,jdbcType=VARCHAR},
+      DELIVER_DIRECTION = #{deliverDirection,jdbcType=VARCHAR},
+      DELIVER_PRICE = #{deliverPrice,jdbcType=VARCHAR},
+      DELIVER_QUANTITY = #{deliverQuantity,jdbcType=VARCHAR},
+      DELIVER_PAYMENT = #{deliverPayment,jdbcType=VARCHAR},
+      DELIVER_FEES = #{deliverFees,jdbcType=VARCHAR},
+      HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR}
+    where DELIVER_ID = #{deliverId,jdbcType=DECIMAL}
+  </update>
+</mapper>

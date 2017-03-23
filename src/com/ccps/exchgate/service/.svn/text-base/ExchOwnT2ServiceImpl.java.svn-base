@@ -1,0 +1,652 @@
+package com.ccps.exchgate.service;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+import com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service;
+import com.common.util.CenterToExchUtil;
+import com.core.exception.ServiceException;
+import com.dao.ClientMapper;
+import com.dao.Impl.AmtRecDao;
+import com.dao.Impl.SendMsgDao;
+import com.dao.Impl.SignRecDao;
+import com.model.AmtRec;
+import com.model.Client;
+import com.model.SignRec;
+import com.muchinfo.common.constants.FinalConstants;
+import com.muchinfo.tcp.socket.ClientSocket;
+import com.service.GetExchRspService;
+import com.service.GetHSFileService;
+import com.service.SendMsgExchService;
+
+//import com.muchinfo.mtp.bankservice.ccps.exchgate.api.pojo.ExchBaseResp;
+
+import net.sf.json.JSONObject;
+
+/**
+ * 清算发起
+ * @author jiangzz
+ *
+ */
+
+@Service
+@Scope("singleton")
+public class ExchOwnT2ServiceImpl implements ExchOwnT2Service {
+	
+	private static final Logger LOGGER = Logger.getLogger(ExchOwnT2ServiceImpl.class);
+//	private ExchBaseResp outMess ;	
+	 //---------------------------------清算中心(广清所)向交易所发起的服务调用-------------------------------------------//
+		/**
+		 * @author yu.jian
+		 *客户与银行签约/解约通知
+		 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#bankSignOrOut(java.lang.String)
+		 */
+	@Autowired
+	private SignRecDao signRecDao;
+	@Autowired
+	private ClientMapper clientMapper;
+	@Autowired
+	private SendMsgDao sendMsgDao;
+	@Autowired
+	private SendMsgExchService sendMsgExchServiceImpl;
+	@Autowired
+	private AmtRecDao amtRecDao;
+	@Autowired
+	private GetHSFileService getHSFileServiceImpl;
+	@Autowired
+	private GetExchRspService getExchRspServiceImpl;
+	public String bankSignOrOut(String reqStr) {
+		Long t1 = System.currentTimeMillis();
+		LOGGER.info("*银行签约/解约通知*");
+		LOGGER.info("*取银行签解约信息*");
+		JSONObject json = JSONObject.fromObject(reqStr);
+		long initDate = json.getLong("initDate"); // 业务发生日期
+		String serialNo = json.getString("serialNo"); // 银行流水号
+		String exchangeId = json.getString("exchangeId"); // 交易所代码
+		String exchangeFundAccount = json.getString("exchangeFundAccount"); // 交易所资金账号
+		String bankProCode = json.getString("bankProCode"); // 银行产品代码
+		String bankAccountName = json.getString("bankAccountName"); // 银行账户名称
+		String bankAccount = json.getString("bankAccount"); // 银行帐号
+		// String fundPassword = json.getString("fundPassword"); //资金密码
+		String moneyType = json.getString("moneyType"); // 币种编码
+		String signType = json.getString("signType"); // 签约类型（1：签约；2:解约；3:强签；4：强解；5：预签约）
+		// String custSign = json.getString("custSign"); //签名信息
+		String memberMainType = json.getString("memberMainType"); // 会员主体类型
+		String fullName = json.getString("fullName"); // 会员全称
+		String idKind = json.getString("idKind"); // 证件类型
+		String idNo = json.getString("idNo"); // 证件号码
+
+		Client client = clientMapper.selectByTradeAcct(exchangeFundAccount);
+		if (client == null)
+			throw new ServiceException("*客户信息不存在*");
+		LOGGER.info("*记录签约记录表*");
+		SignRec signRec = new SignRec();
+		Long signRecID = signRecDao.generateId(); // 生成签约记录ID
+		signRec.setSignRecId(signRecID);
+		signRec.setTranDate(initDate + "");
+		signRec.setClientId(client.getClientId()); // 用户Id
+		signRec.setExchNo(exchangeId); // 交易所编号
+		signRec.setTradeAcct(exchangeFundAccount); // 交易账号
+		signRec.setTranNo(bankProCode); // 银行业务编号
+		signRec.setAcct(bankAccount);
+		signRec.setAcctName(bankAccountName);
+		signRec.setAcctType(Integer.parseInt(memberMainType) == 1 ? 2 : 1); // 银行账户类型
+		signRec.setCurrency(moneyType.equals("CNY") ? "RMB" : moneyType); // 币种
+		if (Integer.parseInt(signType) == 3||Integer.parseInt(signType) == 4)
+			signRec.setIsForce(1); // 是否强制
+		else
+			signRec.setIsForce(0);
+		signRec.setSignFlag(Integer.parseInt(signType)); // 签约标志
+		signRec.setChangeType(1); // 变更类别
+		signRec.setSenderType(2); // 发起方类型
+		Long sendMsgId = sendMsgDao.generateId(); // 生成往包ID主键
+		signRec.setSendMsgId(sendMsgId); // 往包ID
+		signRec.setSysTime(new Date()); // 系统时间
+		signRec.setDealStatus(9);
+		signRec.setCardAcct(bankAccount);
+		signRec.setCardName(bankAccountName == null ? "" : bankAccountName);
+		signRec.setBankSeq(serialNo);
+		signRec.setClientName(fullName);
+		signRec.setCertType(CenterToExchUtil.SH_CERT_TYPE.get(idKind));
+		signRec.setCertCode(idNo);
+		signRecDao.getCorpMapper().insert(signRec);
+		LOGGER.info("*签约记录表插入成功*");
+		
+		client.setClientAcctType(signRec.getAcctType());
+		client.setCertType(signRec.getCertType());
+		client.setCertCode(signRec.getCertCode());
+		client.setCurrency(signRec.getCurrency());
+		clientMapper.updateByPrimaryKeySelective(client);
+		try {
+			if(Integer.parseInt(signType)==1||Integer.parseInt(signType)==3)
+				sendMsgExchServiceImpl.sendMsg20301(signRec);
+			else if(Integer.parseInt(signType)==2||Integer.parseInt(signType)==4)
+				sendMsgExchServiceImpl.sendMsg20401(signRec);
+			else
+				new Exception("*签解约类型错误*");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		String msg = null;
+		try {
+			msg = getExchRspServiceImpl.getRspMsg(serialNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Long t2 = System.currentTimeMillis();
+
+		System.out.println("回给广清的消息----------------" + msg + "----时间差" + (t2 - t1));
+		return null;
+	}
+		
+	/**
+	 *  客户银行信息变更
+	 * ClassName: ExchOwnT2ServiceImpl.java
+	 * date: 2016年12月14日下午3:28:08
+	 * @author yu.jian
+	 * @version
+	 */
+	@Override
+	public String bankInfoChange(String reqStr) {
+		Long t1 = System.currentTimeMillis();
+		LOGGER.info("*银行签约信息变更通知*");
+		LOGGER.info("*取请求信息*");
+		
+		JSONObject json = JSONObject.fromObject(reqStr);
+		
+		long initDate = json.getLong("initDate"); // 业务发生日期
+		String serialNo = json.getString("serialNo"); // 银行流水号
+		String exchangeId = json.getString("exchangeId"); // 交易所代码
+		String exchangeFundAccount = json.getString("exchangeFundAccount"); // 交易所资金账号
+		String bankProCode = json.getString("bankProCode"); // 银行产品代码
+		String bankAccountName = json.getString("bankAccountName"); // 银行账户名称
+		String bankAccount = json.getString("bankAccount"); // 银行帐号
+		// String fundPassword = json.getString("fundPassword"); //资金密码
+		String fullName = json.getString("fullName"); // 会员全称，只有名称能变更
+
+		Client client = clientMapper.selectByTradeAcct(exchangeFundAccount);
+		if (client == null)
+			throw new ServiceException("*客户信息不存在*");
+		LOGGER.info("*记录签约记录表*");
+		SignRec signRec = new SignRec();
+		Long signRecID = signRecDao.generateId(); // 生成签约记录ID
+		signRec.setSignRecId(signRecID);
+		signRec.setTranDate(initDate + "");
+		signRec.setClientId(client.getClientId()); // 用户Id
+		signRec.setExchNo(exchangeId); // 交易所编号
+		signRec.setTradeAcct(exchangeFundAccount); // 交易账号
+		signRec.setTranNo(bankProCode); // 银行业务编号
+		signRec.setAcct(bankAccount);
+		signRec.setAcctName(bankAccountName);
+		signRec.setAcctType(client.getClientAcctType()); // 银行账户类型
+		signRec.setChangeType(2); // 变更类别
+		signRec.setSenderType(2); // 发起方类型
+		Long sendMsgId = sendMsgDao.generateId(); // 生成往包ID主键
+		signRec.setSendMsgId(sendMsgId); // 往包ID
+		signRec.setSysTime(new Date()); // 系统时间
+		signRec.setDealStatus(9);
+		signRec.setCardAcct(bankAccount);
+		signRec.setCardName(bankAccountName == null ? "" : bankAccountName);
+		signRec.setBankSeq(serialNo);
+		signRec.setClientName(fullName);
+		signRec.setCertType(client.getCertType());
+		signRec.setCertCode(client.getCertCode());
+		signRecDao.getCorpMapper().insert(signRec);
+		LOGGER.info("*签约记录表插入成功*");
+		
+		client.setClientName(fullName);
+		clientMapper.updateByPrimaryKeySelective(client);
+		
+		try {
+			sendMsgExchServiceImpl.sendMsg20301(signRec);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		String msg = null;
+		try {
+			msg = getExchRspServiceImpl.getRspMsg(serialNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long t2 = System.currentTimeMillis();
+
+		System.out.println("回给广清的消息----------------" + msg + "----时间差" + (t2 - t1));
+		return msg;
+	}
+
+	/**
+	 * @author yu.jian 客户银行卡变更
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#bankNoChange(java.lang.String)
+	 */
+	public String bankNoChange(String reqStr) {
+		Long t1 = System.currentTimeMillis();
+		LOGGER.info("*银行变更银行卡通知*");
+		LOGGER.info("*取银请求信息*");
+		JSONObject json = JSONObject.fromObject(reqStr);
+		
+		long initDate = json.getLong("initDate"); // 业务发生日期
+		String serialNo = json.getString("serialNo"); // 银行流水号
+		String exchangeId = json.getString("exchangeId"); // 交易所代码
+		String exchangeFundAccount = json.getString("exchangeFundAccount"); // 交易所资金账号
+		String bankProCode = json.getString("bankProCode"); // 银行产品代码
+		String bankAccountName = json.getString("bankAccountName"); // 银行账户名称
+		String bankAccount = json.getString("bankAccount"); // 银行帐号
+		// String fundPassword = json.getString("fundPassword"); //资金密码
+
+		Client client = clientMapper.selectByTradeAcct(exchangeFundAccount);
+		if (client == null)
+			throw new ServiceException("*客户信息不存在*");
+		LOGGER.info("*记录签约记录表*");
+		SignRec signRec = new SignRec();
+		Long signRecID = signRecDao.generateId(); // 生成签约记录ID
+		signRec.setSignRecId(signRecID);
+		signRec.setTranDate(initDate + "");
+		signRec.setClientId(client.getClientId()); // 用户Id
+		signRec.setExchNo(exchangeId); // 交易所编号
+		signRec.setTradeAcct(exchangeFundAccount); // 交易账号
+		signRec.setTranNo(bankProCode); // 银行业务编号
+		signRec.setAcct(bankAccount);
+		signRec.setAcctName(bankAccountName);
+		signRec.setAcctType(client.getClientAcctType()); // 银行账户类型
+		signRec.setChangeType(6); // 变更类别
+		signRec.setSenderType(2); // 发起方类型
+		Long sendMsgId = sendMsgDao.generateId(); // 生成往包ID主键
+		signRec.setSendMsgId(sendMsgId); // 往包ID
+		signRec.setSysTime(new Date()); // 系统时间
+		signRec.setDealStatus(9);
+		signRec.setCardAcct(bankAccount);
+		signRec.setCardName(bankAccountName == null ? "" : bankAccountName);
+		signRec.setBankSeq(serialNo);
+		signRec.setClientName(client.getClientName());
+		signRec.setCertType(client.getCertType());
+		signRec.setCertCode(client.getCertCode());
+		signRecDao.getCorpMapper().insert(signRec);
+		LOGGER.info("*签约记录表插入成功*");
+
+		try {
+			sendMsgExchServiceImpl.sendMsg20301(signRec);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		String msg = null;
+		try {
+			msg = getExchRspServiceImpl.getRspMsg(serialNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long t2 = System.currentTimeMillis();
+
+		System.out.println("回给广清的消息----------------" + msg + "----时间差" + (t2 - t1));
+		return msg;
+	}
+
+	/**
+	 * @author yu.jian 客户入金
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#fundIn(java.lang.String)
+	 */
+	public String fundIn(String reqStr) {
+		Long t1 = System.currentTimeMillis();
+		LOGGER.info("*银行入金请求*");
+		LOGGER.info("*取请求信息*");
+		
+		JSONObject json = JSONObject.fromObject(reqStr);
+		long initDate = json.getLong("initDate"); // 业务发生日期
+		String serialNo = json.getString("serialNo"); // 银行流水号
+		String exchangeId = json.getString("exchangeId"); // 交易所代码
+		String exchangeFundAccount = json.getString("exchangeFundAccount"); // 交易所资金账号
+		String bankProCode = json.getString("bankProCode"); // 银行产品代码
+		String accountName = json.getString("accountName"); // 银行账户名称
+		String bankAccount = json.getString("bankAccount"); // 银行帐号
+		// String fundPassword = json.getString("fundPassword"); //资金密码 
+//		String idKind = json.getString("idKind"); // 证件类型
+//		String idNo = json.getString("idNo"); // 证件号码
+//		String memberMainType = json.getString("memberMainType"); // 会员主体类型
+//		String fullName = json.getString("fullName"); // 会员全称
+		String moneyType = json.getString("moneyType");
+//		String bisinType = json.getString("bisinType");
+		double occurAmount = json.getDouble("occurAmount");
+		String remark = json.getString("remark");
+		
+		LOGGER.info("*插入出入金记录*");
+		AmtRec amtRec = new AmtRec();
+		Long amtRecID = amtRecDao.generateId();
+		amtRec.setAmtRecId(amtRecID);
+		amtRec.setExchNo(exchangeId);                        //交易所编号	exch_no
+		amtRec.setTradeAcct(exchangeFundAccount);                   //交易账号	trade_acct
+		amtRec.setTranNo(bankProCode);                       //银行业务编号	tran_no
+		amtRec.setTranDate(initDate+"");            //业务日期	tran_date
+		amtRec.setAcct(bankAccount);                             //银行账号	acct
+		amtRec.setAcctName(accountName==null?"":accountName);                     //银行账户名	acct_name
+		amtRec.setAmt(BigDecimal.valueOf(occurAmount)); 						//金额	amt
+		amtRec.setCurrency(moneyType.equals("CNY") ? "RMB" : moneyType);                       //币种	currency
+		amtRec.setRemark(remark);                               //备注	remark
+		amtRec.setCardAcct(bankAccount);                //银行卡号
+		amtRec.setCardName(accountName==null?"":accountName);                 //银行卡户名
+		amtRec.setOutInFlag(1);                     //出入金标志	out_in_flag
+		amtRec.setSenderType(2);               //发起方类型	sender_type
+		amtRec.setDealStatus(9);                      //处理状态	deal_status
+		amtRec.setBankSeq(serialNo);
+		Long sendMsgId = sendMsgDao.generateId();
+		amtRec.setSendMsgId(sendMsgId);                                          //往包ID	send_msg_id
+		amtRec.setSysTime(new Date());  
+		amtRecDao.getAmtRecMapper().insert(amtRec);
+		
+		try {
+			sendMsgExchServiceImpl.sendMsg20101(amtRec);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		String msg = null;
+		try {
+			msg = getExchRspServiceImpl.getRspMsg(serialNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long t2 = System.currentTimeMillis();
+
+		System.out.println("回给广清的消息----------------" + msg + "----时间差" + (t2 - t1));
+		return msg;
+	}
+
+	/**
+	 * 
+	 * @author yu.jian 客户出金
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#fundOut(java.lang.String)
+	 */
+	public String fundOut(String reqStr) {
+
+		Long t1 = System.currentTimeMillis();
+		LOGGER.info("*银行出金请求*");
+		LOGGER.info("*取请求信息*");
+		
+		JSONObject json = JSONObject.fromObject(reqStr);
+		long initDate = json.getLong("initDate"); // 业务发生日期
+		String serialNo = json.getString("serialNo"); // 银行流水号
+		String exchangeId = json.getString("exchangeId"); // 交易所代码
+		String exchangeFundAccount = json.getString("exchangeFundAccount"); // 交易所资金账号
+		String bankProCode = json.getString("bankProCode"); // 银行产品代码
+		String accountName = json.getString("accountName"); // 银行账户名称
+		String bankAccount = json.getString("bankAccount"); // 银行帐号
+		// String fundPassword = json.getString("fundPassword"); //资金密码 
+//		String idKind = json.getString("idKind"); // 证件类型
+//		String idNo = json.getString("idNo"); // 证件号码
+//		String memberMainType = json.getString("memberMainType"); // 会员主体类型
+//		String fullName = json.getString("fullName"); // 会员全称
+		String moneyType = json.getString("moneyType");
+//		String bisinType = json.getString("bisinType");
+		double occurAmount = json.getDouble("occurAmount");
+		String remark = json.getString("remark");
+		
+		LOGGER.info("*插入出入金记录*");
+		AmtRec amtRec = new AmtRec();
+		Long amtRecID = amtRecDao.generateId();
+		amtRec.setAmtRecId(amtRecID);
+		amtRec.setExchNo(exchangeId);                        //交易所编号	exch_no
+		amtRec.setTradeAcct(exchangeFundAccount);                   //交易账号	trade_acct
+		amtRec.setTranNo(bankProCode);                       //银行业务编号	tran_no
+		amtRec.setTranDate(initDate+"");            //业务日期	tran_date
+		amtRec.setAcct(bankAccount);                             //银行账号	acct
+		amtRec.setAcctName(accountName==null?"":accountName);                     //银行账户名	acct_name
+		amtRec.setAmt(BigDecimal.valueOf(occurAmount)); 						//金额	amt
+		amtRec.setCurrency(moneyType.equals("CNY") ? "RMB" : moneyType);                       //币种	currency
+		amtRec.setRemark(remark);                               //备注	remark
+		amtRec.setCardAcct(bankAccount);                //银行卡号
+		amtRec.setCardName(accountName==null?"":accountName);                 //银行卡户名
+		amtRec.setOutInFlag(0);                     //出入金标志	out_in_flag
+		amtRec.setSenderType(2);               //发起方类型	sender_type
+		amtRec.setDealStatus(9);                      //处理状态	deal_status
+		amtRec.setBankSeq(serialNo);
+		Long sendMsgId = sendMsgDao.generateId();
+		amtRec.setSendMsgId(sendMsgId);                                          //往包ID	send_msg_id
+		amtRec.setSysTime(new Date());  
+		amtRecDao.getAmtRecMapper().insert(amtRec);
+		
+		try {
+			sendMsgExchServiceImpl.sendMsg20201(amtRec);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+
+		String msg = null;
+		try {
+			msg = getExchRspServiceImpl.getRspMsg(serialNo);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long t2 = System.currentTimeMillis();
+
+		LOGGER.info("回给广清的消息----------------" + msg + "----时间差" + (t2 - t1));
+		return msg;
+
+	}
+
+	/**
+	 * @author yu.jian 清算中心向交易所推送文件通知
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#fileNotify(java.lang.String)
+	 */
+	public String fileNotify(String reqStr) {
+		Long t1 = System.currentTimeMillis();
+		try {
+			getHSFileServiceImpl.doGetHSFileService(reqStr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JSONObject json = new JSONObject();
+
+		json.put("errorNo", "0");
+		json.put("errorInfo", null);
+		
+		Long t2 = System.currentTimeMillis();
+
+		LOGGER.info("回给广清的消息----------------" + json.toString() + "----时间差" + (t2 - t1));
+		return json.toString();
+	}
+
+	/**
+	 * @author yu.jian TODO 客户与银行签约/解约（可选）.
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#Surrender(java.lang.String)
+	 */
+	public String Surrender(String reqStr) {
+
+		return ClientSocket.sendMsg(FinalConstants.FunctionId.MSG119010 + reqStr);
+	}
+
+	/**
+	 * @author yu.jian 银行清算反馈文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankSettle.txt
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#bankSettle(java.lang.String)
+	 */
+	public String bankSettle(String reqStr) {
+
+		return ClientSocket.sendMsg(reqStr);
+	}
+
+	/**
+	 * 
+	 * @author yu.jian 银行余额文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankBalance.txt
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#bankBalance(java.lang.String)
+	 */
+	public String bankBalance(String reqStr) {
+
+		return ClientSocket.sendMsg(reqStr);
+	}
+
+	/**
+	 * 
+	 * @author yu.jian 账户类对帐明细文件 yyyymmdd_xxx(交易所代码)_memberAccount.txt
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#memberAccount(java.lang.String)
+	 */
+	public String memberAccount(String reqStr) {
+
+		return ClientSocket.sendMsg(reqStr);
+	}
+
+	/**
+	 * 
+	 * @author yu.jian 银行出入金对账文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankCheck.txt
+	 * @see com.ccps.exchgate.api.t2.service.server.ExchOwnT2Service#bankCheck(java.lang.String)
+	 */
+	public String bankCheck(String reqStr) {
+
+		return ClientSocket.sendMsg(reqStr);
+	}
+
+
+	// ---------------------------------
+	// t2服务demo例子-------------------------------------------//
+	// /**
+	// * 客户与银行签约/解约通知
+	// *
+	// * init_date N8 业务发生日期(YYYYMMDD) initDate Y
+	// * serial_no C20 清算中心流水号 serialNo Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * exchange_fund_account C20 资金账号(交易所) exchangeFundAccount Y
+	// * bank_pro_code C20 银行产品代码 bankProCode Y
+	// * bank_account C32 银行帐号 bankAccount N
+	// * bank_account_name C60 银行账户名称 bankAccountName Y
+	// * fund_password C20 资金密码 fundPassword N
+	// * money_type C3 币种编码 moneyType Y
+	// * sign_type C1 签约类型（1：签约；2:解约；3:强签；4：强解；5：预签约） signType Y
+	// * cust_sign C32 签名信息 custSign N
+	// * member_main_type C1 会员主体类型（1-机构；2-个人） memberMainType Y
+	// * full_name C200 会员全称 fullName Y
+	// * id_kind C4 证件类型 idKind Y
+	// * id_no C32 证件号码 idNo Y
+	// *
+	// */
+	// @Override
+	// public ExchBaseResp contractNotice(String reqStr) {
+	// //TODO
+	// return outMess;
+	// }
+	//
+	// /**
+	// * 客户银行信息变更
+	// *
+	// * init_date N8 业务发生日期(YYYYMMDD) initDate Y
+	// * serial_no C20 清算中心流水号 serialNo Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * exchange_fund_account C20 交易所资金账号 exchangeFundAccount Y
+	// * bank_pro_code C20 银行产品代码 bankProCode Y
+	// * bank_account C32 银行帐号 bankAccount Y
+	// * bank_account_name C60 银行账户名称 bankAccountName N
+	// * fund_password C20 资金密码 fundPassword N
+	// * full_name C200 会员全称 fullName Y
+	// *
+	// */
+	// @Override
+	// public ExchBaseResp bankInfoChange(String reqStr) {
+	// //TODO
+	// return outMess;
+	// }
+	//
+	// /**
+	// * 客户银行卡变更
+	// *
+	// * init_date N8 业务发生日期(YYYYMMDD) initDate Y
+	// * serial_no C20 清算中心流水号 serialNo Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * exchange_fund_account C20 交易所资金账号 exchangeFundAccount Y
+	// * bank_pro_code C20 银行产品代码 bankProCode Y
+	// * old_bank_account C32 旧银行帐号 oldBankAccount Y
+	// * bank_account C32 新银行账号 bankAccount N
+	// * old_bank_account_name C60 旧银行账户名称 oldBankAccountName Y
+	// * bank_account_name C60 新银行账户名称 bankAccountName N
+	// * fund_password C20 资金密码 fundPassword N
+	// *
+	// */
+	// @Override
+	// public ExchBaseResp bankCardInfoChange(String reqStr) {
+	// //TODO
+	// return outMess;
+	// }
+	//
+	//
+	// /**
+	// * 客户入金
+	// *
+	// * init_date N8 业务发生日期(YYYYMMDD) initDate Y
+	// * serial_no C20 清算中心流水号 serialNo Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * exchange_fund_account C20 交易所资金账号 exchangeFundAccount Y
+	// * fund_password C20 资金密码 fundPassword N
+	// * money_type C3 币种编码 moneyType Y
+	// * bisin_type C2 银行业务类型（1：普通；2：冲正；3：重发；4：调账） bisinType Y
+	// * bank_pro_code C20 银行产品代码 bankProCode Y
+	// * account_name  C64 银行账户名 accountName N
+	// * bank_account C32 银行帐号 bankAccount Y
+	// * occur_amount L 发生金额 occurAmount Y
+	// * remark  C255 备注 remark N
+	// * member_main_type C1 会员主体类型（1-机构；2-个人） memberMainType Y
+	// * full_name C200 会员全称 fullName Y
+	// * id_kind C4 证件类型 idKind Y
+	// * id_no C32 证件号码 idNo Y
+	// */
+	// @Override
+	// public ExchBaseResp clientDeposit(String reqStr) {
+	// //TODO
+	// return outMess;
+	// }
+	//
+	//
+	// /**
+	// * 客户出金
+	// *
+	// * init_date N8 业务发生日期(YYYYMMDD) initDate Y
+	// * serial_no C20 清算中心流水号 serialNo Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * exchange_fund_account C20 交易所资金账号 exchangeFundAccount Y
+	// * fund_password C20 资金密码 fundPassword N
+	// * money_type C3 币种编码 moneyType Y
+	// * bisin_type C2 银行业务类型（1：普通；2：冲正；3：重发；4：调账） bisinType Y
+	// * bank_pro_code C20 银行产品代码 bankProCode Y
+	// * account_name  C64 银行账户名 accountName Y
+	// * bank_account  C32 银行帐号 bankAccount Y
+	// * occur_amount L 发生金额 occurAmount Y
+	// * remark  C255 备注 remark N
+	// * member_main_type C1 会员主体类型（1-机构；2-个人） memberMainType Y
+	// * full_name C200 会员全称 fullName Y
+	// * id_kind C4 证件类型 idKind Y
+	// * id_no C32 证件号码 idNo Y
+	// *
+	// */
+	// @Override
+	// public ExchBaseResp clientWithdraw(String reqStr) {
+	// //TODO
+	// return outMess;
+	// }
+	//
+	// /**
+	// * 推送文件通知
+	// *
+	// * init_date N8 交易日期(YYYYMMDD) initDate Y
+	// * exchange_id C32 交易所代码 exchangeId Y
+	// * bank_file_type C1 文件类型 bankFileType Y
+	// * file_path C255 文件路径 filePath Y
+	// * file_name C255 文件名称 fileName Y
+	// * file_md5 C64 文件md5码 fileMd5 Y
+	// */
+	// @Override
+	// public BaseResp clientPushFileInfo(String reqStr) {
+	// //TODO
+	// return new BaseResp();
+	// }
+	//
+}
+

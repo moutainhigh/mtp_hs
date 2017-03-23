@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Account" >
+    <id column="ACCOUNT_ID" property="accountId" jdbcType="DECIMAL" />
+    <result column="CLIENT_ID" property="clientId" jdbcType="DECIMAL" />
+    <result column="TRAN_NO" property="tranNo" jdbcType="VARCHAR" />
+    <result column="EXCH_NO" property="exchNo" jdbcType="VARCHAR" />
+    <result column="TRADE_ACCT" property="tradeAcct" jdbcType="VARCHAR" />
+    <result column="ACCT" property="acct" jdbcType="VARCHAR" />
+    <result column="ACCT_NAME" property="acctName" jdbcType="VARCHAR" />
+    <result column="AMT" property="amt" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="ACCT_TYPE" property="acctType" jdbcType="DECIMAL" />
+    <result column="CERT_TYPE" property="certType" jdbcType="VARCHAR" />
+    <result column="CERT_CODE" property="certCode" jdbcType="VARCHAR" />
+    <result column="CLIENT_NAME" property="clientName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="EXTEND_INFO" property="extendInfo" jdbcType="VARCHAR" />
+    <result column="SIGN_TIME" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="SIGN_OFF_TIME" property="signOffTime" jdbcType="TIMESTAMP" />
+    <result column="TRAN_SENDER" property="tranSender" jdbcType="DECIMAL" />
+    <result column="SIGN_STATUS" property="signStatus" jdbcType="DECIMAL" />
+    <result column="CARD_STATUS" property="cardStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACCOUNT_ID, CLIENT_ID, TRAN_NO, EXCH_NO, TRADE_ACCT, ACCT, ACCT_NAME, AMT, CURRENCY, 
+    ACCT_TYPE, CERT_TYPE, CERT_CODE, CLIENT_NAME, MOBILE, EMAIL, EXTEND_INFO, SIGN_TIME, 
+    SIGN_OFF_TIME, TRAN_SENDER, SIGN_STATUS, CARD_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACCOUNT
+    where ACCOUNT_ID = #{accountId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ACCOUNT
+    where ACCOUNT_ID = #{accountId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Account" >
+    insert into ACCOUNT (ACCOUNT_ID, CLIENT_ID, TRAN_NO, 
+      EXCH_NO, TRADE_ACCT, ACCT, 
+      ACCT_NAME, AMT, CURRENCY, 
+      ACCT_TYPE, CERT_TYPE, CERT_CODE, 
+      CLIENT_NAME, MOBILE, EMAIL, 
+      EXTEND_INFO, SIGN_TIME, SIGN_OFF_TIME, 
+      TRAN_SENDER, SIGN_STATUS, CARD_STATUS
+      )
+    values (#{accountId,jdbcType=DECIMAL}, #{clientId,jdbcType=DECIMAL}, #{tranNo,jdbcType=VARCHAR}, 
+      #{exchNo,jdbcType=VARCHAR}, #{tradeAcct,jdbcType=VARCHAR}, #{acct,jdbcType=VARCHAR}, 
+      #{acctName,jdbcType=VARCHAR}, #{amt,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR}, 
+      #{acctType,jdbcType=DECIMAL}, #{certType,jdbcType=VARCHAR}, #{certCode,jdbcType=VARCHAR}, 
+      #{clientName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{extendInfo,jdbcType=VARCHAR}, #{signTime,jdbcType=TIMESTAMP}, #{signOffTime,jdbcType=TIMESTAMP}, 
+      #{tranSender,jdbcType=DECIMAL}, #{signStatus,jdbcType=DECIMAL}, #{cardStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Account" >
+    insert into ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        ACCOUNT_ID,
+      </if>
+      <if test="clientId != null" >
+        CLIENT_ID,
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO,
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO,
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT,
+      </if>
+      <if test="acct != null" >
+        ACCT,
+      </if>
+      <if test="acctName != null" >
+        ACCT_NAME,
+      </if>
+      <if test="amt != null" >
+        AMT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="acctType != null" >
+        ACCT_TYPE,
+      </if>
+      <if test="certType != null" >
+        CERT_TYPE,
+      </if>
+      <if test="certCode != null" >
+        CERT_CODE,
+      </if>
+      <if test="clientName != null" >
+        CLIENT_NAME,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="extendInfo != null" >
+        EXTEND_INFO,
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME,
+      </if>
+      <if test="signOffTime != null" >
+        SIGN_OFF_TIME,
+      </if>
+      <if test="tranSender != null" >
+        TRAN_SENDER,
+      </if>
+      <if test="signStatus != null" >
+        SIGN_STATUS,
+      </if>
+      <if test="cardStatus != null" >
+        CARD_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=DECIMAL},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=DECIMAL},
+      </if>
+      <if test="tranNo != null" >
+        #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchNo != null" >
+        #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="acct != null" >
+        #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amt != null" >
+        #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="acctType != null" >
+        #{acctType,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null" >
+        #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="extendInfo != null" >
+        #{extendInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOffTime != null" >
+        #{signOffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tranSender != null" >
+        #{tranSender,jdbcType=DECIMAL},
+      </if>
+      <if test="signStatus != null" >
+        #{signStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatus != null" >
+        #{cardStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Account" >
+    update ACCOUNT
+    <set >
+      <if test="clientId != null" >
+        CLIENT_ID = #{clientId,jdbcType=DECIMAL},
+      </if>
+      <if test="tranNo != null" >
+        TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchNo != null" >
+        EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAcct != null" >
+        TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="acct != null" >
+        ACCT = #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="amt != null" >
+        AMT = #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="acctType != null" >
+        ACCT_TYPE = #{acctType,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null" >
+        CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null" >
+        CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null" >
+        CLIENT_NAME = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="extendInfo != null" >
+        EXTEND_INFO = #{extendInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOffTime != null" >
+        SIGN_OFF_TIME = #{signOffTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tranSender != null" >
+        TRAN_SENDER = #{tranSender,jdbcType=DECIMAL},
+      </if>
+      <if test="signStatus != null" >
+        SIGN_STATUS = #{signStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="cardStatus != null" >
+        CARD_STATUS = #{cardStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ACCOUNT_ID = #{accountId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Account" >
+    update ACCOUNT
+    set CLIENT_ID = #{clientId,jdbcType=DECIMAL},
+      TRAN_NO = #{tranNo,jdbcType=VARCHAR},
+      EXCH_NO = #{exchNo,jdbcType=VARCHAR},
+      TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR},
+      ACCT = #{acct,jdbcType=VARCHAR},
+      ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+      AMT = #{amt,jdbcType=DECIMAL},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      ACCT_TYPE = #{acctType,jdbcType=DECIMAL},
+      CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      CLIENT_NAME = #{clientName,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      EXTEND_INFO = #{extendInfo,jdbcType=VARCHAR},
+      SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+      SIGN_OFF_TIME = #{signOffTime,jdbcType=TIMESTAMP},
+      TRAN_SENDER = #{tranSender,jdbcType=DECIMAL},
+      SIGN_STATUS = #{signStatus,jdbcType=DECIMAL},
+      CARD_STATUS = #{cardStatus,jdbcType=DECIMAL}
+    where ACCOUNT_ID = #{accountId,jdbcType=DECIMAL}
+  </update>
+  
+  
+  <select id="selectByTradeAcct" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACCOUNT
+    where TRADE_ACCT = #{tradeAcct,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

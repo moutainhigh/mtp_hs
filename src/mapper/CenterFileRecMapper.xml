@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.CenterFileRecMapper" >
+  <resultMap id="BaseResultMap" type="com.model.CenterFileRec" >
+    <id column="CENTER_FILE_REC_ID" property="centerFileRecId" jdbcType="DECIMAL" />
+    <result column="TRAN_DATE" property="tranDate" jdbcType="CHAR" />
+    <result column="CENTER_SEQ" property="centerSeq" jdbcType="VARCHAR" />
+    <result column="RECV_SEND_TYPE" property="recvSendType" jdbcType="DECIMAL" />
+    <result column="FILE_TYPE" property="fileType" jdbcType="CHAR" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+    <result column="IS_RESEND" property="isResend" jdbcType="DECIMAL" />
+    <result column="MD5_STR" property="md5Str" jdbcType="VARCHAR" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="DECIMAL" />
+    <result column="DEAL_DESC" property="dealDesc" jdbcType="VARCHAR" />
+    <result column="RECV_MSG_ID" property="recvMsgId" jdbcType="DECIMAL" />
+    <result column="SEND_MSG_ID" property="sendMsgId" jdbcType="DECIMAL" />
+    <result column="SYS_TIME" property="sysTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CENTER_FILE_REC_ID, TRAN_DATE, CENTER_SEQ, RECV_SEND_TYPE, FILE_TYPE, FILE_PATH, 
+    FILE_NAME, IS_RESEND, MD5_STR, DEAL_STATUS, DEAL_DESC, RECV_MSG_ID, SEND_MSG_ID, 
+    SYS_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CENTER_FILE_REC
+    where CENTER_FILE_REC_ID = #{centerFileRecId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CENTER_FILE_REC
+    where CENTER_FILE_REC_ID = #{centerFileRecId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.CenterFileRec" >
+    insert into CENTER_FILE_REC (CENTER_FILE_REC_ID, TRAN_DATE, CENTER_SEQ, 
+      RECV_SEND_TYPE, FILE_TYPE, FILE_PATH, 
+      FILE_NAME, IS_RESEND, MD5_STR, 
+      DEAL_STATUS, DEAL_DESC, RECV_MSG_ID, 
+      SEND_MSG_ID, SYS_TIME)
+    values (#{centerFileRecId,jdbcType=DECIMAL}, #{tranDate,jdbcType=CHAR}, #{centerSeq,jdbcType=VARCHAR}, 
+      #{recvSendType,jdbcType=DECIMAL}, #{fileType,jdbcType=CHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{isResend,jdbcType=DECIMAL}, #{md5Str,jdbcType=VARCHAR}, 
+      #{dealStatus,jdbcType=DECIMAL}, #{dealDesc,jdbcType=VARCHAR}, #{recvMsgId,jdbcType=DECIMAL}, 
+      #{sendMsgId,jdbcType=DECIMAL}, #{sysTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.CenterFileRec" >
+    insert into CENTER_FILE_REC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="centerFileRecId != null" >
+        CENTER_FILE_REC_ID,
+      </if>
+      <if test="tranDate != null" >
+        TRAN_DATE,
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ,
+      </if>
+      <if test="recvSendType != null" >
+        RECV_SEND_TYPE,
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME,
+      </if>
+      <if test="isResend != null" >
+        IS_RESEND,
+      </if>
+      <if test="md5Str != null" >
+        MD5_STR,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC,
+      </if>
+      <if test="recvMsgId != null" >
+        RECV_MSG_ID,
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID,
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="centerFileRecId != null" >
+        #{centerFileRecId,jdbcType=DECIMAL},
+      </if>
+      <if test="tranDate != null" >
+        #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="centerSeq != null" >
+        #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="recvSendType != null" >
+        #{recvSendType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileType != null" >
+        #{fileType,jdbcType=CHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="isResend != null" >
+        #{isResend,jdbcType=DECIMAL},
+      </if>
+      <if test="md5Str != null" >
+        #{md5Str,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recvMsgId != null" >
+        #{recvMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMsgId != null" >
+        #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.CenterFileRec" >
+    update CENTER_FILE_REC
+    <set >
+      <if test="tranDate != null" >
+        TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      </if>
+      <if test="centerSeq != null" >
+        CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="recvSendType != null" >
+        RECV_SEND_TYPE = #{recvSendType,jdbcType=DECIMAL},
+      </if>
+      <if test="fileType != null" >
+        FILE_TYPE = #{fileType,jdbcType=CHAR},
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="isResend != null" >
+        IS_RESEND = #{isResend,jdbcType=DECIMAL},
+      </if>
+      <if test="md5Str != null" >
+        MD5_STR = #{md5Str,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="dealDesc != null" >
+        DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recvMsgId != null" >
+        RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sendMsgId != null" >
+        SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      </if>
+      <if test="sysTime != null" >
+        SYS_TIME = #{sysTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CENTER_FILE_REC_ID = #{centerFileRecId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.CenterFileRec" >
+    update CENTER_FILE_REC
+    set TRAN_DATE = #{tranDate,jdbcType=CHAR},
+      CENTER_SEQ = #{centerSeq,jdbcType=VARCHAR},
+      RECV_SEND_TYPE = #{recvSendType,jdbcType=DECIMAL},
+      FILE_TYPE = #{fileType,jdbcType=CHAR},
+      FILE_PATH = #{filePath,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      IS_RESEND = #{isResend,jdbcType=DECIMAL},
+      MD5_STR = #{md5Str,jdbcType=VARCHAR},
+      DEAL_STATUS = #{dealStatus,jdbcType=DECIMAL},
+      DEAL_DESC = #{dealDesc,jdbcType=VARCHAR},
+      RECV_MSG_ID = #{recvMsgId,jdbcType=DECIMAL},
+      SEND_MSG_ID = #{sendMsgId,jdbcType=DECIMAL},
+      SYS_TIME = #{sysTime,jdbcType=TIMESTAMP}
+    where CENTER_FILE_REC_ID = #{centerFileRecId,jdbcType=DECIMAL}
+  </update>
+</mapper>

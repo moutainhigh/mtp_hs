@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.QuotationMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Quotation" >
+    <id column="QUOTATION_ID" property="quotationId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="PRICE_TYPE" property="priceType" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_MARKET_TYPE" property="exchangeMarketType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="VARCHAR" />
+    <result column="BIT_NUM" property="bitNum" jdbcType="VARCHAR" />
+    <result column="OPEN_QUOTATION_PRICE" property="openQuotationPrice" jdbcType="VARCHAR" />
+    <result column="PRECLOSE_PRICE" property="preclosePrice" jdbcType="VARCHAR" />
+    <result column="ASK_PRICE" property="askPrice" jdbcType="VARCHAR" />
+    <result column="BID_PRICE" property="bidPrice" jdbcType="VARCHAR" />
+    <result column="LAST_PRICE" property="lastPrice" jdbcType="VARCHAR" />
+    <result column="HIGH_PRICE" property="highPrice" jdbcType="VARCHAR" />
+    <result column="LOW_PRICE" property="lowPrice" jdbcType="VARCHAR" />
+    <result column="TIMESTAMPH" property="timestamph" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    QUOTATION_ID, INIT_DATE, PRICE_TYPE, EXCHANGE_ID, EXCHANGE_MARKET_TYPE, PRODUCT_CATEGORY_ID, 
+    PRODUCT_CODE, MONEY_TYPE, BIT_NUM, OPEN_QUOTATION_PRICE, PRECLOSE_PRICE, ASK_PRICE, 
+    BID_PRICE, LAST_PRICE, HIGH_PRICE, LOW_PRICE, TIMESTAMPH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from QUOTATION
+    where QUOTATION_ID = #{quotationId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from QUOTATION
+    where QUOTATION_ID = #{quotationId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Quotation" >
+    insert into QUOTATION (QUOTATION_ID, INIT_DATE, PRICE_TYPE, 
+      EXCHANGE_ID, EXCHANGE_MARKET_TYPE, PRODUCT_CATEGORY_ID, 
+      PRODUCT_CODE, MONEY_TYPE, BIT_NUM, 
+      OPEN_QUOTATION_PRICE, PRECLOSE_PRICE, ASK_PRICE, 
+      BID_PRICE, LAST_PRICE, HIGH_PRICE, 
+      LOW_PRICE, TIMESTAMPH)
+    values (#{quotationId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{priceType,jdbcType=VARCHAR}, 
+      #{exchangeId,jdbcType=VARCHAR}, #{exchangeMarketType,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=VARCHAR}, 
+      #{productCode,jdbcType=VARCHAR}, #{moneyType,jdbcType=VARCHAR}, #{bitNum,jdbcType=VARCHAR}, 
+      #{openQuotationPrice,jdbcType=VARCHAR}, #{preclosePrice,jdbcType=VARCHAR}, #{askPrice,jdbcType=VARCHAR}, 
+      #{bidPrice,jdbcType=VARCHAR}, #{lastPrice,jdbcType=VARCHAR}, #{highPrice,jdbcType=VARCHAR}, 
+      #{lowPrice,jdbcType=VARCHAR}, #{timestamph,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Quotation" >
+    insert into QUOTATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="quotationId != null" >
+        QUOTATION_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="bitNum != null" >
+        BIT_NUM,
+      </if>
+      <if test="openQuotationPrice != null" >
+        OPEN_QUOTATION_PRICE,
+      </if>
+      <if test="preclosePrice != null" >
+        PRECLOSE_PRICE,
+      </if>
+      <if test="askPrice != null" >
+        ASK_PRICE,
+      </if>
+      <if test="bidPrice != null" >
+        BID_PRICE,
+      </if>
+      <if test="lastPrice != null" >
+        LAST_PRICE,
+      </if>
+      <if test="highPrice != null" >
+        HIGH_PRICE,
+      </if>
+      <if test="lowPrice != null" >
+        LOW_PRICE,
+      </if>
+      <if test="timestamph != null" >
+        TIMESTAMPH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="quotationId != null" >
+        #{quotationId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null" >
+        #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="bitNum != null" >
+        #{bitNum,jdbcType=VARCHAR},
+      </if>
+      <if test="openQuotationPrice != null" >
+        #{openQuotationPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="preclosePrice != null" >
+        #{preclosePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="askPrice != null" >
+        #{askPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="bidPrice != null" >
+        #{bidPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lastPrice != null" >
+        #{lastPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="highPrice != null" >
+        #{highPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lowPrice != null" >
+        #{lowPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamph != null" >
+        #{timestamph,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Quotation" >
+    update QUOTATION
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="priceType != null" >
+        PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="bitNum != null" >
+        BIT_NUM = #{bitNum,jdbcType=VARCHAR},
+      </if>
+      <if test="openQuotationPrice != null" >
+        OPEN_QUOTATION_PRICE = #{openQuotationPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="preclosePrice != null" >
+        PRECLOSE_PRICE = #{preclosePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="askPrice != null" >
+        ASK_PRICE = #{askPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="bidPrice != null" >
+        BID_PRICE = #{bidPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lastPrice != null" >
+        LAST_PRICE = #{lastPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="highPrice != null" >
+        HIGH_PRICE = #{highPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="lowPrice != null" >
+        LOW_PRICE = #{lowPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamph != null" >
+        TIMESTAMPH = #{timestamph,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where QUOTATION_ID = #{quotationId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Quotation" >
+    update QUOTATION
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      PRICE_TYPE = #{priceType,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      BIT_NUM = #{bitNum,jdbcType=VARCHAR},
+      OPEN_QUOTATION_PRICE = #{openQuotationPrice,jdbcType=VARCHAR},
+      PRECLOSE_PRICE = #{preclosePrice,jdbcType=VARCHAR},
+      ASK_PRICE = #{askPrice,jdbcType=VARCHAR},
+      BID_PRICE = #{bidPrice,jdbcType=VARCHAR},
+      LAST_PRICE = #{lastPrice,jdbcType=VARCHAR},
+      HIGH_PRICE = #{highPrice,jdbcType=VARCHAR},
+      LOW_PRICE = #{lowPrice,jdbcType=VARCHAR},
+      TIMESTAMPH = #{timestamph,jdbcType=VARCHAR}
+    where QUOTATION_ID = #{quotationId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.MemberFeeMapper" >
+  <resultMap id="BaseResultMap" type="com.model.MemberFee" >
+    <id column="MEMBER_FEE_ID" property="memberFeeId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_MARKET_TYPE" property="exchangeMarketType" jdbcType="VARCHAR" />
+    <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_FEES_TYPE" property="exchangeFeesType" jdbcType="VARCHAR" />
+    <result column="FEES_BALANCE" property="feesBalance" jdbcType="VARCHAR" />
+    <result column="PAYER_MEM_CODE" property="payerMemCode" jdbcType="VARCHAR" />
+    <result column="PAYER_FUND_ACCOUNT" property="payerFundAccount" jdbcType="VARCHAR" />
+    <result column="PAYEE_MEM_CODE" property="payeeMemCode" jdbcType="VARCHAR" />
+    <result column="PAYEE_FUND_ACCOUNT" property="payeeFundAccount" jdbcType="VARCHAR" />
+    <result column="RELATED_BILL_TYPE" property="relatedBillType" jdbcType="VARCHAR" />
+    <result column="RELATED_BILL_NO" property="relatedBillNo" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="BUSI_DATETIME" property="busiDatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MEMBER_FEE_ID, INIT_DATE, SERIAL_NO, EXCHANGE_ID, EXCHANGE_MARKET_TYPE, BIZ_TYPE, 
+    EXCHANGE_FEES_TYPE, FEES_BALANCE, PAYER_MEM_CODE, PAYER_FUND_ACCOUNT, PAYEE_MEM_CODE, 
+    PAYEE_FUND_ACCOUNT, RELATED_BILL_TYPE, RELATED_BILL_NO, REMARK, BUSI_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBER_FEE
+    where MEMBER_FEE_ID = #{memberFeeId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from MEMBER_FEE
+    where MEMBER_FEE_ID = #{memberFeeId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.MemberFee" >
+    insert into MEMBER_FEE (MEMBER_FEE_ID, INIT_DATE, SERIAL_NO, 
+      EXCHANGE_ID, EXCHANGE_MARKET_TYPE, BIZ_TYPE, 
+      EXCHANGE_FEES_TYPE, FEES_BALANCE, PAYER_MEM_CODE, 
+      PAYER_FUND_ACCOUNT, PAYEE_MEM_CODE, PAYEE_FUND_ACCOUNT, 
+      RELATED_BILL_TYPE, RELATED_BILL_NO, REMARK, 
+      BUSI_DATETIME)
+    values (#{memberFeeId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
+      #{exchangeId,jdbcType=VARCHAR}, #{exchangeMarketType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, 
+      #{exchangeFeesType,jdbcType=VARCHAR}, #{feesBalance,jdbcType=VARCHAR}, #{payerMemCode,jdbcType=VARCHAR}, 
+      #{payerFundAccount,jdbcType=VARCHAR}, #{payeeMemCode,jdbcType=VARCHAR}, #{payeeFundAccount,jdbcType=VARCHAR}, 
+      #{relatedBillType,jdbcType=VARCHAR}, #{relatedBillNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{busiDatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.MemberFee" >
+    insert into MEMBER_FEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberFeeId != null" >
+        MEMBER_FEE_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="serialNo != null" >
+        SERIAL_NO,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE,
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE,
+      </if>
+      <if test="exchangeFeesType != null" >
+        EXCHANGE_FEES_TYPE,
+      </if>
+      <if test="feesBalance != null" >
+        FEES_BALANCE,
+      </if>
+      <if test="payerMemCode != null" >
+        PAYER_MEM_CODE,
+      </if>
+      <if test="payerFundAccount != null" >
+        PAYER_FUND_ACCOUNT,
+      </if>
+      <if test="payeeMemCode != null" >
+        PAYEE_MEM_CODE,
+      </if>
+      <if test="payeeFundAccount != null" >
+        PAYEE_FUND_ACCOUNT,
+      </if>
+      <if test="relatedBillType != null" >
+        RELATED_BILL_TYPE,
+      </if>
+      <if test="relatedBillNo != null" >
+        RELATED_BILL_NO,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberFeeId != null" >
+        #{memberFeeId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeFeesType != null" >
+        #{exchangeFeesType,jdbcType=VARCHAR},
+      </if>
+      <if test="feesBalance != null" >
+        #{feesBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="payerMemCode != null" >
+        #{payerMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payerFundAccount != null" >
+        #{payerFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeMemCode != null" >
+        #{payeeMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeFundAccount != null" >
+        #{payeeFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedBillType != null" >
+        #{relatedBillType,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedBillNo != null" >
+        #{relatedBillNo,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.MemberFee" >
+    update MEMBER_FEE
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeMarketType != null" >
+        EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeFeesType != null" >
+        EXCHANGE_FEES_TYPE = #{exchangeFeesType,jdbcType=VARCHAR},
+      </if>
+      <if test="feesBalance != null" >
+        FEES_BALANCE = #{feesBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="payerMemCode != null" >
+        PAYER_MEM_CODE = #{payerMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payerFundAccount != null" >
+        PAYER_FUND_ACCOUNT = #{payerFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeMemCode != null" >
+        PAYEE_MEM_CODE = #{payeeMemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeFundAccount != null" >
+        PAYEE_FUND_ACCOUNT = #{payeeFundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedBillType != null" >
+        RELATED_BILL_TYPE = #{relatedBillType,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedBillNo != null" >
+        RELATED_BILL_NO = #{relatedBillNo,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_FEE_ID = #{memberFeeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.MemberFee" >
+    update MEMBER_FEE
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      EXCHANGE_MARKET_TYPE = #{exchangeMarketType,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      EXCHANGE_FEES_TYPE = #{exchangeFeesType,jdbcType=VARCHAR},
+      FEES_BALANCE = #{feesBalance,jdbcType=VARCHAR},
+      PAYER_MEM_CODE = #{payerMemCode,jdbcType=VARCHAR},
+      PAYER_FUND_ACCOUNT = #{payerFundAccount,jdbcType=VARCHAR},
+      PAYEE_MEM_CODE = #{payeeMemCode,jdbcType=VARCHAR},
+      PAYEE_FUND_ACCOUNT = #{payeeFundAccount,jdbcType=VARCHAR},
+      RELATED_BILL_TYPE = #{relatedBillType,jdbcType=VARCHAR},
+      RELATED_BILL_NO = #{relatedBillNo,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR}
+    where MEMBER_FEE_ID = #{memberFeeId,jdbcType=DECIMAL}
+  </update>
+</mapper>

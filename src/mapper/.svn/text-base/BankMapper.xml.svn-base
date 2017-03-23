@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.BankMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Bank" >
+    <id column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    <result column="BANK_PRO_CODE" property="bankProCode" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BANK_NO, BANK_PRO_CODE, BANK_NAME, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from BANK
+    where BANK_NO = #{bankNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BANK
+    where BANK_NO = #{bankNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.model.Bank" >
+    insert into BANK (BANK_NO, BANK_PRO_CODE, BANK_NAME, 
+      STATUS)
+    values (#{bankNo,jdbcType=VARCHAR}, #{bankProCode,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Bank" >
+    insert into BANK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bankNo != null" >
+        BANK_NO,
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE,
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Bank" >
+    update BANK
+    <set >
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where BANK_NO = #{bankNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Bank" >
+    update BANK
+    set BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where BANK_NO = #{bankNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

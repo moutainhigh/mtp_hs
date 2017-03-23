@@ -1,0 +1,99 @@
+/**
+ * 版权所有 2003~2018多元世纪
+ */
+package com.core.service.impl;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.core.service.IdGenerator;
+
+
+/**
+ * @author Yao.shulin
+ * @create Date: 2016年2月24日-下午5:51:38
+ */
+@Service
+public class SequenceIDGenerator extends SqlSessionDaoSupport implements IdGenerator {
+    private static String                  SEQ_PREFIX            = "SEQ_";
+    /**
+     * 用如下SQL生成缺省序列 CREATE SEQUENCE SEQ_GENERAL_ID INCREMENT BY 100 MINVALUE 1 MAXVALUE 999999999 START WITH 100 CYCLE ;
+     */
+    private static String                  DEFAULT_ID_NAME = "GENERAL_ID";
+    private static int                     DEFAULT_CACHE_SIZE    = 99;
+    private volatile Map<String, Sequence> sequencePool          = new HashMap<>();
+    private Lock                           lock                  = new ReentrantLock();
+
+    @Resource(name = "sqlSessionTemplate")
+    public void setSuperSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+        super.setSqlSessionTemplate(sqlSessionTemplate);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.muchinfo.tas.core.service.IdGenerator#generateID()
+     */
+    @Override
+    public long generateId() {
+        return this.generateId(DEFAULT_ID_NAME);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.muchinfo.tas.core.service.IdGenerator#generateID(java.lang.String)
+     */
+    @Transactional(propagation=Propagation.NOT_SUPPORTED)
+    @Override
+    public long generateId(String name) {
+    	Map<String, Object> param = new HashMap<>();
+        param.put("seqName", SEQ_PREFIX + name);
+        Long l = getSqlSession().selectOne("com.core.mapper.getSeqNextValue", param);
+    	return l;
+
+//        lock.lock();
+//        try {
+//            Sequence sequence = sequencePool.get(name);
+//            if (sequence != null && sequence.currentValue != sequence.nextValue) {
+//                sequence.currentValue++;
+//            } else {
+//                sequence = retrieveSequenceNextValue(name);
+//            }
+//            return sequence.currentValue;
+//        } finally {
+//            lock.unlock();
+//        }
+    }
+
+    private Sequence retrieveSequenceNextValue(String name) {
+        Sequence sequence;
+        long currentValue, nextValue;
+        Map<String, Object> param = new HashMap<>();
+        param.put("seqName", SEQ_PREFIX + name);
+        nextValue = getSqlSession().selectOne("com.muchinfo.mtp.core.mapper.getSeqNextValue", param);
+        currentValue = nextValue - DEFAULT_CACHE_SIZE;
+        sequence = new Sequence(currentValue, nextValue);
+        sequencePool.put(name, sequence);
+        return sequence;
+    }
+
+    class Sequence {
+        Sequence(long currentValue, long nextValue) {
+            this.currentValue = currentValue;
+            this.nextValue = nextValue;
+        }
+
+        long currentValue;
+        long nextValue;
+    }
+}

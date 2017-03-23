@@ -1,0 +1,241 @@
+package com.service.impl;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.core.util.FileUtil;
+import com.core.util.FtpUtil;
+import com.core.util.PropertiesUtil;
+import com.core.util.ZipUtil;
+import com.dao.CenterFileRecMapper;
+import com.model.CenterFileRec;
+import com.model.Entrust;
+import com.proto.CenterBank.Msg31001;
+import com.service.MakeEntrustFileService;
+
+/**
+ *  委托单文件
+ * ClassName: MakeEntrustFileServiceImpl.java
+ * date: 2016年12月16日下午8:08:56
+ * @author yu.jian
+ * @version
+ */
+@Service
+@Transactional
+public class MakeEntrustFileServiceImpl implements MakeEntrustFileService {
+	private static final Logger LOGGER = Logger.getLogger(MakeEntrustFileServiceImpl.class);
+	/**
+	 *  
+	 * ClassName: MakeEntrustFileServiceImpl.java
+	 * date: 2016年12月16日下午8:08:57
+	 * @author yu.jian
+	 * @version
+	 */
+	@Autowired
+	private CenterFileRecMapper fileRecMapper;
+	@Override
+	public String doMakeEntrustFile(Msg31001 msg31001, long recId) throws Exception {
+		try{
+			CenterFileRec fileRec = fileRecMapper.selectByPrimaryKey(recId);
+			
+			String exchNo = msg31001.getExchNo();
+			String filePath = msg31001.getFilePath();
+			String fileName = msg31001.getFileName();
+			
+			//读取ftp信息
+			String url = PropertiesUtil.getProperty(exchNo + ".exch_ftp_url");     //ftp地址
+			int port = Integer.valueOf(PropertiesUtil.getProperty(exchNo + ".exch_ftp_port"));   //端口
+			String username = PropertiesUtil.getProperty(exchNo + ".exch_ftp_user_name");        
+			String password = PropertiesUtil.getProperty(exchNo + ".exch_ftp_pw");
+			
+			//下载委托单文件到本地路径
+			String sysPath = System.getProperty("user.dir");
+			String localPath = sysPath + File.separator + PropertiesUtil.getProperty("recv_exch_path");
+			
+			LOGGER.info("【委托单文件】  下载文件开始 URL:" + url + "|PORT:" + port + "|filePath:" + filePath + "+|localPath:"
+					+ localPath );
+			boolean isSuccess = FtpUtil.downFile(url, port, username, password, filePath, fileName, localPath);
+			
+			if (!isSuccess) {
+				fileRec.setDealStatus(1);
+				fileRec.setDealDesc("失败");
+				fileRecMapper.updateByPrimaryKeySelective(fileRec);
+				throw new Exception("*文件下载失败*");
+			}
+			
+			LOGGER.info("*文件下载成功*");
+			
+			//读取委托单文件内容
+			Map<String, Object> dataMap = readBF12(localPath+ File.separator + fileName);
+			//取数据内容
+			List<Entrust> dataList = (List<Entrust>) dataMap.get("beanList"); 
+			
+			LOGGER.info("*开始组装委托单文件*");
+			String upEntrustFileName = makeEntrustFile(dataList, "4110014", msg31001.getBankDate());
+			
+			
+			//上传文件
+			LOGGER.info("【委托单文件】  委托单文件文件上传  localPath:" + localPath + "+|fileName：" + upEntrustFileName);
+			
+			String hs_url = PropertiesUtil.getProperty("hs_ftp_url");
+			int hs_port = Integer.valueOf(PropertiesUtil.getProperty("hs_ftp_port"));
+			String hs_username = PropertiesUtil.getProperty("hs_ftp_user_name");
+			String hs_password = PropertiesUtil.getProperty("hs_ftp_pw");
+			
+			String send_localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+			String srcFilename = send_localPath + File.separator + upEntrustFileName;
+			
+			isSuccess = FtpUtil.uploadFile(hs_url, hs_port, hs_username, hs_password, msg31001.getBankDate(), upEntrustFileName,srcFilename);
+			if (!isSuccess) {
+				throw new Exception("*委托单文件上传失败*");
+			}
+			return upEntrustFileName;
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	//读取委托单文件
+	public Map<String, Object> readBF12(String filePath) throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Entrust> entrustList = new ArrayList<Entrust>();
+		try {
+			int i = 0;
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8"));
+			String lineStr = br.readLine();
+			while (lineStr != null) {
+				if (i++ == 0) {
+					String[] liStr = lineStr.split("&");
+					String tranNo = liStr[0];
+					String bankDate = liStr[1];
+					String totalRecord = liStr[2];
+					map.put("tranNo", tranNo);
+					map.put("exchDate", bankDate);
+					map.put("totalRecord", totalRecord);
+				} else {
+					Entrust entrust = new Entrust();
+					String[] liStr = lineStr.split("&");
+					entrust.setInitDate(liStr[1]);
+					entrust.setExchangeId(liStr[0]);
+					entrust.setEntrustNo(liStr[2]);
+					entrust.setProductCategoryId(liStr[3]);
+					entrust.setProductCode(liStr[4]);
+					entrust.setMemCode(liStr[5]);
+					entrust.setTradeDir(liStr[6]);
+					entrust.setOrderType(liStr[7]);
+					entrust.setOrderWay(liStr[8]);
+					entrust.setOrderSerialNo(liStr[9]);
+					entrust.setDepositWay(liStr[10]);
+					entrust.setOrderPrice(liStr[11]);
+					entrust.setOrderQuantity(liStr[12]);
+					entrust.setLeftQuantity(liStr[13]);
+					entrust.setDepositRate(liStr[14]);
+					entrust.setDepositRatioType(liStr[15]);
+					entrust.setDepositType(liStr[16]);
+					entrust.setPoundageRate(liStr[17]);
+					entrust.setPoundageRatioType(liStr[18]);
+					entrust.setTradePoundage(liStr[19]);
+					entrust.setPaperBalance(liStr[20]);
+					entrust.setOrderFrozen(liStr[21]);
+					entrust.setTaxRate(liStr[22]);
+					entrust.setTaxRate(liStr[23]);
+					entrust.setTrader(liStr[24]);
+					entrust.setOrderTime(liStr[25]);
+					entrust.setOrderIp(liStr[26]);
+					entrust.setOrderStatus(liStr[27]);
+					entrust.setRemark(liStr[28]);
+					entrust.setBusiDatetime(liStr[29]);
+					
+					entrustList.add(entrust);
+				}
+
+				lineStr = br.readLine();
+			}
+			map.put("beanList", entrustList);
+		} catch (FileNotFoundException e) {
+			LOGGER.error("*交易所委托单文件读取失败*", e);
+			throw new Exception("*交易所委托单文件读取失败*", e);
+		} catch (IOException e) {
+			LOGGER.error("*交易所委托单文件读取失败*", e);
+			throw new Exception("*交易所委托单文件读取失败*", e);
+		}
+		return map;
+	}
+	
+	//组装委托单文件
+	public String makeEntrustFile(List<Entrust> dataList, String exchNo, String bankDate) throws Exception{
+		String upEntrustData = "";
+		
+		for(int i=0; i<dataList.size();i++){
+			Entrust entrust = dataList.get(i);
+			String initDate = entrust.getInitDate();//	N8	业务发生日期(YYYYMMDD)	
+			String exchangeId = exchNo;//	C32	交易所代码	
+			String entrustNo = entrust.getEntrustNo();//	C64	报单编码	
+			String productCategoryId = entrust.getProductCategoryId();//	N16	产品类别ID	
+			String productCode = entrust.getProductCode();//	C20	产品代码	
+			String memCode = entrust.getMemCode();//	C20	会员编码（交易所内部）	
+			String tradeDir = entrust.getTradeDir();//	C1	买卖方向(1买2卖)	
+			String orderType = entrust.getOrderType();//	C1	报单类型(1开仓 2平仓)	
+			String orderWay = entrust.getOrderWay();//	C1	报单方式(1PC客户端 2移动客户端 3浏览器客户端 4电话报单 Z其他)	
+			String orderSerialNo = entrust.getOrderSerialNo();//	C64	撤单对应报单编码	
+			String depositWay = entrust.getDepositWay();//	C1	仓单/定金方式(0仓单 1定金)	
+			String orderPrice = entrust.getOrderPrice()	;//L	报单价格	
+			String orderQuantity = entrust.getOrderQuantity();//	D	报单数量	
+			String leftQuantity = entrust.getLeftQuantity();//	D	未委托数量	
+			String depositRate = entrust.getDepositRate();//	D	定金率	
+			String depositRatioType = entrust.getDepositRatioType();//	C1	定金率是否比率(0-固定 1-比率)	
+			String depositType = entrust.getDepositType();//	C1	定金收取方式(0-开仓价 1-持仓价)	
+			String poundageRate = entrust.getPoundageRate();//	D	手续费率	
+			String poundageRatioType = entrust.getPoundageRatioType();//	C1	手续费是否比率(0固定 1比率)	
+			String tradePoundage = entrust.getTradePoundage();//	L	手续费（可选，与费用文件数据一致）	
+			String paperBalance = entrust.getPaperBalance();//	L	账面价差（(报单价-最新价)*报单数量，暂未使用）	
+			String orderFrozen = entrust.getOrderFrozen();//	L	报单冻结或报单货款冻结	
+			String taxRate = entrust.getTaxRate();//	D	税率（现货征收税率，暂未使用）	
+			String validDate = entrust.getValidDate();//	C20	有效日期	
+			String trader = entrust.getTrader();//	C20	交易员	
+			String orderTime = entrust.getOrderTime();//	C14	报单时间(yyyyMMddHHmmss)	
+			String orderIp = entrust.getOrderIp();//	C20	报单IP地址	
+			String orderStatus = entrust.getOrderStatus();//	C1	报单状态(0已申报待处理 1未委托 2部分委托 3完全委托 4待撤单处理 5撤单处理中 6已经撤单 Z作废)	
+			String remark = entrust.getRemark();//	C500	备注	
+			String busiDatetime = entrust.getBusiDatetime();//	C14	业务时间(yyyyMMddHHmmss)
+			
+			upEntrustData = upEntrustData+initDate+"|"+exchangeId+"|"+entrustNo+"|"+productCategoryId+"|"+productCode
+					+"|"+memCode+"|"+tradeDir+"|"+orderType+"|"+orderWay+"|"+orderSerialNo
+					+"|"+depositWay+"|"+orderPrice
+					+"|"+orderQuantity+"|"+leftQuantity+"|"+depositRate
+					+"|"+depositRatioType+"|"+depositType+"|"+poundageRate+"|"+poundageRatioType+"|"+tradePoundage
+					+"|"+paperBalance+"|"+orderFrozen
+					+"|"+taxRate+"|"+validDate+"|"+trader
+					+"|"+orderTime+"|"+orderIp+"|"+orderStatus+"|"+remark+"|"+busiDatetime+"\r\n";
+		}
+		//将所有数据一次性写入文件
+		//下载委托单文件到本地路径
+		String sysPath = System.getProperty("user.dir");
+		String localPath = sysPath + File.separator + PropertiesUtil.getProperty("send_path");
+		String fileName = bankDate+"_"+ exchNo+"_" +"entrust.txt";//yyyymmdd_xxx(交易所代码)_clearResult.txt
+		
+		boolean isSuccess = FileUtil.writeFile(upEntrustData, localPath, fileName);
+		if(!isSuccess){
+			throw new Exception( fileName + "*委托单文件写入失败*");
+		}
+		File file = new File(localPath + File.separator + fileName);
+		String zipFileName = bankDate+"_"+ exchNo+"_" +"entrust.zip";
+		File zipFile = new File(localPath + File.separator+zipFileName);
+		ZipUtil.zip(file, zipFile);
+		return zipFileName;
+	}
+
+}

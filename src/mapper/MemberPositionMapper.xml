@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.MemberPositionMapper" >
+  <resultMap id="BaseResultMap" type="com.model.MemberPosition" >
+    <id column="MEMBER_POSITION_ID" property="memberPositionId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="HOLD_ID" property="holdId" jdbcType="VARCHAR" />
+    <result column="MEM_CODE" property="memCode" jdbcType="VARCHAR" />
+    <result column="TRADE_ACCOUNT" property="tradeAccount" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="TRADE_DIR" property="tradeDir" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_WAY" property="depositWay" jdbcType="VARCHAR" />
+    <result column="OPEN_PRICE" property="openPrice" jdbcType="VARCHAR" />
+    <result column="HOLD_PRICE" property="holdPrice" jdbcType="VARCHAR" />
+    <result column="DEAL_QUANTITY" property="dealQuantity" jdbcType="VARCHAR" />
+    <result column="LEFT_QUANTITY" property="leftQuantity" jdbcType="VARCHAR" />
+    <result column="PRESENT_UNIT" property="presentUnit" jdbcType="VARCHAR" />
+    <result column="TRADE_POUNDAGE" property="tradePoundage" jdbcType="VARCHAR" />
+    <result column="DELAY_FEES" property="delayFees" jdbcType="VARCHAR" />
+    <result column="PERFORM_BALANCE" property="performBalance" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATE" property="depositRate" jdbcType="VARCHAR" />
+    <result column="SQUARE_PROFIT_LOSS" property="squareProfitLoss" jdbcType="VARCHAR" />
+    <result column="SETTLE_PROFIT_LOSS" property="settleProfitLoss" jdbcType="VARCHAR" />
+    <result column="SETTLE_PRICE" property="settlePrice" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATIO_TYPE" property="depositRatioType" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_TYPE" property="depositType" jdbcType="VARCHAR" />
+    <result column="TODAY_HOLD_FLAG" property="todayHoldFlag" jdbcType="VARCHAR" />
+    <result column="BUSI_DATETIME" property="busiDatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MEMBER_POSITION_ID, INIT_DATE, EXCHANGE_ID, HOLD_ID, MEM_CODE, TRADE_ACCOUNT, PRODUCT_CATEGORY_ID, 
+    PRODUCT_CODE, TRADE_DIR, DEPOSIT_WAY, OPEN_PRICE, HOLD_PRICE, DEAL_QUANTITY, LEFT_QUANTITY, 
+    PRESENT_UNIT, TRADE_POUNDAGE, DELAY_FEES, PERFORM_BALANCE, DEPOSIT_RATE, SQUARE_PROFIT_LOSS, 
+    SETTLE_PROFIT_LOSS, SETTLE_PRICE, DEPOSIT_RATIO_TYPE, DEPOSIT_TYPE, TODAY_HOLD_FLAG, 
+    BUSI_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from MEMBER_POSITION
+    where MEMBER_POSITION_ID = #{memberPositionId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from MEMBER_POSITION
+    where MEMBER_POSITION_ID = #{memberPositionId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.MemberPosition" >
+    insert into MEMBER_POSITION (MEMBER_POSITION_ID, INIT_DATE, EXCHANGE_ID, 
+      HOLD_ID, MEM_CODE, TRADE_ACCOUNT, 
+      PRODUCT_CATEGORY_ID, PRODUCT_CODE, TRADE_DIR, 
+      DEPOSIT_WAY, OPEN_PRICE, HOLD_PRICE, 
+      DEAL_QUANTITY, LEFT_QUANTITY, PRESENT_UNIT, 
+      TRADE_POUNDAGE, DELAY_FEES, PERFORM_BALANCE, 
+      DEPOSIT_RATE, SQUARE_PROFIT_LOSS, SETTLE_PROFIT_LOSS, 
+      SETTLE_PRICE, DEPOSIT_RATIO_TYPE, DEPOSIT_TYPE, 
+      TODAY_HOLD_FLAG, BUSI_DATETIME)
+    values (#{memberPositionId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{holdId,jdbcType=VARCHAR}, #{memCode,jdbcType=VARCHAR}, #{tradeAccount,jdbcType=VARCHAR}, 
+      #{productCategoryId,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, #{tradeDir,jdbcType=VARCHAR}, 
+      #{depositWay,jdbcType=VARCHAR}, #{openPrice,jdbcType=VARCHAR}, #{holdPrice,jdbcType=VARCHAR}, 
+      #{dealQuantity,jdbcType=VARCHAR}, #{leftQuantity,jdbcType=VARCHAR}, #{presentUnit,jdbcType=VARCHAR}, 
+      #{tradePoundage,jdbcType=VARCHAR}, #{delayFees,jdbcType=VARCHAR}, #{performBalance,jdbcType=VARCHAR}, 
+      #{depositRate,jdbcType=VARCHAR}, #{squareProfitLoss,jdbcType=VARCHAR}, #{settleProfitLoss,jdbcType=VARCHAR}, 
+      #{settlePrice,jdbcType=VARCHAR}, #{depositRatioType,jdbcType=VARCHAR}, #{depositType,jdbcType=VARCHAR}, 
+      #{todayHoldFlag,jdbcType=VARCHAR}, #{busiDatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.MemberPosition" >
+    insert into MEMBER_POSITION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberPositionId != null" >
+        MEMBER_POSITION_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="holdId != null" >
+        HOLD_ID,
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE,
+      </if>
+      <if test="tradeAccount != null" >
+        TRADE_ACCOUNT,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR,
+      </if>
+      <if test="depositWay != null" >
+        DEPOSIT_WAY,
+      </if>
+      <if test="openPrice != null" >
+        OPEN_PRICE,
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE,
+      </if>
+      <if test="dealQuantity != null" >
+        DEAL_QUANTITY,
+      </if>
+      <if test="leftQuantity != null" >
+        LEFT_QUANTITY,
+      </if>
+      <if test="presentUnit != null" >
+        PRESENT_UNIT,
+      </if>
+      <if test="tradePoundage != null" >
+        TRADE_POUNDAGE,
+      </if>
+      <if test="delayFees != null" >
+        DELAY_FEES,
+      </if>
+      <if test="performBalance != null" >
+        PERFORM_BALANCE,
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE,
+      </if>
+      <if test="squareProfitLoss != null" >
+        SQUARE_PROFIT_LOSS,
+      </if>
+      <if test="settleProfitLoss != null" >
+        SETTLE_PROFIT_LOSS,
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE,
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE,
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE,
+      </if>
+      <if test="todayHoldFlag != null" >
+        TODAY_HOLD_FLAG,
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberPositionId != null" >
+        #{memberPositionId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="holdId != null" >
+        #{holdId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccount != null" >
+        #{tradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="depositWay != null" >
+        #{depositWay,jdbcType=VARCHAR},
+      </if>
+      <if test="openPrice != null" >
+        #{openPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dealQuantity != null" >
+        #{dealQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="leftQuantity != null" >
+        #{leftQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="presentUnit != null" >
+        #{presentUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePoundage != null" >
+        #{tradePoundage,jdbcType=VARCHAR},
+      </if>
+      <if test="delayFees != null" >
+        #{delayFees,jdbcType=VARCHAR},
+      </if>
+      <if test="performBalance != null" >
+        #{performBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="squareProfitLoss != null" >
+        #{squareProfitLoss,jdbcType=VARCHAR},
+      </if>
+      <if test="settleProfitLoss != null" >
+        #{settleProfitLoss,jdbcType=VARCHAR},
+      </if>
+      <if test="settlePrice != null" >
+        #{settlePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="todayHoldFlag != null" >
+        #{todayHoldFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.MemberPosition" >
+    update MEMBER_POSITION
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="holdId != null" >
+        HOLD_ID = #{holdId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccount != null" >
+        TRADE_ACCOUNT = #{tradeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="depositWay != null" >
+        DEPOSIT_WAY = #{depositWay,jdbcType=VARCHAR},
+      </if>
+      <if test="openPrice != null" >
+        OPEN_PRICE = #{openPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="holdPrice != null" >
+        HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="dealQuantity != null" >
+        DEAL_QUANTITY = #{dealQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="leftQuantity != null" >
+        LEFT_QUANTITY = #{leftQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="presentUnit != null" >
+        PRESENT_UNIT = #{presentUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePoundage != null" >
+        TRADE_POUNDAGE = #{tradePoundage,jdbcType=VARCHAR},
+      </if>
+      <if test="delayFees != null" >
+        DELAY_FEES = #{delayFees,jdbcType=VARCHAR},
+      </if>
+      <if test="performBalance != null" >
+        PERFORM_BALANCE = #{performBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="squareProfitLoss != null" >
+        SQUARE_PROFIT_LOSS = #{squareProfitLoss,jdbcType=VARCHAR},
+      </if>
+      <if test="settleProfitLoss != null" >
+        SETTLE_PROFIT_LOSS = #{settleProfitLoss,jdbcType=VARCHAR},
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE = #{settlePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="todayHoldFlag != null" >
+        TODAY_HOLD_FLAG = #{todayHoldFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MEMBER_POSITION_ID = #{memberPositionId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.MemberPosition" >
+    update MEMBER_POSITION
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      HOLD_ID = #{holdId,jdbcType=VARCHAR},
+      MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      TRADE_ACCOUNT = #{tradeAccount,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      DEPOSIT_WAY = #{depositWay,jdbcType=VARCHAR},
+      OPEN_PRICE = #{openPrice,jdbcType=VARCHAR},
+      HOLD_PRICE = #{holdPrice,jdbcType=VARCHAR},
+      DEAL_QUANTITY = #{dealQuantity,jdbcType=VARCHAR},
+      LEFT_QUANTITY = #{leftQuantity,jdbcType=VARCHAR},
+      PRESENT_UNIT = #{presentUnit,jdbcType=VARCHAR},
+      TRADE_POUNDAGE = #{tradePoundage,jdbcType=VARCHAR},
+      DELAY_FEES = #{delayFees,jdbcType=VARCHAR},
+      PERFORM_BALANCE = #{performBalance,jdbcType=VARCHAR},
+      DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      SQUARE_PROFIT_LOSS = #{squareProfitLoss,jdbcType=VARCHAR},
+      SETTLE_PROFIT_LOSS = #{settleProfitLoss,jdbcType=VARCHAR},
+      SETTLE_PRICE = #{settlePrice,jdbcType=VARCHAR},
+      DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      TODAY_HOLD_FLAG = #{todayHoldFlag,jdbcType=VARCHAR},
+      BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR}
+    where MEMBER_POSITION_ID = #{memberPositionId,jdbcType=DECIMAL}
+  </update>
+</mapper>

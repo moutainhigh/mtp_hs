@@ -1,0 +1,96 @@
+package com.common.util;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CenterToExchUtil {
+
+	
+	//交易所转广清
+	public final static Map<String, String> HS_CERT_TYPE = new HashMap<String, String>();
+	static{
+		HS_CERT_TYPE.put("0","111");
+		HS_CERT_TYPE.put("4","990");
+		HS_CERT_TYPE.put("7","990");
+		HS_CERT_TYPE.put("1","I06");
+		HS_CERT_TYPE.put("2","I01");
+		HS_CERT_TYPE.put("3","114");
+		HS_CERT_TYPE.put("9","990");
+		HS_CERT_TYPE.put("a","990");
+		HS_CERT_TYPE.put("F","113");
+		HS_CERT_TYPE.put("G","513");
+		HS_CERT_TYPE.put("H","511");
+		HS_CERT_TYPE.put("N","112");
+		HS_CERT_TYPE.put("P","I02");
+		HS_CERT_TYPE.put("S","I03");
+		HS_CERT_TYPE.put("J","414");
+		HS_CERT_TYPE.put("L","115");
+		HS_CERT_TYPE.put("I","I07");
+	}
+	
+	public final static Map<String, String> SH_CERT_TYPE = new HashMap<String, String>();
+	static{
+		SH_CERT_TYPE.put("111","0");
+		SH_CERT_TYPE.put("990","4");
+		SH_CERT_TYPE.put("990","7");
+		SH_CERT_TYPE.put("I06","1");
+		SH_CERT_TYPE.put("I01","2");
+		SH_CERT_TYPE.put("114","3");
+		SH_CERT_TYPE.put("990","9");
+		SH_CERT_TYPE.put("990","a");
+		SH_CERT_TYPE.put("113","F");
+		SH_CERT_TYPE.put("513","G");
+		SH_CERT_TYPE.put("511","H");
+		SH_CERT_TYPE.put("112","N");
+		SH_CERT_TYPE.put("I02","P");
+		SH_CERT_TYPE.put("I03","S");
+		SH_CERT_TYPE.put("414","J");
+		SH_CERT_TYPE.put("115","L");
+		SH_CERT_TYPE.put("I07","I");
+	}
+//	Male	0	男性
+//	Female	1	女性
+	
+	public final static Map<String, String> HS_SEX = new HashMap<String, String>();
+	static{
+		HS_SEX.put("0","2");
+		HS_SEX.put("1","1");
+		HS_SEX.put("2","0");
+	}
+	
+
+	
+	
+	public final static Map<String, String> HS_CURRENCY = new HashMap<String, String>();
+	static{
+		HS_CURRENCY.put("RMB","CNY");
+		HS_CURRENCY.put("USD","USD");
+	}
+	
+//	'ccbsmt'		建设银行商贸通
+//	'bocnet'		中国银行银企对接
+//	'cibbce'		兴业银行银商三方存管
+//	'abcyst'		农业银行银商通二期
+//	'citic'		中信银行大宗资管
+//	'bocspm'		交通银行银现转帐
+//	'spdbcg'		浦发银行存管
+//	'cmbyst'		招商银行银商转帐
+//	'gzcb'		广州银行
+//	'icbcyz'		工商银行银证转账
+//	'pabankcg'		平安银行存管
+//	'cgbcg'		广发银行存管
+//	'cmsbsmt'		民生银行银商
+//	'cmsbsct'		民生银行市场通
+//	'abcec'		农行电子商务
+	
+	
+//	pacggw	平安公网
+//	pacgzx	平安专线
+//	mssct	民生市场通
+//	zxzjjg	中信交易资金监管系统
+
+	public final static Map<String, String> HS_TRAN = new HashMap<String, String>();
+	static{
+		HS_TRAN.put("mssct", "cmsbsct");
+	}
+
+}

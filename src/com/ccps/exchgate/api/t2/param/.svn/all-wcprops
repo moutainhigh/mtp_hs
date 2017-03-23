@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param
+END
+BindAccount.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/BindAccount.java
+END
+EntrustOrderParamReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/EntrustOrderParamReq.java
+END
+InGoldenReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/InGoldenReq.java
+END
+SettleFileServiceReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SettleFileServiceReq.java
+END
+CategoryResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/CategoryResp.java
+END
+FundCommonReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/FundCommonReq.java
+END
+FeesOrderParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/FeesOrderParam.java
+END
+BasePageQuery.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/BasePageQuery.java
+END
+FundCashReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/FundCashReq.java
+END
+DeliverOrderParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/DeliverOrderParam.java
+END
+MemUserCancelReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/MemUserCancelReq.java
+END
+SurrManulAdjustReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SurrManulAdjustReq.java
+END
+MemUsersSyncResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/MemUsersSyncResp.java
+END
+DeliverOrderParamReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/DeliverOrderParamReq.java
+END
+DealDataParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/DealDataParam.java
+END
+OpenOrCloseReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/OpenOrCloseReq.java
+END
+FeesOrderParamReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/FeesOrderParamReq.java
+END
+SurrNoTradeTransferReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SurrNoTradeTransferReq.java
+END
+MemUsersSyncReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/MemUsersSyncReq.java
+END
+ProductReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/ProductReq.java
+END
+EntrustOrderParam.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/EntrustOrderParam.java
+END
+ProductEffectStatusReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/ProductEffectStatusReq.java
+END
+SurrFrozenThrawReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SurrFrozenThrawReq.java
+END
+ExchCashExchangeDetailQuery.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/ExchCashExchangeDetailQuery.java
+END
+CustomerBankInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/CustomerBankInfo.java
+END
+FundCashResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/FundCashResp.java
+END
+DealDataParamReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/DealDataParamReq.java
+END
+OutGoldenReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/OutGoldenReq.java
+END
+SurrProductInfoReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SurrProductInfoReq.java
+END
+PayWayQuery.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/PayWayQuery.java
+END
+ExchCashExchangeDetail.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/ExchCashExchangeDetail.java
+END
+ProductResp.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/ProductResp.java
+END
+BankResponse.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/BankResponse.java
+END
+SignInExchangeReq.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/ccps/exchgate/api/t2/param/SignInExchangeReq.java
+END

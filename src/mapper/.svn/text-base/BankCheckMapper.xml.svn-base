@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.BankCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.model.BankCheck" >
+    <id column="BANK_CHECK_ID" property="bankCheckId" jdbcType="DECIMAL" />
+    <result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+    <result column="TRADE_SERIAL_NO" property="tradeSerialNo" jdbcType="VARCHAR" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="MEM_CODE" property="memCode" jdbcType="VARCHAR" />
+    <result column="FUND_ACCOUNT" property="fundAccount" jdbcType="VARCHAR" />
+    <result column="INOUT_WAY" property="inoutWay" jdbcType="VARCHAR" />
+    <result column="INOUT_TYPE" property="inoutType" jdbcType="VARCHAR" />
+    <result column="INOUT_SOURCE" property="inoutSource" jdbcType="VARCHAR" />
+    <result column="OCCUR_AMOUNT" property="occurAmount" jdbcType="VARCHAR" />
+    <result column="MONEY_TYPE" property="moneyType" jdbcType="VARCHAR" />
+    <result column="BANK_NO" property="bankNo" jdbcType="VARCHAR" />
+    <result column="BANK_PRO_CODE" property="bankProCode" jdbcType="VARCHAR" />
+    <result column="BANK_ACCOUNT" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BANK_CHECK_ID, SERIAL_NO, TRADE_SERIAL_NO, INIT_DATE, EXCHANGE_ID, MEM_CODE, FUND_ACCOUNT, 
+    INOUT_WAY, INOUT_TYPE, INOUT_SOURCE, OCCUR_AMOUNT, MONEY_TYPE, BANK_NO, BANK_PRO_CODE, 
+    BANK_ACCOUNT, DEAL_STATUS, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BANK_CHECK
+    where BANK_CHECK_ID = #{bankCheckId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BANK_CHECK
+    where BANK_CHECK_ID = #{bankCheckId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.BankCheck" >
+    insert into BANK_CHECK (BANK_CHECK_ID, SERIAL_NO, TRADE_SERIAL_NO, 
+      INIT_DATE, EXCHANGE_ID, MEM_CODE, 
+      FUND_ACCOUNT, INOUT_WAY, INOUT_TYPE, 
+      INOUT_SOURCE, OCCUR_AMOUNT, MONEY_TYPE, 
+      BANK_NO, BANK_PRO_CODE, BANK_ACCOUNT, 
+      DEAL_STATUS, REMARK)
+    values (#{bankCheckId,jdbcType=DECIMAL}, #{serialNo,jdbcType=VARCHAR}, #{tradeSerialNo,jdbcType=VARCHAR}, 
+      #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, #{memCode,jdbcType=VARCHAR}, 
+      #{fundAccount,jdbcType=VARCHAR}, #{inoutWay,jdbcType=VARCHAR}, #{inoutType,jdbcType=VARCHAR}, 
+      #{inoutSource,jdbcType=VARCHAR}, #{occurAmount,jdbcType=VARCHAR}, #{moneyType,jdbcType=VARCHAR}, 
+      #{bankNo,jdbcType=VARCHAR}, #{bankProCode,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, 
+      #{dealStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.BankCheck" >
+    insert into BANK_CHECK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bankCheckId != null" >
+        BANK_CHECK_ID,
+      </if>
+      <if test="serialNo != null" >
+        SERIAL_NO,
+      </if>
+      <if test="tradeSerialNo != null" >
+        TRADE_SERIAL_NO,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE,
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT,
+      </if>
+      <if test="inoutWay != null" >
+        INOUT_WAY,
+      </if>
+      <if test="inoutType != null" >
+        INOUT_TYPE,
+      </if>
+      <if test="inoutSource != null" >
+        INOUT_SOURCE,
+      </if>
+      <if test="occurAmount != null" >
+        OCCUR_AMOUNT,
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE,
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO,
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE,
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bankCheckId != null" >
+        #{bankCheckId,jdbcType=DECIMAL},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeSerialNo != null" >
+        #{tradeSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutWay != null" >
+        #{inoutWay,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutType != null" >
+        #{inoutType,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutSource != null" >
+        #{inoutSource,jdbcType=VARCHAR},
+      </if>
+      <if test="occurAmount != null" >
+        #{occurAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.BankCheck" >
+    update BANK_CHECK
+    <set >
+      <if test="serialNo != null" >
+        SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeSerialNo != null" >
+        TRADE_SERIAL_NO = #{tradeSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundAccount != null" >
+        FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutWay != null" >
+        INOUT_WAY = #{inoutWay,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutType != null" >
+        INOUT_TYPE = #{inoutType,jdbcType=VARCHAR},
+      </if>
+      <if test="inoutSource != null" >
+        INOUT_SOURCE = #{inoutSource,jdbcType=VARCHAR},
+      </if>
+      <if test="occurAmount != null" >
+        OCCUR_AMOUNT = #{occurAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null" >
+        MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankProCode != null" >
+        BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null" >
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BANK_CHECK_ID = #{bankCheckId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.BankCheck" >
+    update BANK_CHECK
+    set SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      TRADE_SERIAL_NO = #{tradeSerialNo,jdbcType=VARCHAR},
+      INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+      INOUT_WAY = #{inoutWay,jdbcType=VARCHAR},
+      INOUT_TYPE = #{inoutType,jdbcType=VARCHAR},
+      INOUT_SOURCE = #{inoutSource,jdbcType=VARCHAR},
+      OCCUR_AMOUNT = #{occurAmount,jdbcType=VARCHAR},
+      MONEY_TYPE = #{moneyType,jdbcType=VARCHAR},
+      BANK_NO = #{bankNo,jdbcType=VARCHAR},
+      BANK_PRO_CODE = #{bankProCode,jdbcType=VARCHAR},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      DEAL_STATUS = #{dealStatus,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where BANK_CHECK_ID = #{bankCheckId,jdbcType=DECIMAL}
+  </update>
+</mapper>

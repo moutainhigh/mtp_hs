@@ -1,0 +1,107 @@
+package com.ccps.exchgate.api.t2.service.server;
+
+import com.hundsun.jresplus.remoting.impl.annotation.Service;
+import com.hundsun.jresplus.remoting.impl.annotation.ServiceModule;
+import com.hundsun.jresplus.remoting.impl.annotation.ServiceParam;
+import com.muchinfo.common.constants.FinalConstants;
+
+/**
+ * 清算发起
+ * @author jiangzz
+ *
+ */
+@ServiceModule
+public interface ExchOwnT2Service {
+  //---------------------------------清算中心(广清所)向交易所发起的服务调用-------------------------------------------//
+	@Service(functionId=FinalConstants.FunctionId.MSG280000,desc="客户与银行签约/解约通知")
+	public String  bankSignOrOut(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId="280001",desc="客户银行信息变更")
+	public String bankInfoChange(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG280002,desc="客户银行卡变更")
+	public String  bankNoChange(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG280003,desc="客户入金")
+	public String  fundIn(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG280004,desc="客户出金")
+	public String  fundOut(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG280005,desc="清算中心向交易所推送文件通知")
+	public String  fileNotify(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId=FinalConstants.FunctionId.MSG119010,desc="客户与银行签约/解约")
+	public String Surrender(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId="",desc="银行清算反馈文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankSettle.txt")
+	public String  bankSettle(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId="",desc="银行余额文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankBalance.txt")
+	public String  bankBalance(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId="",desc="账户类对帐明细文件 yyyymmdd_xxx(交易所代码)_memberAccount.txt")
+	public String  memberAccount(@ServiceParam(value="reqStr") String reqStr);
+	
+	@Service(functionId="",desc="银行出入金对账文件 yyyymmdd_xxx(交易所代码)_yyy(银行产品代码)_bankCheck.txt")
+	public String  bankCheck(@ServiceParam(value="reqStr") String reqStr);
+
+	//--------------------------------- t2服务demo例子-------------------------------------------//
+//	/**
+//	 * 客户与银行签约/解约通知
+//	 * 
+//	 * @param reqStr(ContractNoticeReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280000",desc="客户与银行签约/解约通知")
+//	public ExchBaseResp contractNotice(@ServiceParam(value="reqStr") String reqStr);
+//	
+//	/**
+//	 * 客户银行信息变更
+//	 * 
+//	 * @param reqStr(BankInfoChangeReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280001",desc="客户银行信息变更")
+//	public ExchBaseResp bankInfoChange(@ServiceParam(value="reqStr") String reqStr);
+//			
+//	/**
+//	 * 客户银行卡变更
+//	 * 
+//	 * @param reqStr(BankCardInfoChangeReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280002",desc="客户银行卡变更")
+//	public ExchBaseResp bankCardInfoChange(@ServiceParam(value="reqStr") String reqStr);
+//	
+//	/**
+//	 * 客户入金通知
+//	 * 
+//	 * @param reqStr(InOutFundNotifyReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280003",desc="客户入金  接收参数")
+//	public ExchBaseResp clientDeposit(@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 客户出金通知
+//	 * 
+//	 * @param reqStr(InOutFundNotifyReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280004",desc="客户出金  接收参数")
+//	public ExchBaseResp clientWithdraw(@ServiceParam(value = "reqStr") String reqStr);
+//	
+//	/**
+//	 * 清算中心向交易所推送文件通知
+//	 * 
+//	 * @param reqStr(ExchFileNotifyReq)
+//	 * @return
+//	 */
+//	@Service(functionId="280005",desc="清算中心向交易所推送文件通知")
+//	public BaseResp clientPushFileInfo(@ServiceParam(value = "reqStr") String reqStr);
+			
+}
+
+
+

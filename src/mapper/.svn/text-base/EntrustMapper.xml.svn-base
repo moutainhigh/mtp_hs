@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.EntrustMapper" >
+  <resultMap id="BaseResultMap" type="com.model.Entrust" >
+    <id column="ENTRUST_ID" property="entrustId" jdbcType="DECIMAL" />
+    <result column="INIT_DATE" property="initDate" jdbcType="VARCHAR" />
+    <result column="EXCHANGE_ID" property="exchangeId" jdbcType="VARCHAR" />
+    <result column="ENTRUST_NO" property="entrustNo" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CATEGORY_ID" property="productCategoryId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="MEM_CODE" property="memCode" jdbcType="VARCHAR" />
+    <result column="TRADE_DIR" property="tradeDir" jdbcType="VARCHAR" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="VARCHAR" />
+    <result column="ORDER_WAY" property="orderWay" jdbcType="VARCHAR" />
+    <result column="ORDER_SERIAL_NO" property="orderSerialNo" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_WAY" property="depositWay" jdbcType="VARCHAR" />
+    <result column="ORDER_PRICE" property="orderPrice" jdbcType="VARCHAR" />
+    <result column="ORDER_QUANTITY" property="orderQuantity" jdbcType="VARCHAR" />
+    <result column="LEFT_QUANTITY" property="leftQuantity" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATE" property="depositRate" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_RATIO_TYPE" property="depositRatioType" jdbcType="VARCHAR" />
+    <result column="DEPOSIT_TYPE" property="depositType" jdbcType="VARCHAR" />
+    <result column="POUNDAGE_RATE" property="poundageRate" jdbcType="VARCHAR" />
+    <result column="POUNDAGE_RATIO_TYPE" property="poundageRatioType" jdbcType="VARCHAR" />
+    <result column="TRADE_POUNDAGE" property="tradePoundage" jdbcType="VARCHAR" />
+    <result column="PAPER_BALANCE" property="paperBalance" jdbcType="VARCHAR" />
+    <result column="ORDER_FROZEN" property="orderFrozen" jdbcType="VARCHAR" />
+    <result column="TAX_RATE" property="taxRate" jdbcType="VARCHAR" />
+    <result column="VALID_DATE" property="validDate" jdbcType="VARCHAR" />
+    <result column="TRADER" property="trader" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="VARCHAR" />
+    <result column="ORDER_IP" property="orderIp" jdbcType="VARCHAR" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="BUSI_DATETIME" property="busiDatetime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ENTRUST_ID, INIT_DATE, EXCHANGE_ID, ENTRUST_NO, PRODUCT_CATEGORY_ID, PRODUCT_CODE, 
+    MEM_CODE, TRADE_DIR, ORDER_TYPE, ORDER_WAY, ORDER_SERIAL_NO, DEPOSIT_WAY, ORDER_PRICE, 
+    ORDER_QUANTITY, LEFT_QUANTITY, DEPOSIT_RATE, DEPOSIT_RATIO_TYPE, DEPOSIT_TYPE, POUNDAGE_RATE, 
+    POUNDAGE_RATIO_TYPE, TRADE_POUNDAGE, PAPER_BALANCE, ORDER_FROZEN, TAX_RATE, VALID_DATE, 
+    TRADER, ORDER_TIME, ORDER_IP, ORDER_STATUS, REMARK, BUSI_DATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ENTRUST
+    where ENTRUST_ID = #{entrustId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ENTRUST
+    where ENTRUST_ID = #{entrustId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.model.Entrust" >
+    insert into ENTRUST (ENTRUST_ID, INIT_DATE, EXCHANGE_ID, 
+      ENTRUST_NO, PRODUCT_CATEGORY_ID, PRODUCT_CODE, 
+      MEM_CODE, TRADE_DIR, ORDER_TYPE, 
+      ORDER_WAY, ORDER_SERIAL_NO, DEPOSIT_WAY, 
+      ORDER_PRICE, ORDER_QUANTITY, LEFT_QUANTITY, 
+      DEPOSIT_RATE, DEPOSIT_RATIO_TYPE, DEPOSIT_TYPE, 
+      POUNDAGE_RATE, POUNDAGE_RATIO_TYPE, TRADE_POUNDAGE, 
+      PAPER_BALANCE, ORDER_FROZEN, TAX_RATE, 
+      VALID_DATE, TRADER, ORDER_TIME, 
+      ORDER_IP, ORDER_STATUS, REMARK, 
+      BUSI_DATETIME)
+    values (#{entrustId,jdbcType=DECIMAL}, #{initDate,jdbcType=VARCHAR}, #{exchangeId,jdbcType=VARCHAR}, 
+      #{entrustNo,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{memCode,jdbcType=VARCHAR}, #{tradeDir,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, 
+      #{orderWay,jdbcType=VARCHAR}, #{orderSerialNo,jdbcType=VARCHAR}, #{depositWay,jdbcType=VARCHAR}, 
+      #{orderPrice,jdbcType=VARCHAR}, #{orderQuantity,jdbcType=VARCHAR}, #{leftQuantity,jdbcType=VARCHAR}, 
+      #{depositRate,jdbcType=VARCHAR}, #{depositRatioType,jdbcType=VARCHAR}, #{depositType,jdbcType=VARCHAR}, 
+      #{poundageRate,jdbcType=VARCHAR}, #{poundageRatioType,jdbcType=VARCHAR}, #{tradePoundage,jdbcType=VARCHAR}, 
+      #{paperBalance,jdbcType=VARCHAR}, #{orderFrozen,jdbcType=VARCHAR}, #{taxRate,jdbcType=VARCHAR}, 
+      #{validDate,jdbcType=VARCHAR}, #{trader,jdbcType=VARCHAR}, #{orderTime,jdbcType=VARCHAR}, 
+      #{orderIp,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{busiDatetime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.model.Entrust" >
+    insert into ENTRUST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="entrustId != null" >
+        ENTRUST_ID,
+      </if>
+      <if test="initDate != null" >
+        INIT_DATE,
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID,
+      </if>
+      <if test="entrustNo != null" >
+        ENTRUST_NO,
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE,
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE,
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="orderWay != null" >
+        ORDER_WAY,
+      </if>
+      <if test="orderSerialNo != null" >
+        ORDER_SERIAL_NO,
+      </if>
+      <if test="depositWay != null" >
+        DEPOSIT_WAY,
+      </if>
+      <if test="orderPrice != null" >
+        ORDER_PRICE,
+      </if>
+      <if test="orderQuantity != null" >
+        ORDER_QUANTITY,
+      </if>
+      <if test="leftQuantity != null" >
+        LEFT_QUANTITY,
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE,
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE,
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE,
+      </if>
+      <if test="poundageRate != null" >
+        POUNDAGE_RATE,
+      </if>
+      <if test="poundageRatioType != null" >
+        POUNDAGE_RATIO_TYPE,
+      </if>
+      <if test="tradePoundage != null" >
+        TRADE_POUNDAGE,
+      </if>
+      <if test="paperBalance != null" >
+        PAPER_BALANCE,
+      </if>
+      <if test="orderFrozen != null" >
+        ORDER_FROZEN,
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE,
+      </if>
+      <if test="validDate != null" >
+        VALID_DATE,
+      </if>
+      <if test="trader != null" >
+        TRADER,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="orderIp != null" >
+        ORDER_IP,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="entrustId != null" >
+        #{entrustId,jdbcType=DECIMAL},
+      </if>
+      <if test="initDate != null" >
+        #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustNo != null" >
+        #{entrustNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWay != null" >
+        #{orderWay,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSerialNo != null" >
+        #{orderSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depositWay != null" >
+        #{depositWay,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null" >
+        #{orderPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="orderQuantity != null" >
+        #{orderQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="leftQuantity != null" >
+        #{leftQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="poundageRate != null" >
+        #{poundageRate,jdbcType=VARCHAR},
+      </if>
+      <if test="poundageRatioType != null" >
+        #{poundageRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePoundage != null" >
+        #{tradePoundage,jdbcType=VARCHAR},
+      </if>
+      <if test="paperBalance != null" >
+        #{paperBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFrozen != null" >
+        #{orderFrozen,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null" >
+        #{taxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="validDate != null" >
+        #{validDate,jdbcType=VARCHAR},
+      </if>
+      <if test="trader != null" >
+        #{trader,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIp != null" >
+        #{orderIp,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.model.Entrust" >
+    update ENTRUST
+    <set >
+      <if test="initDate != null" >
+        INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exchangeId != null" >
+        EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustNo != null" >
+        ENTRUST_NO = #{entrustNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null" >
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null" >
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="memCode != null" >
+        MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDir != null" >
+        TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWay != null" >
+        ORDER_WAY = #{orderWay,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSerialNo != null" >
+        ORDER_SERIAL_NO = #{orderSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depositWay != null" >
+        DEPOSIT_WAY = #{depositWay,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null" >
+        ORDER_PRICE = #{orderPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="orderQuantity != null" >
+        ORDER_QUANTITY = #{orderQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="leftQuantity != null" >
+        LEFT_QUANTITY = #{leftQuantity,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRate != null" >
+        DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      </if>
+      <if test="depositRatioType != null" >
+        DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="depositType != null" >
+        DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      </if>
+      <if test="poundageRate != null" >
+        POUNDAGE_RATE = #{poundageRate,jdbcType=VARCHAR},
+      </if>
+      <if test="poundageRatioType != null" >
+        POUNDAGE_RATIO_TYPE = #{poundageRatioType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePoundage != null" >
+        TRADE_POUNDAGE = #{tradePoundage,jdbcType=VARCHAR},
+      </if>
+      <if test="paperBalance != null" >
+        PAPER_BALANCE = #{paperBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFrozen != null" >
+        ORDER_FROZEN = #{orderFrozen,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE = #{taxRate,jdbcType=VARCHAR},
+      </if>
+      <if test="validDate != null" >
+        VALID_DATE = #{validDate,jdbcType=VARCHAR},
+      </if>
+      <if test="trader != null" >
+        TRADER = #{trader,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      </if>
+      <if test="orderIp != null" >
+        ORDER_IP = #{orderIp,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="busiDatetime != null" >
+        BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ENTRUST_ID = #{entrustId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.model.Entrust" >
+    update ENTRUST
+    set INIT_DATE = #{initDate,jdbcType=VARCHAR},
+      EXCHANGE_ID = #{exchangeId,jdbcType=VARCHAR},
+      ENTRUST_NO = #{entrustNo,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      MEM_CODE = #{memCode,jdbcType=VARCHAR},
+      TRADE_DIR = #{tradeDir,jdbcType=VARCHAR},
+      ORDER_TYPE = #{orderType,jdbcType=VARCHAR},
+      ORDER_WAY = #{orderWay,jdbcType=VARCHAR},
+      ORDER_SERIAL_NO = #{orderSerialNo,jdbcType=VARCHAR},
+      DEPOSIT_WAY = #{depositWay,jdbcType=VARCHAR},
+      ORDER_PRICE = #{orderPrice,jdbcType=VARCHAR},
+      ORDER_QUANTITY = #{orderQuantity,jdbcType=VARCHAR},
+      LEFT_QUANTITY = #{leftQuantity,jdbcType=VARCHAR},
+      DEPOSIT_RATE = #{depositRate,jdbcType=VARCHAR},
+      DEPOSIT_RATIO_TYPE = #{depositRatioType,jdbcType=VARCHAR},
+      DEPOSIT_TYPE = #{depositType,jdbcType=VARCHAR},
+      POUNDAGE_RATE = #{poundageRate,jdbcType=VARCHAR},
+      POUNDAGE_RATIO_TYPE = #{poundageRatioType,jdbcType=VARCHAR},
+      TRADE_POUNDAGE = #{tradePoundage,jdbcType=VARCHAR},
+      PAPER_BALANCE = #{paperBalance,jdbcType=VARCHAR},
+      ORDER_FROZEN = #{orderFrozen,jdbcType=VARCHAR},
+      TAX_RATE = #{taxRate,jdbcType=VARCHAR},
+      VALID_DATE = #{validDate,jdbcType=VARCHAR},
+      TRADER = #{trader,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=VARCHAR},
+      ORDER_IP = #{orderIp,jdbcType=VARCHAR},
+      ORDER_STATUS = #{orderStatus,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      BUSI_DATETIME = #{busiDatetime,jdbcType=VARCHAR}
+    where ENTRUST_ID = #{entrustId,jdbcType=DECIMAL}
+  </update>
+</mapper>

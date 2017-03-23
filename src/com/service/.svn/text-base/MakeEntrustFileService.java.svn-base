@@ -1,0 +1,14 @@
+package com.service;
+
+import com.proto.CenterBank.Msg31001;
+
+/**
+ *  委托单文件
+ * ClassName: MakeEntrustFileService.java
+ * date: 2016年12月16日下午8:06:15
+ * @author yu.jian
+ * @version
+ */
+public interface MakeEntrustFileService {
+	public void doMakeEntrustFile(Msg31001 msg31001, long recId) throws Exception;
+}

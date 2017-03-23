@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl
+END
+MemberPositionDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/MemberPositionDao.java
+END
+ClientRecDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/ClientRecDao.java
+END
+DeliverDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/DeliverDao.java
+END
+AmtRecDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/AmtRecDao.java
+END
+ClearResultDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/ClearResultDao.java
+END
+ClientDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/ClientDao.java
+END
+TranDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/TranDao.java
+END
+QuotationDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/QuotationDao.java
+END
+BankCheckDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/BankCheckDao.java
+END
+MemberFeeDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/MemberFeeDao.java
+END
+RegisterRecDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/RegisterRecDao.java
+END
+AccountDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59333/mtp_java/mtp_hs/src/com/dao/Impl/AccountDao.java
+END
+EntrustDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/EntrustDao.java
+END
+SignRecDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/SignRecDao.java
+END
+ClearDataDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/ClearDataDao.java
+END
+ExchDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/ExchDao.java
+END
+SendMsgDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/SendMsgDao.java
+END
+DealInfoDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/DealInfoDao.java
+END
+RecvMsgDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/RecvMsgDao.java
+END
+BankDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/BankDao.java
+END
+ClearPriceDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/ClearPriceDao.java
+END
+CenterFileRecDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/dao/Impl/CenterFileRecDao.java
+END
+MemberFundDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59337/mtp_java/mtp_hs/src/com/dao/Impl/MemberFundDao.java
+END

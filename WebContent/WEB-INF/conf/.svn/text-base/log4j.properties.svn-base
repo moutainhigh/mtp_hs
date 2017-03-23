@@ -1,0 +1,52 @@
+logbase=/home/hundsun/logs/${log4jdir}
+#\u9ED8\u8BA4 print out\uFF0C\u751F\u4EA7\u4F7F\u7528info\uFF08\u53BB\u6389stdout\uFF09\uFF0C\u5F00\u53D1\u3001\u6D4B\u8BD5\u4F7F\u7528DEBUG
+log4j.rootLogger=DEBUG,stdout,others
+#################\u4E1A\u52A1\u3001\u4E8B\u52A1\u76F8\u5173\u65E5\u5FD7\u914D\u7F6E\u7ED3\u675F##############
+# \u7B2C\u4E09\u65B9\u7C7B\u5E93\uFF0C\u5EFA\u8BAE\u8BBE\u7F6E\u4E3AERROR\u4EE5\u6700\u5C0F\u5316\u6027\u80FD\u8D1F\u8F7D
+log4j.logger.com.hundsun.jresplus=INFO,stdout,others
+log4j.additivity.com.hundsun.jresplus=false
+log4j.logger.com.hundsun=INFO,stdout,others
+log4j.additivity.com.hundsun=false
+log4j.logger.org.apache.commons=ERROR,stdout,others
+log4j.additivity.org.apache.commons=false
+log4j.logger.org.springframework = ERROR,stdout,others
+log4j.additivity.org.springframework=false
+log4j.logger.net.spy = WARN,stdout,others
+log4j.additivity.net.spy=false
+log4j.logger.com.couchbase = INFO,stdout,others
+log4j.additivity.com.couchbase=false
+####################\u65E5\u5FD7\u7EA7\u522B\u914D\u7F6E\u7ED3\u675F###################
+#standout log appender\uFF0C\u751F\u4EA7\u53BB\u6389
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=###%d###%p###${hostname}###${appname}###%t###%l###%m###%n
+#common log appender #
+log4j.appender.logfile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.logfile.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.logfile.BufferedIO=true
+log4j.appender.logfile.BufferSize=8192
+log4j.appender.logfile.File=${logbase}/app.log
+log4j.appender.logfile.append=true
+log4j.appender.logfile.encoding=UTF-8
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.layout.ConversionPattern=###%d###%p### ${hostname}###${appname}###%t###%l###%m###%n
+#others log appender #
+log4j.appender.others=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.others.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.others.BufferedIO=true
+log4j.appender.others.BufferSize=8192
+log4j.appender.others.File=${logbase}/others.log
+log4j.appender.others.append=true
+log4j.appender.others.encoding=UTF-8
+log4j.appender.others.layout=org.apache.log4j.PatternLayout
+log4j.appender.others.layout.ConversionPattern=###%d###%p### ${hostname}###${appname}###%t###%l###%m###%n
+
+#t2service log appender #
+log4j.appender.t2service=org.apache.log4j.RollingFileAppender
+log4j.appender.t2service.MaxFileSize=30000KB
+log4j.appender.t2service.MaxBackupIndex=100
+log4j.appender.t2service.File=${logbase}/t2service.log
+log4j.appender.t2service.append=true
+log4j.appender.t2service.encoding=UTF-8
+log4j.appender.t2service.layout=org.apache.log4j.PatternLayout
+log4j.appender.t2service.layout.ConversionPattern=###%d###%p###${hostname}###${appname}###%t###%l###%m###%n

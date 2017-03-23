@@ -1,0 +1,41 @@
+10
+
+dir
+59264
+http://192.168.30.132/svn/tas/mtp_java/mtp_hs/src/com/muchinfo/tcp
+http://192.168.30.132/svn/tas
+
+
+
+2016-12-26T06:46:47.903862Z
+59264
+yu.jian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+5511aa89-952a-4a82-bb8f-1fa0134e7736
+
+
+
+
+
+
+0
+
+service
+dir
+
+socket
+dir
+

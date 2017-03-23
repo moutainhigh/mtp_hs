@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/WebContent/WEB-INF/conf
+END
+jdbc.properties
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/WebContent/WEB-INF/conf/jdbc.properties
+END
+log4j.properties
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/WebContent/WEB-INF/conf/log4j.properties
+END
+server-service-beans.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/tas/!svn/ver/60683/mtp_java/mtp_hs/WebContent/WEB-INF/conf/server-service-beans.xml
+END
+spring-beans.xml
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/WebContent/WEB-INF/conf/spring-beans.xml
+END
+server.properties
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/WebContent/WEB-INF/conf/server.properties
+END

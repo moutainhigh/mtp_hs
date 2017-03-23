@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper
+END
+ClearDataMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ClearDataMapper.xml
+END
+ExchMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ExchMapper.xml
+END
+SendMsgMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/SendMsgMapper.xml
+END
+DealInfoMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/DealInfoMapper.xml
+END
+RecvMsgMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/RecvMsgMapper.xml
+END
+BankMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/BankMapper.xml
+END
+ClearPriceMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ClearPriceMapper.xml
+END
+CenterFileRecMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/CenterFileRecMapper.xml
+END
+MemberFundMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/MemberFundMapper.xml
+END
+MemberPositionMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/MemberPositionMapper.xml
+END
+ClientRecMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ClientRecMapper.xml
+END
+DeliverMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/DeliverMapper.xml
+END
+AmtRecMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/AmtRecMapper.xml
+END
+ClearResultMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ClearResultMapper.xml
+END
+ClientMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/ClientMapper.xml
+END
+TranMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/TranMapper.xml
+END
+BankCheckMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/BankCheckMapper.xml
+END
+MemberFeeMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/MemberFeeMapper.xml
+END
+QuotationMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/QuotationMapper.xml
+END
+AccountMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/AccountMapper.xml
+END
+RegisterRecMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/RegisterRecMapper.xml
+END
+EntrustMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/EntrustMapper.xml
+END
+SignRecMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/mapper/SignRecMapper.xml
+END

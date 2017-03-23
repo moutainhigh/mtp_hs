@@ -1,0 +1,14 @@
+package com.service;
+
+import com.proto.CenterBank.Msg31001;
+
+/**
+ *  组装清算文件给光清所
+ * ClassName: MakeClearFileService.java
+ * date: 2016年12月15日上午9:30:51
+ * @author yu.jian
+ * @version
+ */
+public interface MakeClearFileService {
+	public String doMakeClearFile(Msg31001 msg31001, long recId) throws Exception;
+}

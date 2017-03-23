@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util
+END
+FileUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util/FileUtil.java
+END
+PropertiesUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util/PropertiesUtil.java
+END
+FtpUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util/FtpUtil.java
+END
+SpringBeanUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util/SpringBeanUtils.java
+END
+LoggerAop.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/tas/!svn/ver/59264/mtp_java/mtp_hs/src/com/core/util/LoggerAop.java
+END
